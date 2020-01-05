@@ -1,0 +1,88 @@
+base:
+  config:
+    tidb:
+      hostname: mysql.sizegang.cn
+      port: 3308
+    nacos:
+      hostname: www.sizegang.cn
+      port: 8848
+    sentile:
+      hostname: www.sizegang.cn
+      port: 8020
+    redis:
+      hostname: www.sizegang.cn
+      port: 26379
+
+spring:
+  application:
+    name: kevin_cloud_oauth2
+  main:
+    allow-bean-definition-overriding: true
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${base.config.nacos.hostname}:${base.config.nacos.port}
+    sentinel:
+      transport:
+        dashboard: ${base.config.sentile.hostname}:${base.config.sentile.port}
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    jdbc-url: jdbc:mysql://${base.config.tidb.hostname}:${base.config.tidb.port}/kevin_cloud_dubbo2.0?useUnicode=true&characterEncoding=utf-8&serverTimezone=Hongkong&useSSL=false
+    username: root
+    password: root
+    hikari:
+      minimum-idle: 5
+      idle-timeout: 600000
+      maximum-pool-size: 10
+      auto-commit: true
+      pool-name: MyHikariCP
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+  redis:
+    host: ${base.config.redis.hostname}
+    port: ${base.config.redis.port}
+    lettuce:
+      pool:
+        min-idle: 0
+        max-idle: 8
+        max-wait: -1ms
+        max-active: 8
+
+dubbo:
+  scan:
+    base-packages: com.kevin.cloud.kevin.cloud.oauth2.controller, com.kevin.cloud.kevin.cloud.oauth2.service
+  protocol:
+    name: dubbo
+    port: -1
+    serialization: kryo
+  registry:
+    address: nacos://${base.config.nacos.hostname}
+    port: ${base.config.nacos.port}
+
+feign:
+  okhttp:
+    enabled: true
+  httpclient:
+    enabled: false
+  sentinel:
+    enabled: true
+
+server:
+  port: 9001
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+business:
+  oauth2:
+    grant_type: password
+    client_id: client
+    client_secret: secret
