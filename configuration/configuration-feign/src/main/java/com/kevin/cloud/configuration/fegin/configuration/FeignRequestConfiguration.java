@@ -1,6 +1,6 @@
 package com.kevin.cloud.configuration.fegin.configuration;
 
-import com.funtl.myshop.plus.interceptor.interceptor.FeignRequestInterceptor;
+import com.kevin.cloud.configuration.fegin.interceptor.FeignRequestInterceptor;
 import feign.RequestInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

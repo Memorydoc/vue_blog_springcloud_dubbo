@@ -1,4 +1,4 @@
-package com.funtl.myshop.plus.interceptor.interceptor;
+package com.kevin.cloud.configuration.fegin.interceptor;
 
 import feign.Request;
 import feign.RequestInterceptor;
