@@ -1,6 +1,6 @@
 spring:
   application:
-    name: user-service-register
+    name: user-service
   main:
     allow-bean-definition-overriding: true
   jackson:
@@ -13,7 +13,7 @@ spring:
 
 dubbo:
   scan:
-    base-packages: com.kevin.cloud.user.service.register.controller
+    base-packages: com.kevin.cloud.user.service.controller
   protocol:
     name: dubbo
     port: -1

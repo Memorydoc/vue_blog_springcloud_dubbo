@@ -1,4 +1,4 @@
-package com.kevin.cloud.user.service.register;
+package com.kevin.cloud.user.service;
 
 
 import org.springframework.boot.SpringApplication;

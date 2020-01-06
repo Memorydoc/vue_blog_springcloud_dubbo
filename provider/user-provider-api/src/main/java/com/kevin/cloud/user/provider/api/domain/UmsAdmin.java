@@ -3,6 +3,8 @@ package com.kevin.cloud.user.provider.api.domain;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 /**
@@ -49,6 +51,7 @@ public class UmsAdmin implements Serializable {
     /**
      * 创建时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "create_time")
     private Date createTime;
 

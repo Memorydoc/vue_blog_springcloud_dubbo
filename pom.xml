@@ -20,6 +20,7 @@
         <module>commons</module>
         <module>dependencies</module>
         <module>service</module>
+        <module>configuration</module>
     </modules>
 
     <properties>

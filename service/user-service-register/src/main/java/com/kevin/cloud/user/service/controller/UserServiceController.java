@@ -1,25 +1,22 @@
-package com.kevin.cloud.user.service.register.controller;
+package com.kevin.cloud.user.service.controller;
 
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.kevin.cloud.commons.dto.ResponseResult;
 import com.kevin.cloud.user.provider.api.UserService;
 import com.kevin.cloud.user.provider.api.domain.UmsAdmin;
 import org.apache.dubbo.config.annotation.Reference;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 用户注册服务。
  */
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping("api/v1/register")
+@RequestMapping("api/v1/user")
 @RestController
-public class UserServiceRegisterController {
+public class UserServiceController {
 
     @Reference(version = "1.0.0")
     private UserService userService;
@@ -35,9 +32,8 @@ public class UserServiceRegisterController {
      * @return {@link ResponseResult}
      */
     @PostMapping(value = "")
-    public ResponseResult<UmsAdmin> reg(@RequestBody UmsAdmin umsAdmin) {
+    public ResponseResult<UmsAdmin> register(@RequestBody UmsAdmin umsAdmin) {
         String message = validateReg(umsAdmin);
-
         // 通过验证
         if (message == null) {
             int result = userService.insert(umsAdmin);
@@ -68,6 +64,12 @@ public class UserServiceRegisterController {
         return null;
     }
 
+    @GetMapping(value = "info/{username}")
+    @SentinelResource(value = "info", fallback = "infoFallback")
+    public ResponseResult<UmsAdmin> info(@PathVariable String username) {
+        UmsAdmin umsAdmin = userService.get(username);
+        return new ResponseResult<UmsAdmin>(ResponseResult.CodeStatus.OK, "获取个人信息", umsAdmin);
+    }
 
 
 }

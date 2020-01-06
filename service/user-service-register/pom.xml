@@ -10,7 +10,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>user-service-register</artifactId>
+    <artifactId>user-service</artifactId>
     <packaging>jar</packaging>
 
     <licenses>
@@ -37,11 +37,18 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Spring Cloud Alibaba -->
+        <!-- Spring Cloud Start-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-oauth2</artifactId>
+        </dependency>
+        <!-- Spring Cloud End-->
+        <!-- Spring Cloud Alibaba Start-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
+        <!-- Spring Cloud Alibaba End-->
 
         <!-- Projects Start-->
         <dependency>
@@ -64,7 +71,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.kevin.cloud.user.service.register.UserServiceRegisterApplication</mainClass>
+                    <mainClass>com.kevin.cloud.user.service.UserServiceRegisterApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>

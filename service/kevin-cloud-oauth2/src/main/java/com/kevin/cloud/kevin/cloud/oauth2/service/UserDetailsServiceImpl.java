@@ -1,7 +1,11 @@
 package com.kevin.cloud.kevin.cloud.oauth2.service;
 
 import com.google.common.collect.Lists;
+import com.kevin.cloud.user.provider.api.UserService;
+import com.kevin.cloud.user.provider.api.domain.UmsAdmin;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,11 +22,29 @@ import java.util.List;
  **/
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-    private static final String USERNAME = "admin";
-    private static final String PASSWORD = "$2a$10$WhCuqmyCsYdqtJvM0/J4seCU.xZQHe2snNE5VFUuBGUZWPbtdl3GG";
+
+    @Autowired
+    private UserService userService;
+
+
     @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+// 查询用户
+        UmsAdmin umsAdmin = userService.get(username);
+
+        // 默认所有用户拥有 USER 权限
         List<GrantedAuthority> grantedAuthorities = Lists.newArrayList();
-        return new User(USERNAME, PASSWORD, grantedAuthorities);
+        GrantedAuthority grantedAuthority = new SimpleGrantedAuthority("USER");
+        grantedAuthorities.add(grantedAuthority);
+
+        // 用户存在
+        if (umsAdmin != null) {
+            return new User(umsAdmin.getUsername(), umsAdmin.getPassword(), grantedAuthorities);
+        }
+
+        // 用户不存在
+        else {
+            return null;
+        }
     }
 }

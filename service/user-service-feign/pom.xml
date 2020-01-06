@@ -5,21 +5,12 @@
 
     <parent>
         <groupId>com.kevin.cloud.plus</groupId>
-        <artifactId>provider</artifactId>
+        <artifactId>service</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>user-provider-api</artifactId>
+    <artifactId>user-service-feign</artifactId>
     <packaging>jar</packaging>
-
-    <dependencies>
-        <dependency>
-            <groupId>com.kevin.cloud.plus</groupId>
-            <artifactId>commons-provider</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-    </dependencies>
-
 
     <licenses>
         <license>
@@ -27,5 +18,4 @@
             <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
         </license>
     </licenses>
-
 </project>
