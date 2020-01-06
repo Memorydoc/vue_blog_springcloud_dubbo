@@ -3,15 +3,15 @@ package com.kevin.cloud.kevin.cloud.oauth2.service;
 import com.google.common.collect.Lists;
 import com.kevin.cloud.user.provider.api.UserService;
 import com.kevin.cloud.user.provider.api.domain.UmsAdmin;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 /**
@@ -20,17 +20,16 @@ import java.util.List;
  * @author: kevin
  * @create: 2020-01-05 16:20
  **/
-@Service
+@Component
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Autowired
+    @Reference(version = "1.0.0")
     private UserService userService;
 
-
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-// 查询用户
-        UmsAdmin umsAdmin = userService.get(username);
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        // 查询用户
+        UmsAdmin umsAdmin = userService.get(s);
 
         // 默认所有用户拥有 USER 权限
         List<GrantedAuthority> grantedAuthorities = Lists.newArrayList();

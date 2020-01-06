@@ -5,9 +5,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -26,11 +28,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         // 配置默认的加密方式
         return new BCryptPasswordEncoder();
     }
-    @Override ///这里是一个大坑，千万不要重写 userDetailsServiceBean 具体原因不是很清楚
-    protected UserDetailsService userDetailsService(){
+    @Bean
+    @Override
+    public UserDetailsService userDetailsService()  {
         return new UserDetailsServiceImpl();
     }
-
     @Override
     public void configure(WebSecurity web) throws Exception {
         //开放user/login 供给前端登录
@@ -42,9 +44,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService());
     }
+
     /**
      * 用于支持 password 模式
-     *
      * @return
      * @throws Exception
      */
@@ -52,5 +54,26 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
+    }
+
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        /**
+         * 将授权访问配置改为注解方式
+         * @see LoginController#info()
+         */
+        http.exceptionHandling()
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        /*http.exceptionHandling()
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeRequests()
+                // 授权访问
+                .antMatchers("/user/info").hasAuthority("USER")
+                .antMatchers("/user/logout").hasAuthority("USER");*/
     }
 }

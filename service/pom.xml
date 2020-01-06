@@ -54,7 +54,7 @@
     </dependencies>
 
     <modules>
-        <module>user-service-register</module>
+        <module>user-service</module>
         <module>kevin-cloud-oauth2</module>
     </modules>
 </project>
