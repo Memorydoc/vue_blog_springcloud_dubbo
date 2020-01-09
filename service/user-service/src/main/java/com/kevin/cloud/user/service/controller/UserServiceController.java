@@ -5,6 +5,7 @@ import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.kevin.cloud.commons.dto.ResponseResult;
 import com.kevin.cloud.user.provider.api.UserService;
 import com.kevin.cloud.user.provider.api.domain.UmsAdmin;
+import com.kevin.cloud.user.service.feign.dto.UmsAdminDTO;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
@@ -65,9 +66,11 @@ public class UserServiceController {
 
     @GetMapping(value = "info/{username}")
     @SentinelResource(value = "info", fallback = "infoFallback")
-    public ResponseResult<UmsAdmin> info(@PathVariable String username) {
+    public ResponseResult<UmsAdminDTO> info(@PathVariable String username) {
         UmsAdmin umsAdmin = userService.get(username);
-        return new ResponseResult<UmsAdmin>(ResponseResult.CodeStatus.OK, "获取个人信息", umsAdmin);
+        UmsAdminDTO umsAdminDTO = new UmsAdminDTO();
+        BeanUtils.copyProperties(umsAdmin, umsAdminDTO);
+        return new ResponseResult<UmsAdminDTO>(ResponseResult.CodeStatus.OK, "获取个人信息", umsAdminDTO);
     }
 
 

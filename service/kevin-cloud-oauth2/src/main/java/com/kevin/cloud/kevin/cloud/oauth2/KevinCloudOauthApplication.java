@@ -6,9 +6,8 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @EnableDiscoveryClient
-@EnableFeignClients("com.kevin.cloud.user.service.feign")
-@SpringBootApplication(scanBasePackageClasses = {KevinCloudOauthApplication.class}/*, scanBasePackages = "com.kevin.cloud.user.service.feign"*/)
-
+@EnableFeignClients
+@SpringBootApplication(scanBasePackageClasses = {KevinCloudOauthApplication.class}, scanBasePackages = "com.kevin.cloud.user.service.feign")
 public class KevinCloudOauthApplication {
     public static void main(String[] args) {
         SpringApplication.run(KevinCloudOauthApplication.class, args);

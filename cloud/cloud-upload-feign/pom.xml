@@ -6,15 +6,19 @@
         <artifactId>cloud</artifactId>
         <groupId>com.kevin.cloud.plus</groupId>
         <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>cloud-upload</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>cloud-upload-feign</module>
-        <module>cloud-upload-service</module>
-    </modules>
+    <artifactId>cloud-upload-feign</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>com.kevin.cloud.plus</groupId>
+            <artifactId>commons-utils</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 
 
 </project>

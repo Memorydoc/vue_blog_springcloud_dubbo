@@ -12,9 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
  * Description:
  * </p>
  *
- * @author Lusifer
+ * @author kevin
  * @version v1.0.0
- * @date 2019-08-28 02:31:47
  */
 @Component
 public class UploadFeignFallback implements UploadFeign {

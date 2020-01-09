@@ -89,5 +89,10 @@
     <orderEntry type="library" name="Maven: org.jetbrains:annotations:13.0" level="project" />
     <orderEntry type="library" name="Maven: io.github.openfeign:feign-okhttp:10.3.0" level="project" />
     <orderEntry type="module" module-name="configuration-feign" />
+    <orderEntry type="module" module-name="commons-utils" />
+    <orderEntry type="library" name="Maven: org.apache.commons:commons-pool2:2.6.2" level="project" />
+    <orderEntry type="library" name="Maven: eu.bitwalker:UserAgentUtils:1.21" level="project" />
+    <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.18.10" level="project" />
+    <orderEntry type="module" module-name="commons-dto" />
   </component>
 </module>

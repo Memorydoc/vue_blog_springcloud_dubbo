@@ -21,9 +21,8 @@ import javax.sql.DataSource;
  * Description:
  * </p>
  *
- * @author Lusifer
+ * @author kevin
  * @version v1.0.0
- * @date 2019-07-28 17:55:49
  *
  */
 @Configuration

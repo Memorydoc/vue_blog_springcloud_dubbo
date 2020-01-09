@@ -85,7 +85,7 @@ public class LoginController {
     }
 
     @GetMapping(value = "infoByFeign")
-    @SentinelResource(value = "user/infoByFeign", fallback = "infoFallback")
+    //@SentinelResource(value = "user/infoByFeign", fallback = "infoFallback")
     public ResponseResult<UmsAdmin> infoByFeign() throws Exception {
         // 获取认证信息
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -93,6 +93,11 @@ public class LoginController {
         String jsonString = userServiceFeign.info(authentication.getName());
 
         UmsAdmin umsAdmin = MapperUtils.json2pojoByTree(jsonString, "data", UmsAdmin.class);
+
+        if(umsAdmin.getUsername() == null){
+            return  new ResponseResult<>(ResponseResult.CodeStatus.ILLEGAL_REQUEST, "服务发生了熔断", umsAdmin);
+        }
+
 
         // 如果触发熔断则返回熔断结果
         if (umsAdmin == null) {
