@@ -9,7 +9,7 @@ base:
 
 spring:
   application:
-    name: ums-admin-provider
+    name: user-provider
   main:
     allow-bean-definition-overriding: true
   datasource:
@@ -27,6 +27,7 @@ spring:
       max-lifetime: 1800000
       connection-timeout: 30000
       connection-test-query: SELECT 1
+
 
 dubbo:
   scan:

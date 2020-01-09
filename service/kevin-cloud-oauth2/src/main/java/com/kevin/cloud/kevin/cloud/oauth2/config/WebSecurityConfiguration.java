@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
 /**
  * @program: kevin-cloud-dubbo2.0
@@ -21,6 +22,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  **/
 @Configuration
 @EnableWebSecurity
+@EnableResourceServer  // 该注解是将 oauth2 也作为认证服务器
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
@@ -30,19 +32,19 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
     @Bean
     @Override
-    public UserDetailsService userDetailsService()  {
+    public UserDetailsService userDetailsServiceBean()  {
         return new UserDetailsServiceImpl();
     }
     @Override
     public void configure(WebSecurity web) throws Exception {
         //开放user/login 供给前端登录
         web.ignoring()
-                .antMatchers("/user/login");
+                .antMatchers("/oauth/login");
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService());
+        auth.userDetailsService(userDetailsServiceBean());
     }
 
     /**
@@ -63,17 +65,17 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
          * 将授权访问配置改为注解方式
          * @see LoginController#info()
          */
-        http.exceptionHandling()
-                .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
         /*http.exceptionHandling()
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);*/
+
+        http.exceptionHandling()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
                 // 授权访问
                 .antMatchers("/user/info").hasAuthority("USER")
-                .antMatchers("/user/logout").hasAuthority("USER");*/
+                .antMatchers("/user/logout").hasAuthority("USER");
     }
 }

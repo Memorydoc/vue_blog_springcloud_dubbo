@@ -2,6 +2,8 @@ package com.kevin.cloud.user.service.feign;
 
 import com.kevin.cloud.configuration.fegin.configuration.FeignRequestConfiguration;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 /**
  * @ClassName UserServiceFeign
@@ -11,6 +13,16 @@ import org.springframework.cloud.openfeign.FeignClient;
  * Version 1.0
  **/
 @FeignClient(value = "user-service" ,path = "user" ,configuration = FeignRequestConfiguration.class)
-public class UserServiceFeign {
+public interface UserServiceFeign {
+    /**
+     * 获取个人信息
+     *
+     * @param username {@code String} 用户名
+     * @return {@code String} JSON
+     */
+    @GetMapping(value = "info/{username}")
+    String info(@PathVariable String username);
+
+
 
 }

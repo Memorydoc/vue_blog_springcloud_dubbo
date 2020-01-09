@@ -90,7 +90,11 @@
             <artifactId>commons-utils</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.kevin.cloud.plus</groupId>
+            <artifactId>user-service-feign</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
         <!--Projects End-->
     </dependencies>
 

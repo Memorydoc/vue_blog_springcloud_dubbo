@@ -21,6 +21,7 @@
         <module>dependencies</module>
         <module>service</module>
         <module>configuration</module>
+        <module>gateway</module>
     </modules>
 
     <properties>

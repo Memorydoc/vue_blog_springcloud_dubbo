@@ -7,16 +7,17 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="user-service" />
-        <module name="user-provider-api" />
+        <module name="gateway" />
+        <module name="commons-provider" />
+        <module name="user-service-register" />
         <module name="kevin-cloud-oauth2" />
         <module name="user-provider" />
         <module name="commons-dto" />
-        <module name="configuration-feign" />
-        <module name="commons-provider" />
-        <module name="user-service-register" />
-        <module name="commons-utils" />
         <module name="user-service-feign" />
+        <module name="user-provider-api" />
+        <module name="user-service" />
+        <module name="commons-utils" />
+        <module name="configuration-feign" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -28,6 +29,7 @@
       <module name="configuration" target="1.8" />
       <module name="configuration-feign" target="1.8" />
       <module name="dependencies" target="1.5" />
+      <module name="gateway" target="1.8" />
       <module name="kevin-cloud-dubbo2.0" target="1.8" />
       <module name="kevin-cloud-oauth2" target="1.8" />
       <module name="provider" target="1.8" />
@@ -46,6 +48,7 @@
       <module name="commons-provider" options="-parameters" />
       <module name="commons-utils" options="-parameters" />
       <module name="configuration-feign" options="-parameters" />
+      <module name="gateway" options="-parameters" />
       <module name="kevin-cloud-oauth2" options="-parameters" />
       <module name="user-provider" options="-parameters" />
       <module name="user-provider-api" options="-parameters" />
