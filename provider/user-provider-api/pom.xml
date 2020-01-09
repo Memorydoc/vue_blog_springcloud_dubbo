@@ -7,6 +7,8 @@
         <groupId>com.kevin.cloud.plus</groupId>
         <artifactId>provider</artifactId>
         <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+
     </parent>
 
     <artifactId>user-provider-api</artifactId>

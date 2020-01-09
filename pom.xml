@@ -22,6 +22,7 @@
         <module>service</module>
         <module>configuration</module>
         <module>gateway</module>
+        <module>cloud</module>
     </modules>
 
     <properties>

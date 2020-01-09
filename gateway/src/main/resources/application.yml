@@ -42,12 +42,12 @@ spring:
             - Path=/api/user/**
           filters:
             - StripPrefix=1
-#        - id: CLOUD-UPLOAD
-#          uri: lb://cloud-upload
-#          predicates:
-#            - Path=/api/upload/**
-#          filters:
-#            - StripPrefix=1
+        - id: CLOUD-UPLOAD
+          uri: lb://cloud-upload
+          predicates:
+            - Path=/api/upload/**
+          filters:
+            - StripPrefix=1
 
 server:
   port: 8888
