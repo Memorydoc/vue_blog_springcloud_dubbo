@@ -69,5 +69,7 @@
     <modules>
         <module>cloud-upload-service</module>
         <module>cloud-upload-feign</module>
+        <module>cloud-message-feign</module>
+        <module>cloud-message-service</module>
     </modules>
 </project>
