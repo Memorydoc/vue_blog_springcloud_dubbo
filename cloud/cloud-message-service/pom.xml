@@ -63,15 +63,15 @@
         </dependency>
     </dependencies>
 
-    <!--<build>
+    <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.kevin.cloud.plus.cloud.CloudMessageApplication</mainClass>
+                    <mainClass>com.kevin.cloud.cloud.message.CloudMessageServiceApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>
-    </build>-->
+    </build>
 </project>

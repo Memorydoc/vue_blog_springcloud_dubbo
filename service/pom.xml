@@ -66,5 +66,6 @@
     <modules>
         <module>user-service</module>
         <module>kevin-cloud-oauth2</module>
+        <module>user-service-feign</module>
     </modules>
 </project>
