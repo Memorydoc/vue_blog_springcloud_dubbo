@@ -22,5 +22,6 @@
 
     <modules>
         <module>configuration-feign</module>
+        <module>configuration-sentinel</module>
     </modules>
 </project>

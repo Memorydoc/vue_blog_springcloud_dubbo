@@ -80,6 +80,12 @@
             <artifactId>commons-provider</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.kevin.cloud.plus</groupId>
+            <artifactId>configuration-sentinel</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
         <!-- Projects -->
     </dependencies>
 

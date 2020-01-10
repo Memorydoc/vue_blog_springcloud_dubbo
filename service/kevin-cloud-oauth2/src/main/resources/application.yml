@@ -7,11 +7,11 @@ base:
       hostname: www.sizegang.cn
       port: 8848
     sentile:
-      hostname: www.sizegang.cn
+      hostname: localhost
       port: 8020
     redis:
       hostname: www.sizegang.cn
-      port: 26379
+      port: 16379
 
 spring:
   application:
@@ -44,14 +44,26 @@ spring:
       connection-timeout: 30000
       connection-test-query: SELECT 1
   redis:
+    #单节点配置
     host: ${base.config.redis.hostname}
     port: ${base.config.redis.port}
+    #集群配置，生产上使用
+#    cluster:
+#      nodes: ${base.config.redis.hostname}:16379,
+#             ${base.config.redis.hostname}:6391,
+#             ${base.config.redis.hostname}:6392
+#      max-redirects: 3
+#      timeout: 5000
     lettuce:
       pool:
         min-idle: 0
         max-idle: 8
         max-wait: -1ms
         max-active: 8
+        #Redis 高可以用集群，如果是基于K8s的方式则不需要配置
+        sentinel:
+          master: mymaster
+          nodes: ${base.config.redis.hostname}:26379,${base.config.redis.hostname}:26380,${base.config.redis.hostname}:26381
 
 dubbo:
   scan:

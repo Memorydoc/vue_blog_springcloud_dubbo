@@ -1,9 +1,12 @@
 package com.kevin.cloud.user.provider.service;
 
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.kevin.cloud.user.provider.api.UserService;
 import com.kevin.cloud.user.provider.api.domain.UmsAdmin;
 import com.kevin.cloud.user.provider.mapper.UmsAdminMapper;
+import com.kevin.cloud.user.provider.service.fallback.UserServiceImplFallback;
+import lombok.SneakyThrows;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import tk.mybatis.mapper.entity.Example;
@@ -49,6 +52,7 @@ public class UserServiceImpl implements UserService {
         umsAdmin.setPassword(passwordEncoder.encode(umsAdmin.getPassword()));
     }
 
+    @SentinelResource(value =  "getByUserName", fallback = "getByUsernameFallback" , fallbackClass = UserServiceImplFallback.class)
     @Override
     public UmsAdmin get(String username) {
         Example example = new Example(UmsAdmin.class);
