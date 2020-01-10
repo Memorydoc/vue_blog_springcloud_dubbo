@@ -4,10 +4,10 @@ base:
       hostname: localhost
       port: 9001
     nacos:
-      hostname: nacos.funtl.com
-      port: 80
+      hostname: www.sizegang.cn
+      port: 8848
     rocketmq:
-      hostname: rocketmq.funtl.com
+      hostname: www.sizegang.cn
       port: 9876
 
 spring:
@@ -31,7 +31,7 @@ spring:
 
 dubbo:
   scan:
-    base-packages: com.funtl.myshop.plus.cloud.producer
+    base-packages: com.kevin.cloud.cloud.message.producer
   protocol:
     name: dubbo
     port: -1
