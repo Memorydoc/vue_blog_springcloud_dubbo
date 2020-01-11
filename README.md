@@ -14,35 +14,27 @@
     统一配置管理
 ##### gateway  统一网关服务
 ##### provider 模块
-   Dubbo 服务提供者， Dao层数据库资源管理
+    Dubbo 服务提供者， Dao层数据库资源管理
 ##### service 模块
-   springcloud feign服务， 可以通过调用provider 服务，也可以 feign 之间进行服务调用， 实现
-   springcloud 和duboo结合的架构    
+    springcloud feign服务， 可以通过调用provider 服务，也可以 feign 之间进行服务调用， 实现
+    springcloud 和duboo结合的架构    
    
 ##### 统一的依赖管理模块 dependencies
-  进行统一 <code>Maven</code> 管理， 版本控制
+    进行统一 <code>Maven</code> 管理， 版本控制
 ##### common模块
-  包括公共 dto、 utils、公用的provider        
+    包括公共 dto、 utils、公用的provider        
 
 
 #### 安装教程
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
+    mvn clean package
 
 #### 使用说明
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+
+
+
 
 #### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 test 分支
-3.  提交代码
-4.  新建 Pull Request
 
 
 #### 码云特技
