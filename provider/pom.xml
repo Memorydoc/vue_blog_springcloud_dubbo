@@ -75,12 +75,23 @@
             <groupId>com.alibaba.spring</groupId>
             <artifactId>spring-context-support</artifactId>
         </dependency>
+        <!--Dubbo End-->
+
+
+
+
+
         <dependency>
             <groupId>com.kevin.cloud.plus</groupId>
             <artifactId>commons-provider</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.kevin.cloud.plus</groupId>
+            <artifactId>commons-dto</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.kevin.cloud.plus</groupId>
             <artifactId>configuration-sentinel</artifactId>
@@ -90,7 +101,9 @@
     </dependencies>
 
     <modules>
-        <module>user-provider</module>
-        <module>user-provider-api</module>
+        <module>provider-user</module>
+        <module>provider-user-api</module>
+        <module>provider-message-api</module>
+        <module>provider-message</module>
     </modules>
 </project>

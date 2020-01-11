@@ -6,7 +6,23 @@
 无论是个人、团队、或是企业，都能够用码云实现代码托管、项目管理、协作开发。企业项目请看 [https://gitee.com/enterprises](https://gitee.com/enterprises)}
 
 #### 软件架构
-软件架构说明
+#### 通过springcloud 与 Dubbo结合， 对内RPC
+
+##### cloud 模块
+    包括平台公共服务， 消息服务， OSS上传服务
+##### configuration 
+    统一配置管理
+##### gateway  统一网关服务
+##### provider 模块
+   Dubbo 服务提供者， Dao层数据库资源管理
+##### service 模块
+   springcloud feign服务， 可以通过调用provider 服务，也可以 feign 之间进行服务调用， 实现
+   springcloud 和duboo结合的架构    
+   
+##### 统一的依赖管理模块 dependencies
+  进行统一 <code>Maven</code> 管理， 版本控制
+##### common模块
+  包括公共 dto、 utils、公用的provider        
 
 
 #### 安装教程
@@ -24,7 +40,7 @@
 #### 参与贡献
 
 1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
+2.  新建 test 分支
 3.  提交代码
 4.  新建 Pull Request
 

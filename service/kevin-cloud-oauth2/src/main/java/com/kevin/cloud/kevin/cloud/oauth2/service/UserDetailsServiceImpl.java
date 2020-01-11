@@ -1,8 +1,8 @@
 package com.kevin.cloud.kevin.cloud.oauth2.service;
 
 import com.google.common.collect.Lists;
-import com.kevin.cloud.user.provider.api.UserService;
-import com.kevin.cloud.user.provider.api.domain.UmsAdmin;
+import com.kevin.cloud.user.api.UserService;
+import com.kevin.cloud.user.domain.UmsAdmin;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 /**
