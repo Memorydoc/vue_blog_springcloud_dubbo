@@ -12,7 +12,7 @@ import tk.mybatis.spring.annotation.MapperScan;
  * @create: 2020-01-11 13:06
  **/
 @SpringBootApplication(scanBasePackageClasses = {ProviderMessageApplication.class, DubboSentinelConfiguration.class})
-@MapperScan(basePackages = "com.kevin.cloud.message.mapper")
+@MapperScan(basePackages = "com.kevin.cloud.provider.mapper")
 public class ProviderMessageApplication {
     public static void main(String[] args) {
         SpringApplication.run(ProviderMessageApplication.class,args);
