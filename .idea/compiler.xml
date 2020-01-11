@@ -7,26 +7,27 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="commons-platform" />
+        <module name="service-oauth2" />
         <module name="cloud-message-service" />
         <module name="commons-provider" />
         <module name="common-platform" />
         <module name="service-user-feign" />
         <module name="gateway" />
         <module name="cloud-message-feign" />
-        <module name="user-service-register" />
-        <module name="user-provider-api" />
+        <module name="service-user" />
         <module name="cloud-upload-service" />
         <module name="provider-user" />
         <module name="message" />
-        <module name="service-user" />
-        <module name="provider-message" />
         <module name="commons-utils" />
-        <module name="cloud-message-api" />
         <module name="provider-message-api" />
-        <module name="cloud-upload-feign" />
-        <module name="service-oauth2" />
-        <module name="configuration-sentinel" />
         <module name="configuration-feign" />
+        <module name="cloud-message-api" />
+        <module name="provider-message" />
+        <module name="cloud-upload-feign" />
+        <module name="user-service-register" />
+        <module name="configuration-sentinel" />
+        <module name="provider-user-api" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -41,6 +42,7 @@
       <module name="common-platform" target="1.8" />
       <module name="commons" target="1.8" />
       <module name="commons-dto" target="1.8" />
+      <module name="commons-platform" target="1.8" />
       <module name="commons-provider" target="1.8" />
       <module name="commons-utils" target="1.8" />
       <module name="configuration" target="1.8" />
@@ -55,11 +57,11 @@
       <module name="provider-message" target="1.8" />
       <module name="provider-message-api" target="1.8" />
       <module name="provider-user" target="1.8" />
+      <module name="provider-user-api" target="1.8" />
       <module name="service" target="1.8" />
       <module name="service-oauth2" target="1.8" />
       <module name="service-user" target="1.8" />
       <module name="service-user-feign" target="1.8" />
-      <module name="user-provider-api" target="1.8" />
       <module name="user-service-register" target="1.8" />
     </bytecodeTargetLevel>
   </component>
@@ -74,6 +76,7 @@
       <module name="cloud-upload-service" options="-parameters" />
       <module name="common-platform" options="-parameters" />
       <module name="commons-dto" options="-parameters" />
+      <module name="commons-platform" options="-parameters" />
       <module name="commons-provider" options="-parameters" />
       <module name="commons-utils" options="-parameters" />
       <module name="configuration-feign" options="-parameters" />
@@ -83,10 +86,10 @@
       <module name="provider-message" options="-parameters" />
       <module name="provider-message-api" options="-parameters" />
       <module name="provider-user" options="-parameters" />
+      <module name="provider-user-api" options="-parameters" />
       <module name="service-oauth2" options="-parameters" />
       <module name="service-user" options="-parameters" />
       <module name="service-user-feign" options="-parameters" />
-      <module name="user-provider-api" options="-parameters" />
       <module name="user-service-register" options="-parameters" />
     </option>
   </component>

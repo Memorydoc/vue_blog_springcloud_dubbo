@@ -7,7 +7,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @EnableDiscoveryClient
 @EnableFeignClients
-@SpringBootApplication(scanBasePackageClasses = {ServiceOauth2Application.class}, scanBasePackages = "com.kevin.cloud.user.service.feign")
+@SpringBootApplication(scanBasePackageClasses = {ServiceOauth2Application.class}, scanBasePackages = "com.kevin.cloud.service.feign")
 public class ServiceOauth2Application {
     public static void main(String[] args) {
         SpringApplication.run(ServiceOauth2Application.class, args);

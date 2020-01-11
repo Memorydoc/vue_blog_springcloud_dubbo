@@ -1,6 +1,6 @@
 package com.kevin.cloud.commons.utils;
 
-import dto.IpInfo;
+import com.kevin.cloud.commons.dto.IpInfo;
 import eu.bitwalker.useragentutils.Browser;
 import eu.bitwalker.useragentutils.UserAgent;
 

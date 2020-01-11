@@ -22,7 +22,7 @@ security:
       token-info-uri: http://localhost:9001/oauth/check_token
 dubbo:
   scan:
-    base-packages: com.kevin.cloud.user.service.controller
+    base-packages: com.kevin.cloud.service
   protocol:
     name: dubbo
     port: -1

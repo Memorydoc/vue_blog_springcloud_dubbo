@@ -67,7 +67,7 @@ spring:
 
 dubbo:
   scan:
-    base-packages: com.kevin.cloud.kevin.cloud.oauth
+    base-packages: com.kevin.cloud.service
   protocol:
     name: dubbo
     port: -1

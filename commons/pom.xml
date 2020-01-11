@@ -21,7 +21,7 @@
     <modules>
         <module>commons-provider</module>
         <module>commons-utils</module>
-        <module>common-platform</module>
+        <module>commons-platform</module>
     </modules>
 
     <dependencies>
