@@ -64,8 +64,8 @@
     </dependencies>
 
     <modules>
-        <module>user-service</module>
-        <module>kevin-cloud-oauth2</module>
-        <module>user-service-feign</module>
+        <module>service-oauth2</module>
+        <module>service-user</module>
+        <module>service-user-feign</module>
     </modules>
 </project>

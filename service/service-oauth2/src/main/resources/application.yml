@@ -15,7 +15,7 @@ base:
 
 spring:
   application:
-    name: kevin-cloud-oauth2
+    name: service-oauth2
   main:
     allow-bean-definition-overriding: true
   jackson:

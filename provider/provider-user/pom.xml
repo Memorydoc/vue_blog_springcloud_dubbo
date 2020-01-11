@@ -83,7 +83,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.kevin.cloud.user.UserProviderServiceApplication</mainClass>
+                    <mainClass>com.kevin.cloud.user.ProviderUserServiceApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>

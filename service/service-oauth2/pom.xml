@@ -104,7 +104,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.kevin.cloud.kevin.cloud.oauth2.KevinCloudOauthApplication</mainClass>
+                    <mainClass>com.kevin.cloud.kevin.cloud.oauth2.ServiceOauth2Application</mainClass>
                 </configuration>
             </plugin>
         </plugins>
