@@ -18,7 +18,6 @@ public class MessageProducer {
 
     /**
      * 管理登录日志
-     *
      * @return {@code boolean}
      */
     public boolean sendAdminLoginLog(UmsAdminLoginLogDTO dto) {

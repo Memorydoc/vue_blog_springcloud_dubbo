@@ -1,7 +1,6 @@
 package com.kevin.cloud.cloud.message.controller;
 
 import com.kevin.cloud.cloud.message.producer.MessageProducer;
-import com.kevin.cloud.commons.dto.ResponseResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
