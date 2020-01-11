@@ -10,7 +10,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>kevin-cloud-oauth2</artifactId>
+    <artifactId>service-oauth2</artifactId>
     <packaging>jar</packaging>
 
     <licenses>

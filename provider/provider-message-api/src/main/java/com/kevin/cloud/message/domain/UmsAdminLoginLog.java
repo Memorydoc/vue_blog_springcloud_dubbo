@@ -1,5 +1,6 @@
 package com.kevin.cloud.message.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.kevin.cloud.commons.dto.CloudBaseDto;
 
 import javax.persistence.Column;
@@ -18,6 +19,8 @@ public class UmsAdminLoginLog  extends CloudBaseDto {
     @Column(name = "admin_id")
     private Long adminId;
 
+
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
     @Column(name = "create_time")
     private Date createTime;
 

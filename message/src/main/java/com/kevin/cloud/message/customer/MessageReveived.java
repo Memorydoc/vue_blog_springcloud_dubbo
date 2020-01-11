@@ -15,6 +15,7 @@ public class MessageReveived {
     @StreamListener("admin-login-log-topic")
     public void receiveAdminLoginLog(String umsAdminLoginLogJson) throws Exception {
         UmsAdminLoginLog umsAdminLoginLog = MapperUtils.json2pojo(umsAdminLoginLogJson, UmsAdminLoginLog.class);
+        System.out.println(umsAdminLoginLog);
         providerMessage.insert(umsAdminLoginLog);
     }
 

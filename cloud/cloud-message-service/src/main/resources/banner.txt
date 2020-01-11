@@ -5,4 +5,4 @@
 |____|__ \___  >\_/ |__|___|  /  \___  >____/\____/|____/\____ |
         \/   \/             \/       \/                       \/
  :: Spring Boot ::                                                       ${spring-boot.formatted-version}
- :: MyShop Plus ::                                                       ${application.formatted-version}
+ :: KevinCLoud Plus ::                                                       ${application.formatted-version}
