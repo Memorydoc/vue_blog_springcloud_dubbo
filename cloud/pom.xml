@@ -51,7 +51,7 @@
         <!-- Projects -->
         <dependency>
             <groupId>com.kevin.cloud.plus</groupId>
-            <artifactId>commons-dto</artifactId>
+            <artifactId>commons-platform</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>

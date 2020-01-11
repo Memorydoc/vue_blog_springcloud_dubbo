@@ -7,28 +7,38 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="user-service" />
+        <module name="cloud-message-service" />
         <module name="commons-provider" />
+        <module name="common-platform" />
+        <module name="service-user-feign" />
         <module name="gateway" />
-        <module name="commons-dto" />
-        <module name="user-service-feign" />
-        <module name="user-provider-api" />
-        <module name="user-provider" />
-        <module name="cloud-upload-service" />
-        <module name="commons-utils" />
-        <module name="kevin-cloud-oauth2" />
-        <module name="configuration-feign" />
-        <module name="cloud-upload-feign" />
+        <module name="cloud-message-feign" />
         <module name="user-service-register" />
+        <module name="user-provider-api" />
+        <module name="cloud-upload-service" />
+        <module name="provider-user" />
+        <module name="message" />
+        <module name="service-user" />
+        <module name="provider-message" />
+        <module name="commons-utils" />
+        <module name="cloud-message-api" />
+        <module name="provider-message-api" />
+        <module name="cloud-upload-feign" />
+        <module name="service-oauth2" />
         <module name="configuration-sentinel" />
+        <module name="configuration-feign" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="business-oauth2" target="1.8" />
       <module name="cloud" target="1.8" />
+      <module name="cloud-message-api" target="1.8" />
+      <module name="cloud-message-feign" target="1.8" />
+      <module name="cloud-message-service" target="1.8" />
       <module name="cloud-upload" target="1.8" />
       <module name="cloud-upload-feign" target="1.8" />
       <module name="cloud-upload-service" target="1.8" />
+      <module name="common-platform" target="1.8" />
       <module name="commons" target="1.8" />
       <module name="commons-dto" target="1.8" />
       <module name="commons-provider" target="1.8" />
@@ -39,13 +49,17 @@
       <module name="dependencies" target="1.5" />
       <module name="gateway" target="1.8" />
       <module name="kevin-cloud-dubbo2.0" target="1.8" />
-      <module name="kevin-cloud-oauth2" target="1.8" />
+      <module name="message" target="1.8" />
+      <module name="parent" target="1.8" />
       <module name="provider" target="1.8" />
+      <module name="provider-message" target="1.8" />
+      <module name="provider-message-api" target="1.8" />
+      <module name="provider-user" target="1.8" />
       <module name="service" target="1.8" />
-      <module name="user-provider" target="1.8" />
+      <module name="service-oauth2" target="1.8" />
+      <module name="service-user" target="1.8" />
+      <module name="service-user-feign" target="1.8" />
       <module name="user-provider-api" target="1.8" />
-      <module name="user-service" target="1.8" />
-      <module name="user-service-feign" target="1.8" />
       <module name="user-service-register" target="1.8" />
     </bytecodeTargetLevel>
   </component>
@@ -53,19 +67,26 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="business-oauth2" options="-parameters" />
       <module name="cloud" options="-parameters" />
+      <module name="cloud-message-api" options="-parameters" />
+      <module name="cloud-message-feign" options="-parameters" />
+      <module name="cloud-message-service" options="-parameters" />
       <module name="cloud-upload-feign" options="-parameters" />
       <module name="cloud-upload-service" options="-parameters" />
+      <module name="common-platform" options="-parameters" />
       <module name="commons-dto" options="-parameters" />
       <module name="commons-provider" options="-parameters" />
       <module name="commons-utils" options="-parameters" />
       <module name="configuration-feign" options="-parameters" />
       <module name="configuration-sentinel" options="-parameters" />
       <module name="gateway" options="-parameters" />
-      <module name="kevin-cloud-oauth2" options="-parameters" />
-      <module name="user-provider" options="-parameters" />
+      <module name="message" options="-parameters" />
+      <module name="provider-message" options="-parameters" />
+      <module name="provider-message-api" options="-parameters" />
+      <module name="provider-user" options="-parameters" />
+      <module name="service-oauth2" options="-parameters" />
+      <module name="service-user" options="-parameters" />
+      <module name="service-user-feign" options="-parameters" />
       <module name="user-provider-api" options="-parameters" />
-      <module name="user-service" options="-parameters" />
-      <module name="user-service-feign" options="-parameters" />
       <module name="user-service-register" options="-parameters" />
     </option>
   </component>

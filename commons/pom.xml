@@ -20,14 +20,19 @@
     </licenses>
     <modules>
         <module>commons-provider</module>
-        <module>commons-dto</module>
         <module>commons-utils</module>
+        <module>common-platform</module>
     </modules>
 
     <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

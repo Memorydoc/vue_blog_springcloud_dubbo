@@ -1,7 +1,6 @@
 package com.kevin.cloud.user.service.controller.fallback;
 
-import com.kevin.cloud.commons.dto.ResponseResult;
-import com.kevin.cloud.user.service.feign.UserServiceFeign;
+import com.kevin.cloud.platform.dto.ResponseResult;
 import com.kevin.cloud.user.service.feign.dto.UmsAdminDTO;
 import com.kevin.cloud.user.service.feign.fallback.UserServiceFeignFallBack;
 import org.slf4j.Logger;

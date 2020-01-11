@@ -1,4 +1,5 @@
-package com.kevin.cloud.commons.dto;
+package com.kevin.cloud.platform.dto;
+
 
 import com.kevin.cloud.commons.utils.MapperUtils;
 

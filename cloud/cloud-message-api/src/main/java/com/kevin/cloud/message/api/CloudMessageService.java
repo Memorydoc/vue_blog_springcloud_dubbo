@@ -1,6 +1,7 @@
 package com.kevin.cloud.message.api;
 
-import com.kevin.cloud.commons.dto.MessageCommonDto;
+
+import com.kevin.cloud.platform.dto.MessageCommonDto;
 
 /**
  * @program: kevin-cloud-dubbo2.0

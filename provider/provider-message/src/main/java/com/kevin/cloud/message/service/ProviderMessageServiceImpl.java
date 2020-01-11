@@ -5,6 +5,7 @@ import com.kevin.cloud.message.api.ProviderMessage;
 import com.kevin.cloud.message.domain.UmsAdminLoginLog;
 import com.kevin.cloud.message.mapper.UmsAdminLoginLogMapper;
 import com.kevin.cloud.message.service.fallback.ProviderMessageServiceFallback;
+import com.kevin.cloud.platform.dto.FallBackResult;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -21,13 +22,16 @@ public class ProviderMessageServiceImpl implements ProviderMessage {
     private UmsAdminLoginLogMapper umsAdminLoginLogMapper;
 
 
-    @SentinelResource(value =  "sendAdminLoginLog", fallback = "sendUmsAdminLoginLogFallBack" , fallbackClass = ProviderMessageServiceFallback.class)
+    @SentinelResource(value = "sendAdminLoginLog", fallback = "sendUmsAdminLoginLogFallBack", fallbackClass = ProviderMessageServiceFallback.class)
     @Override
-    public boolean insert(UmsAdminLoginLog umsAdminLoginLog) {
-        int insert = umsAdminLoginLogMapper.insert(umsAdminLoginLog);
-        if(insert > 0){
-            return  true;
+    public FallBackResult insert(UmsAdminLoginLog umsAdminLoginLog) {
+        FallBackResult fallBackResult = new FallBackResult();
+        int insert = umsAdminLoginLogMapper.insertSelective(umsAdminLoginLog);
+        if (insert > 0) {
+            fallBackResult.setStatus(true);
+            return fallBackResult;
         }
-        return  false;
+        fallBackResult.setStatus(false);
+        return fallBackResult;
     }
 }

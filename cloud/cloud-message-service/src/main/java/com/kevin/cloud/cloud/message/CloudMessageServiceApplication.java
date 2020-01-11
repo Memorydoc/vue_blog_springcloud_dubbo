@@ -15,7 +15,7 @@ import org.springframework.cloud.stream.annotation.EnableBinding;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableBinding({MessageSource.class})
+@EnableBinding({MessageSource.class}) // 配置消息绑定器
 public class CloudMessageServiceApplication {
     public static void main(String[] args) {
         SpringApplication.run(CloudMessageServiceApplication.class, args);

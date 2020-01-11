@@ -1,4 +1,4 @@
-package com.kevin.cloud.commons.dto;
+package com.kevin.cloud.platform.dto;
 
 public enum ServiceStatus {
     /**

@@ -50,7 +50,6 @@
             <version>${project.parent.version}</version>
         </dependency>
 
-
         <!-- Projects -->
         <dependency>
             <groupId>com.kevin.cloud.plus</groupId>

@@ -2,6 +2,7 @@ package com.kevin.cloud.message.customer;
 import com.kevin.cloud.commons.utils.MapperUtils;
 import com.kevin.cloud.message.api.ProviderMessage;
 import com.kevin.cloud.message.domain.UmsAdminLoginLog;
+import com.kevin.cloud.platform.dto.FallBackResult;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.stereotype.Service;
@@ -14,9 +15,11 @@ public class MessageReveived {
 
     @StreamListener("admin-login-log-topic")
     public void receiveAdminLoginLog(String umsAdminLoginLogJson) throws Exception {
-        UmsAdminLoginLog umsAdminLoginLog = MapperUtils.json2pojo(umsAdminLoginLogJson, UmsAdminLoginLog.class);
+        System.out.println(umsAdminLoginLogJson);
+        UmsAdminLoginLog umsAdminLoginLog = MapperUtils.json2pojoByFastJson(umsAdminLoginLogJson, UmsAdminLoginLog.class);
         System.out.println(umsAdminLoginLog);
-        providerMessage.insert(umsAdminLoginLog);
+        FallBackResult fallBackResult = providerMessage.insert(umsAdminLoginLog);
+        System.out.println(fallBackResult);
     }
 
 }

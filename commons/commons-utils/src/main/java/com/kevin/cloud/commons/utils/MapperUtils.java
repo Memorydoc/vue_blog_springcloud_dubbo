@@ -1,5 +1,6 @@
 package com.kevin.cloud.commons.utils;
 
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -62,6 +63,20 @@ public class MapperUtils {
     public static <T> T json2pojo(String jsonString, Class<T> clazz) throws Exception {
         objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
         return objectMapper.readValue(jsonString, clazz);
+    }
+
+
+    /**
+     *使用fastjson的方式转成javabean
+     * @param jsonString
+     * @param clazz
+     * @param <T>
+     * @return
+     * @throws Exception
+     */
+    public static <T> T json2pojoByFastJson(String jsonString, Class<T> clazz) throws Exception {
+       return JSONObject.parseObject(jsonString, clazz);
+        //return objectMapper.readValue(jsonString, clazz);
     }
 
     /**

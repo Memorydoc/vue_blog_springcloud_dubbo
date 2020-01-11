@@ -1,4 +1,4 @@
-package com.kevin.cloud.commons.dto;
+package com.kevin.cloud.platform.dto;
 
 /**
  * @program: kevin-cloud-dubbo2.0
@@ -8,7 +8,6 @@ package com.kevin.cloud.commons.dto;
  **/
 public class CloudBaseDto {
     private String fallbackReason;
-
 
     public String getFallbackReason() {
         return fallbackReason;

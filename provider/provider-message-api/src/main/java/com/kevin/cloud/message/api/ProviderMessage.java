@@ -1,6 +1,7 @@
 package com.kevin.cloud.message.api;
 
 import com.kevin.cloud.message.domain.UmsAdminLoginLog;
+import com.kevin.cloud.platform.dto.FallBackResult;
 
 /**
  * @program: kevin-cloud-dubbo2.0
@@ -11,5 +12,5 @@ import com.kevin.cloud.message.domain.UmsAdminLoginLog;
 
 
 public interface ProviderMessage {
-    public boolean insert(UmsAdminLoginLog umsAdminLoginLog);
+    public FallBackResult insert(UmsAdminLoginLog umsAdminLoginLog);
 }

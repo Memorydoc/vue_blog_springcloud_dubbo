@@ -58,7 +58,7 @@
         </dependency>
         <dependency>
             <groupId>com.kevin.cloud.plus</groupId>
-            <artifactId>commons-dto</artifactId>
+            <artifactId>commons-platform</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
@@ -75,7 +75,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.kevin.cloud.user.service.UserServiceApplication</mainClass>
+                    <mainClass>com.kevin.cloud.user.service.ServiceUserApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>

@@ -1,9 +1,8 @@
 package com.kevin.cloud.cloud.message.producer;
 
-import com.kevin.cloud.cloud.message.dto.UmsAdminLoginLogDTO;
 import com.kevin.cloud.cloud.message.rocketmessage.MessageSource;
-import com.kevin.cloud.commons.dto.MessageCommonDto;
 import com.kevin.cloud.message.api.CloudMessageService;
+import com.kevin.cloud.platform.dto.MessageCommonDto;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 
 /**
- * 消息生产者
+ * KevinCloud 消息生产者 即是cloud的feign服务也是dubbo的rpc服务
  */
 @Component
 @Service(version = "1.0.0")

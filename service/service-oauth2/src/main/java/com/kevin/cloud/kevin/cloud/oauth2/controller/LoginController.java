@@ -2,13 +2,17 @@ package com.kevin.cloud.kevin.cloud.oauth2.controller;
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.google.common.collect.Maps;
-import com.kevin.cloud.commons.dto.ResponseResult;
 import com.kevin.cloud.commons.utils.MapperUtils;
 import com.kevin.cloud.commons.utils.OkHttpClientUtil;
+import com.kevin.cloud.commons.utils.UserAgentUtils;
 import com.kevin.cloud.kevin.cloud.oauth2.dto.LoginParam;
+import com.kevin.cloud.message.api.CloudMessageService;
+import com.kevin.cloud.platform.dto.MessageCommonDto;
+import com.kevin.cloud.platform.dto.ResponseResult;
 import com.kevin.cloud.user.api.UserService;
 import com.kevin.cloud.user.domain.UmsAdmin;
 import com.kevin.cloud.user.service.feign.UserServiceFeign;
+import dto.IpInfo;
 import okhttp3.Response;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,6 +27,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -46,9 +51,13 @@ public class LoginController {
     public UserDetailsService userDetailsService;
     @Resource
     public BCryptPasswordEncoder passwordEncoder;
-    
+
     @Resource
     private UserServiceFeign userServiceFeign;
+
+
+    @Reference(version = "1.0.0")
+    private CloudMessageService cloudMessageService;
 
     @PostMapping(value = "login")
     public ResponseResult<Map<String, Object>> login(@RequestBody LoginParam loginParam, HttpServletRequest request) throws Exception {
@@ -71,8 +80,21 @@ public class LoginController {
         String accessToken = stringObjectMap.get("access_token").toString();
         Map result = Maps.newHashMap();
         result.put("token", accessToken);
+        // 用户登录成功，异步发送消息， 写日志
+        sendAdminLoginLogByMessage(request);
         return new ResponseResult<Map<String, Object>>(ResponseResult.CodeStatus.OK, "登录成功", result);
     }
+
+    private void sendAdminLoginLogByMessage(HttpServletRequest request) {
+        MessageCommonDto messageCommonDto = new MessageCommonDto();
+        String ipAddr = UserAgentUtils.getIpAddr(request);
+        IpInfo info = UserAgentUtils.getIpInfo(ipAddr);
+        messageCommonDto.setAddress(info.getCity());
+        messageCommonDto.setIp(ipAddr);
+        messageCommonDto.setUserAgent(UserAgentUtils.getUserAgent(request).getBrowser().getName());
+        cloudMessageService.sendAdminLoginLog(messageCommonDto);
+    }
+
 
     @GetMapping(value = "info/{username}")
     @SentinelResource(value = "info", fallback = "infoFallback")
@@ -91,8 +113,8 @@ public class LoginController {
 
         UmsAdmin umsAdmin = MapperUtils.json2pojoByTree(jsonString, "data", UmsAdmin.class);
 
-        if(umsAdmin.getUsername() == null){
-            return  new ResponseResult<>(ResponseResult.CodeStatus.ILLEGAL_REQUEST, "服务发生了熔断", umsAdmin);
+        if (umsAdmin.getUsername() == null) {
+            return new ResponseResult<>(ResponseResult.CodeStatus.ILLEGAL_REQUEST, "服务发生了熔断", umsAdmin);
         }
 
 
@@ -102,7 +124,6 @@ public class LoginController {
         }
         return new ResponseResult<UmsAdmin>(ResponseResult.CodeStatus.OK, "通过feign获取个人信息", umsAdmin);
     }
-    
-    
+
 
 }

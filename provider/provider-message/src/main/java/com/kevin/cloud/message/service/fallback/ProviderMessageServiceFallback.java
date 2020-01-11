@@ -1,6 +1,8 @@
 package com.kevin.cloud.message.service.fallback;
 
 import com.kevin.cloud.message.domain.UmsAdminLoginLog;
+import com.kevin.cloud.platform.dto.FallBackResult;
+import com.kevin.cloud.platform.service.fallback.BaseFallBack;
 
 /**
  * @program: kevin-cloud-dubbo2.0
@@ -8,13 +10,10 @@ import com.kevin.cloud.message.domain.UmsAdminLoginLog;
  * @author: kevin
  * @create: 2020-01-11 13:56
  **/
-public class ProviderMessageServiceFallback {
+public class ProviderMessageServiceFallback  extends BaseFallBack {
 
-
-    public static UmsAdminLoginLog sendUmsAdminLoginLogFallBack(UmsAdminLoginLog umsAdminLoginLog, Throwable ex) {
-        ex.printStackTrace();
-        umsAdminLoginLog.setFallbackReason("Dubbo 服务熔断出错" + ex.toString().substring(230));
-        return umsAdminLoginLog;
+    public static FallBackResult sendUmsAdminLoginLogFallBack(UmsAdminLoginLog umsAdminLoginLog, Throwable ex) {
+        return fallBackError(ex);
     }
 
 }

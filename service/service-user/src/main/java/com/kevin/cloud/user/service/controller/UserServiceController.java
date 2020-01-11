@@ -2,7 +2,7 @@ package com.kevin.cloud.user.service.controller;
 
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
-import com.kevin.cloud.commons.dto.ResponseResult;
+import com.kevin.cloud.platform.dto.ResponseResult;
 import com.kevin.cloud.user.api.UserService;
 import com.kevin.cloud.user.domain.UmsAdmin;
 import com.kevin.cloud.user.service.controller.fallback.UserServiceControllerFallback;

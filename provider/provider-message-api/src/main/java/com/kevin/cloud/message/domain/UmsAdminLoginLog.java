@@ -1,7 +1,10 @@
 package com.kevin.cloud.message.domain;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.kevin.cloud.commons.dto.CloudBaseDto;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.kevin.cloud.platform.serializer.CustomJsonDateDeserializer;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -10,7 +13,7 @@ import javax.persistence.Table;
 import java.util.Date;
 
 @Table(name = "ums_admin_login_log")
-public class UmsAdminLoginLog  extends CloudBaseDto {
+public class UmsAdminLoginLog {
     @Id
     @Column(name = "id")
     @GeneratedValue(generator = "JDBC")
@@ -20,7 +23,7 @@ public class UmsAdminLoginLog  extends CloudBaseDto {
     private Long adminId;
 
 
-    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "create_time")
     private Date createTime;
 

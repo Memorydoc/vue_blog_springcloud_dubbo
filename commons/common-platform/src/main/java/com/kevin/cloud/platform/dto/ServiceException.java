@@ -1,4 +1,4 @@
-package com.kevin.cloud.commons.dto;
+package com.kevin.cloud.platform.dto;
 
 /**
  * 全局业务异常
