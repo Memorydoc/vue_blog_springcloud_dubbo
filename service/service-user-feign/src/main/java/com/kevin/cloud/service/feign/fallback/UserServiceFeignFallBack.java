@@ -1,7 +1,7 @@
 package com.kevin.cloud.service.feign.fallback;
 
 import com.kevin.cloud.commons.utils.MapperUtils;
-import com.kevin.cloud.platform.dto.ResponseResult;
+import com.kevin.cloud.commons.platform.dto.ResponseResult;
 import com.kevin.cloud.service.feign.dto.UmsAdminDTO;
 import com.kevin.cloud.service.feign.UserServiceFeign;
 import org.springframework.stereotype.Component;

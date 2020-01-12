@@ -8,10 +8,12 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <properties>
-        <!-- Commons -->
+        <!-- Commons Start-->
         <okhttp3.version>4.1.0</okhttp3.version>
         <bitwalker.version>1.21</bitwalker.version>
         <feign-okhttp.version>10.3.0</feign-okhttp.version>
+        <pagehelper.version>1.2.12</pagehelper.version>
+        <!--Commons End-->
 
         <!-- Native Cloud -->
         <dubbo.version>2.7.3</dubbo.version>
@@ -23,6 +25,7 @@
 
         <!-- Ali Cloud -->
         <aliyun-sdk-oss.version>3.8.0</aliyun-sdk-oss.version>
+
     </properties>
 
     <licenses>
@@ -159,6 +162,12 @@
                 <groupId>eu.bitwalker</groupId>
                 <artifactId>UserAgentUtils</artifactId>
                 <version>${bitwalker.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>${pagehelper.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

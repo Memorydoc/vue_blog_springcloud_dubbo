@@ -1,8 +1,8 @@
 package com.kevin.cloud.message.service.controller;
 
 import com.kevin.cloud.message.service.producer.MessageProducer;
-import com.kevin.cloud.platform.dto.MessageCommonDto;
-import com.kevin.cloud.platform.dto.ResponseResult;
+import com.kevin.cloud.commons.platform.dto.MessageCommonDto;
+import com.kevin.cloud.commons.platform.dto.ResponseResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

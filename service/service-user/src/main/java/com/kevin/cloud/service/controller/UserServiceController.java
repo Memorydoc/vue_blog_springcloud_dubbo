@@ -2,7 +2,11 @@ package com.kevin.cloud.service.controller;
 
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
-import com.kevin.cloud.platform.dto.ResponseResult;
+import com.kevin.cloud.commons.dto.UmsAdminLoginLogDto;
+import com.kevin.cloud.commons.platform.dto.FallBackResult;
+import com.kevin.cloud.commons.platform.dto.QueryPageParam;
+import com.kevin.cloud.commons.platform.dto.ResponseResult;
+import com.kevin.cloud.provider.api.ProviderLogService;
 import com.kevin.cloud.service.feign.dto.UmsAdminDTO;
 import com.kevin.cloud.service.controller.fallback.UserServiceControllerFallback;
 import com.kevin.cloud.user.api.UserService;
@@ -76,6 +80,23 @@ public class UserServiceController {
         BeanUtils.copyProperties(umsAdmin, umsAdminDTO);
         return new ResponseResult<UmsAdminDTO>(ResponseResult.CodeStatus.OK, "获取个人信息", umsAdminDTO);
     }
+
+
+    @Reference(version = "1.0.0")
+    private ProviderLogService providerLogService;
+
+
+    //这是测试 分页的方法
+    @GetMapping(value =   "queryByPage")
+    public ResponseResult<UmsAdminLoginLogDto> queryByPageUmsAdminLoginLog(@RequestBody  QueryPageParam queryPageParam){
+        FallBackResult fallBackResult = providerLogService.queryUserLoginLogByPage(queryPageParam);
+        if(fallBackResult.isStatus()){
+            return new ResponseResult(ResponseResult.CodeStatus.OK, "获取个人信息", fallBackResult.getData());
+        }else{
+            return new ResponseResult(ResponseResult.CodeStatus.OK, "获取个人信息", null);
+        }
+    }
+
 
 
 }

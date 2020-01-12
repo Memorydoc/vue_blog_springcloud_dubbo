@@ -1,7 +1,7 @@
 package com.kevin.cloud.message.feign.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.kevin.cloud.platform.dto.CloudBaseDto;
+import com.kevin.cloud.commons.platform.dto.CloudBaseDto;
 import lombok.Data;
 
 import java.io.Serializable;

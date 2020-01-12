@@ -77,7 +77,7 @@
         <!-- Projects Start-->
         <dependency>
             <groupId>com.kevin.cloud.plus</groupId>
-            <artifactId>user-provider-api</artifactId>
+            <artifactId>provider-user-api</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>

@@ -10,7 +10,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>user-provider-service</artifactId>
+    <artifactId>provider-user-service</artifactId>
     <packaging>jar</packaging>
 
     <licenses>
@@ -72,7 +72,7 @@
         <!-- Projects -->
         <dependency>
             <groupId>com.kevin.cloud.plus</groupId>
-            <artifactId>user-provider-api</artifactId>
+            <artifactId>provider-user-api</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
     </dependencies>

@@ -1,5 +1,5 @@
 package com.kevin.cloud.service.config;
-import com.kevin.cloud.service.UserDetailsServiceImpl;
+import com.kevin.cloud.service.service.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

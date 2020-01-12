@@ -53,7 +53,7 @@
         <!-- Projects -->
         <dependency>
             <groupId>com.kevin.cloud.plus</groupId>
-            <artifactId>provider-message-api</artifactId>
+            <artifactId>provider-log-api</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
     </dependencies>

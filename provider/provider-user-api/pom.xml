@@ -11,7 +11,7 @@
 
     </parent>
 
-    <artifactId>user-provider-api</artifactId>
+    <artifactId>provider-user-api</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>

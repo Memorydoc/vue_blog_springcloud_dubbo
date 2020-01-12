@@ -94,6 +94,11 @@
         </dependency>
         <dependency>
             <groupId>com.kevin.cloud.plus</groupId>
+            <artifactId>commons-dto</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.kevin.cloud.plus</groupId>
             <artifactId>configuration-sentinel</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
@@ -103,7 +108,7 @@
     <modules>
         <module>provider-user</module>
         <module>provider-user-api</module>
-        <module>provider-message-api</module>
-        <module>provider-message</module>
+        <module>provider-log</module>
+        <module>provider-log-api</module>
     </modules>
 </project>

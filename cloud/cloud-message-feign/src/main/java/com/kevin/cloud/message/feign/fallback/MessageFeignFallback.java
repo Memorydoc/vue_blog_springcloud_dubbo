@@ -2,7 +2,7 @@ package com.kevin.cloud.message.feign.fallback;
 
 import com.kevin.cloud.message.feign.MessageFeign;
 import com.kevin.cloud.message.feign.dto.UmsAdminLoginLogDTO;
-import com.kevin.cloud.platform.dto.CloudBaseFeign;
+import com.kevin.cloud.commons.platform.dto.CloudBaseFeign;
 import org.springframework.stereotype.Component;
 
 /**

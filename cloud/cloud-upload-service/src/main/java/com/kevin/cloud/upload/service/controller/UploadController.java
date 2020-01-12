@@ -3,7 +3,7 @@ package com.kevin.cloud.upload.service.controller;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.model.PutObjectRequest;
-import com.kevin.cloud.platform.dto.ResponseResult;
+import com.kevin.cloud.commons.platform.dto.ResponseResult;
 import com.kevin.cloud.upload.feign.dto.FileInfo;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

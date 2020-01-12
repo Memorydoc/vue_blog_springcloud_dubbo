@@ -2,7 +2,7 @@ package com.kevin.cloud.upload.feign.feign.fallback;
 
 import com.kevin.cloud.commons.utils.MapperUtils;
 import com.kevin.cloud.upload.feign.feign.UploadFeign;
-import com.kevin.cloud.platform.dto.ResponseResult;
+import com.kevin.cloud.commons.platform.dto.ResponseResult;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
