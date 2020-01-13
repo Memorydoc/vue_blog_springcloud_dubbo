@@ -92,7 +92,7 @@
         </dependency>
         <dependency>
             <groupId>com.kevin.cloud.plus</groupId>
-            <artifactId>user-service-feign</artifactId>
+            <artifactId>service-user-feign</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
 

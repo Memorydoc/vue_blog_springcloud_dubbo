@@ -1,7 +1,7 @@
 package com.kevin.cloud.message.service.producer;
 
 import com.kevin.cloud.message.service.rocketmessage.MessageSource;
-import com.kevin.cloud.provider.api.CloudMessageService;
+import com.kevin.cloud.message.api.CloudMessageService;
 import com.kevin.cloud.commons.platform.dto.MessageCommonDto;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.messaging.support.MessageBuilder;

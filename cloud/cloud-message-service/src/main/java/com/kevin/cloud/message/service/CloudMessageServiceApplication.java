@@ -3,6 +3,7 @@ package com.kevin.cloud.message.service;
 import com.kevin.cloud.message.service.rocketmessage.MessageSource;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 
@@ -13,7 +14,7 @@ import org.springframework.cloud.stream.annotation.EnableBinding;
  * @create: 2020-01-10 16:50
  **/
 
-@SpringBootApplication
+@SpringBootApplication(exclude= {DataSourceAutoConfiguration.class})
 @EnableDiscoveryClient
 @EnableBinding({MessageSource.class}) // 配置消息绑定器
 public class CloudMessageServiceApplication {

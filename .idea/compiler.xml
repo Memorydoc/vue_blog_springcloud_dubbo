@@ -8,24 +8,27 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="commons-platform" />
-        <module name="service-oauth2" />
         <module name="cloud-message-service" />
         <module name="commons-provider" />
         <module name="common-platform" />
         <module name="service-user-feign" />
         <module name="gateway" />
+        <module name="commons-dto" />
         <module name="cloud-message-feign" />
-        <module name="service-user" />
+        <module name="user-service-register" />
+        <module name="configuration-feign" />
         <module name="cloud-upload-service" />
         <module name="provider-user" />
         <module name="message" />
-        <module name="commons-utils" />
-        <module name="provider-message-api" />
-        <module name="configuration-feign" />
-        <module name="cloud-message-api" />
+        <module name="service-user" />
+        <module name="provider-log" />
         <module name="provider-message" />
+        <module name="commons-utils" />
+        <module name="cloud-message-api" />
+        <module name="provider-log-api" />
+        <module name="provider-message-api" />
         <module name="cloud-upload-feign" />
-        <module name="user-service-register" />
+        <module name="service-oauth2" />
         <module name="configuration-sentinel" />
         <module name="provider-user-api" />
       </profile>
@@ -54,6 +57,8 @@
       <module name="message" target="1.8" />
       <module name="parent" target="1.8" />
       <module name="provider" target="1.8" />
+      <module name="provider-log" target="1.8" />
+      <module name="provider-log-api" target="1.8" />
       <module name="provider-message" target="1.8" />
       <module name="provider-message-api" target="1.8" />
       <module name="provider-user" target="1.8" />
@@ -83,6 +88,8 @@
       <module name="configuration-sentinel" options="-parameters" />
       <module name="gateway" options="-parameters" />
       <module name="message" options="-parameters" />
+      <module name="provider-log" options="-parameters" />
+      <module name="provider-log-api" options="-parameters" />
       <module name="provider-message" options="-parameters" />
       <module name="provider-message-api" options="-parameters" />
       <module name="provider-user" options="-parameters" />

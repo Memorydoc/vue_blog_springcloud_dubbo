@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
  * @Date 1/6/2020 3:43 PM
  * Version 1.0
  **/
-@FeignClient(value = "user-service" ,path = "user" ,configuration = FeignRequestConfiguration.class
+@FeignClient(value = "service-user" ,path = "user" ,configuration = FeignRequestConfiguration.class
 , fallback = UserServiceFeignFallBack.class)
 public interface UserServiceFeign {
     /**

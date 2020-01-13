@@ -22,6 +22,11 @@
 
 
     <dependencies>
+        <!--SpringCloud-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
         <!-- Apache Dubbo -->
         <dependency>
             <groupId>com.alibaba.nacos</groupId>

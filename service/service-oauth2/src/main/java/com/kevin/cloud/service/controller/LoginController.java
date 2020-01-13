@@ -10,7 +10,7 @@ import com.kevin.cloud.commons.platform.dto.MessageCommonDto;
 import com.kevin.cloud.commons.platform.dto.ResponseResult;
 import com.kevin.cloud.service.BusinessException;
 import com.kevin.cloud.service.BusinessStatus;
-import com.kevin.cloud.provider.api.CloudMessageService;
+import com.kevin.cloud.message.api.CloudMessageService;
 import com.kevin.cloud.service.feign.UserServiceFeign;
 import com.kevin.cloud.service.dto.LoginParam;
 import com.kevin.cloud.user.api.UserService;

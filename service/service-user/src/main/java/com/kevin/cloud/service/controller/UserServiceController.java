@@ -27,14 +27,14 @@ public class UserServiceController {
     private UserService userService;
 
     @GetMapping("sayHello")
-    public String sayHello(String username){
-        return  userService.sayHello(username);
+    public String sayHello(String username) {
+        return userService.sayHello(username);
     }
 
 
     /**
-     * @Param {@link UmsAdmin}
      * @return {@link ResponseResult}
+     * @Param {@link UmsAdmin}
      */
     @PostMapping(value = "register")
     public ResponseResult<UmsAdmin> register(@RequestBody UmsAdmin umsAdmin) {
@@ -70,11 +70,10 @@ public class UserServiceController {
     }
 
 
-
     @GetMapping(value = "info/{username}")
     @SentinelResource(value = "info", fallback = "infoFallback", fallbackClass = UserServiceControllerFallback.class)
     public ResponseResult<UmsAdminDTO> info(@PathVariable String username) {
-        System.out.println(1/0);
+        System.out.println(1 / 0);
         UmsAdmin umsAdmin = userService.get(username);
         UmsAdminDTO umsAdminDTO = new UmsAdminDTO();
         BeanUtils.copyProperties(umsAdmin, umsAdminDTO);
@@ -87,16 +86,15 @@ public class UserServiceController {
 
 
     //这是测试 分页的方法
-    @GetMapping(value =   "queryByPage")
-    public ResponseResult<UmsAdminLoginLogDto> queryByPageUmsAdminLoginLog(@RequestBody  QueryPageParam queryPageParam){
+    @PostMapping(value = "queryByPage")
+    public ResponseResult<UmsAdminLoginLogDto> queryByPageUmsAdminLoginLog(@RequestBody QueryPageParam queryPageParam) {
         FallBackResult fallBackResult = providerLogService.queryUserLoginLogByPage(queryPageParam);
-        if(fallBackResult.isStatus()){
-            return new ResponseResult(ResponseResult.CodeStatus.OK, "获取个人信息", fallBackResult.getData());
-        }else{
-            return new ResponseResult(ResponseResult.CodeStatus.OK, "获取个人信息", null);
+        if (fallBackResult.isStatus()) {
+            return new ResponseResult(ResponseResult.CodeStatus.OK, "分页获取登录日志成功", fallBackResult.getData());
+        } else {
+            return new ResponseResult(ResponseResult.CodeStatus.OK, "分页获取登录日志失败", null);
         }
     }
-
 
 
 }
