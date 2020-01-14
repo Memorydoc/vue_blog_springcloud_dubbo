@@ -87,6 +87,7 @@ public class UserServiceController {
 
     //这是测试 分页的方法
     @PostMapping(value = "queryByPage")
+    @SentinelResource(value = "queryByPage", fallback = "queryByPageUmsAdminLoginLogFallback", fallbackClass = UserServiceControllerFallback.class)
     public ResponseResult<UmsAdminLoginLogDto> queryByPageUmsAdminLoginLog(@RequestBody QueryPageParam queryPageParam) {
         FallBackResult fallBackResult = providerLogService.queryUserLoginLogByPage(queryPageParam);
         if (fallBackResult.isStatus()) {

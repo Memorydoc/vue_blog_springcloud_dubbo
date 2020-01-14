@@ -6,6 +6,7 @@ import com.github.pagehelper.PageInfo;
 import com.kevin.cloud.commons.platform.dto.FallBackResult;
 import com.kevin.cloud.commons.platform.dto.PageResult;
 import com.kevin.cloud.commons.platform.dto.QueryPageParam;
+import com.kevin.cloud.commons.platform.utils.BaseServiceUtils;
 import com.kevin.cloud.provider.api.ProviderLogService;
 import com.kevin.cloud.provider.domain.UmsAdminLoginLog;
 import com.kevin.cloud.provider.mapper.UmsAdminLoginLogMapper;
@@ -36,7 +37,7 @@ public class ProviderLogServiceImpl implements ProviderLogService {
         Example example = new Example(UmsAdminLoginLog.class);
         List<UmsAdminLoginLog> umsAdminLoginLogs = umsAdminLoginLogMapper.selectByExample(example);
         PageInfo pageInfo =  new PageInfo(umsAdminLoginLogs);
-        PageResult pageResult = PageResult.builder().size(pageInfo.getSize()).list(pageInfo.getList()).pageNum(pageInfo.getPageNum()).pageSize(pageInfo.getPageSize()).build();
+        PageResult pageResult = BaseServiceUtils.buildPageResult(pageInfo);
         fallBackResult.setData(pageResult);
         return fallBackResult;
     }

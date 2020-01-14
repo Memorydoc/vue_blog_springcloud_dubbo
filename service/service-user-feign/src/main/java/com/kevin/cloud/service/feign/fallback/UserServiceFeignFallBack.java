@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class UserServiceFeignFallBack implements UserServiceFeign {
-    public static final String BREAKING_MESSAGE = "请求失败了，请检查您的网络";
+    public static final String BREAKING_MESSAGE = "用户服务发生了熔断，请检查服务健康状态";
 
     @Override
     public String info(String username) {

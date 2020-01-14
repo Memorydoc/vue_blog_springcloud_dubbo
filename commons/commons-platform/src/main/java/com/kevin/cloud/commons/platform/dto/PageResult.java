@@ -27,7 +27,7 @@ public class PageResult<T> implements Serializable {
     private int pageNum;    // 第几页
     private int pageSize;    // 每页记录数
     private int pages;        // 总页数
-    private int size;        // 就是返回的数据条数，
+    /*private int size;        // 就是返回的数据条数，*/
 
 
 }

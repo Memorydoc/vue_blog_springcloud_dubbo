@@ -118,8 +118,6 @@ public class LoginController {
         if (umsAdmin.getUsername() == null) {
             return new ResponseResult<>(ResponseResult.CodeStatus.ILLEGAL_REQUEST, "服务发生了熔断", umsAdmin);
         }
-
-
         // 如果触发熔断则返回熔断结果
         if (umsAdmin == null) {
             return MapperUtils.json2pojo(jsonString, ResponseResult.class);
