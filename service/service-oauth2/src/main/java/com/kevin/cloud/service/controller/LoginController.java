@@ -61,6 +61,10 @@ public class LoginController {
     @Reference(version = "1.0.0")
     private CloudMessageService cloudMessageService;
 
+
+    @Value("${server.port}")
+    private int port;
+
     @PostMapping(value = "login")
     public ResponseResult<Map<String, Object>> login(@RequestBody LoginParam loginParam, HttpServletRequest request) throws Exception {
         Map<String, String> map = new HashMap<String, String>();
@@ -70,7 +74,7 @@ public class LoginController {
         if (userDetails == null || !passwordEncoder.matches(loginParam.getPassword(), userDetails.getPassword())) {
             throw new BusinessException(BusinessStatus.ADMIN_PASSWORD);
         }
-        String url = "http://localhost:9001/oauth/token";
+        String url = "http://localhost:" + port + "/oauth/token";
         map.put("username", loginParam.getUsername());
         map.put("password", loginParam.getPassword());
         map.put("grant_type", oauth2GrantType);
@@ -86,6 +90,7 @@ public class LoginController {
         sendAdminLoginLogByMessage(request);
         return new ResponseResult<Map<String, Object>>(ResponseResult.CodeStatus.OK, "登录成功", result);
     }
+
 
     private void sendAdminLoginLogByMessage(HttpServletRequest request) {
         MessageCommonDto messageCommonDto = new MessageCommonDto();

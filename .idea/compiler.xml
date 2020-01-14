@@ -9,11 +9,13 @@
         <outputRelativeToContentRoot value="true" />
         <module name="commons-platform" />
         <module name="cloud-message-service" />
+        <module name="provider-blog-api" />
         <module name="commons-provider" />
         <module name="common-platform" />
         <module name="service-user-feign" />
         <module name="gateway" />
         <module name="commons-dto" />
+        <module name="provider-blog" />
         <module name="cloud-message-feign" />
         <module name="provider-log-api" />
         <module name="configuration-feign" />
@@ -57,6 +59,8 @@
       <module name="message" target="1.8" />
       <module name="parent" target="1.8" />
       <module name="provider" target="1.8" />
+      <module name="provider-blog" target="1.8" />
+      <module name="provider-blog-api" target="1.8" />
       <module name="provider-log" target="1.8" />
       <module name="provider-log-api" target="1.8" />
       <module name="provider-message" target="1.8" />
@@ -88,6 +92,8 @@
       <module name="configuration-sentinel" options="-parameters" />
       <module name="gateway" options="-parameters" />
       <module name="message" options="-parameters" />
+      <module name="provider-blog" options="-parameters" />
+      <module name="provider-blog-api" options="-parameters" />
       <module name="provider-log" options="-parameters" />
       <module name="provider-log-api" options="-parameters" />
       <module name="provider-message" options="-parameters" />

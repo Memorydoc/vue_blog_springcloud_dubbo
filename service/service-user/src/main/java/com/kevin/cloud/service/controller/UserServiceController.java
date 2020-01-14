@@ -73,7 +73,6 @@ public class UserServiceController {
     @GetMapping(value = "info/{username}")
     @SentinelResource(value = "info", fallback = "infoFallback", fallbackClass = UserServiceControllerFallback.class)
     public ResponseResult<UmsAdminDTO> info(@PathVariable String username) {
-        System.out.println(1 / 0);
         UmsAdmin umsAdmin = userService.get(username);
         UmsAdminDTO umsAdminDTO = new UmsAdminDTO();
         BeanUtils.copyProperties(umsAdmin, umsAdminDTO);
