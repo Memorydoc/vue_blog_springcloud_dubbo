@@ -8,7 +8,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
  * @program: vue-blog-backend
- * @description:
+ * @description: 博客服务
  * @author: kevin
  * @create: 2020-01-14 23:49
  **/
