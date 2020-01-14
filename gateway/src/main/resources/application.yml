@@ -23,7 +23,8 @@ spring:
           enabled: true
       # 配置路由规则
       routes:
-        # 采用自定义路由 ID（有固定用法，不同的 id 有不同的功能，详见：https://cloud.spring.io/spring-cloud-gateway/2.0.x/single/spring-cloud-gateway.html#gateway-route-filters）
+        # 采用自定义路由 ID（有固定用法，不同的 id 有不同的功能，详见：
+        #https://cloud.spring.io/spring-cloud-gateway/2.0.x/single/spring-cloud-gateway.html#gateway-route-filters）
         - id: SERVICE-OAUTH2
           # 采用 LoadBalanceClient 方式请求，以 lb:// 开头，后面的是注册在 Nacos 上的服务名
           # 这里的 在nacos中的服务名，最好不要用下划线的服务名，我遇到了这个坑，用下划线找不到
@@ -36,7 +37,7 @@ spring:
             # 前缀过滤，默认配置下，我们的请求路径是 http://localhost:8888/kevin-cloud-oauth2/** 这时会路由到指定的服务
             # 此处配置去掉 1 个路径前缀，再配置上面的 Path=/api/**，就能按照 http://localhost:8888/api/** 的方式访问了
             - StripPrefix=1
-        - id: SERVICE-USER
+        - id: service-user
           uri: lb://service-user
           predicates:
             - Path=/api/user/**

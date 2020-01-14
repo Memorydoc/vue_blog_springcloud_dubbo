@@ -4,6 +4,7 @@ import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.kevin.cloud.commons.platform.dto.FallBackResult;
+import com.kevin.cloud.commons.platform.dto.PageResult;
 import com.kevin.cloud.commons.platform.dto.QueryPageParam;
 import com.kevin.cloud.provider.api.ProviderLogService;
 import com.kevin.cloud.provider.domain.UmsAdminLoginLog;
@@ -34,8 +35,9 @@ public class ProviderLogServiceImpl implements ProviderLogService {
         PageHelper.startPage(queryPageParam.getPageNum(), queryPageParam.getPageSize());
         Example example = new Example(UmsAdminLoginLog.class);
         List<UmsAdminLoginLog> umsAdminLoginLogs = umsAdminLoginLogMapper.selectByExample(example);
-        PageInfo pageInfo =  new PageInfo<UmsAdminLoginLog>(umsAdminLoginLogs);
-        fallBackResult.setData(pageInfo);
+        PageInfo pageInfo =  new PageInfo(umsAdminLoginLogs);
+        PageResult pageResult = PageResult.builder().size(pageInfo.getSize()).list(pageInfo.getList()).pageNum(pageInfo.getPageNum()).pageSize(pageInfo.getPageSize()).build();
+        fallBackResult.setData(pageResult);
         return fallBackResult;
     }
 
