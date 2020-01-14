@@ -78,5 +78,7 @@
         <module>service-oauth2</module>
         <module>service-user</module>
         <module>service-user-feign</module>
+        <module>service-blog</module>
+        <module>service-blog-feign</module>
     </modules>
 </project>

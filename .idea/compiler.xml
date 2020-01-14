@@ -9,7 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="commons-platform" />
         <module name="cloud-message-service" />
-        <module name="provider-blog-api" />
+        <module name="service-blog-feign" />
         <module name="commons-provider" />
         <module name="common-platform" />
         <module name="service-user-feign" />
@@ -19,19 +19,21 @@
         <module name="cloud-message-feign" />
         <module name="provider-log-api" />
         <module name="configuration-feign" />
-        <module name="service-oauth2" />
+        <module name="service-user" />
         <module name="cloud-upload-service" />
         <module name="provider-user" />
         <module name="message" />
-        <module name="service-user" />
-        <module name="configuration-sentinel" />
-        <module name="provider-message-api" />
+        <module name="provider-blog-api" />
+        <module name="provider-log" />
+        <module name="provider-message" />
         <module name="commons-utils" />
         <module name="cloud-message-api" />
-        <module name="provider-message" />
+        <module name="provider-message-api" />
         <module name="cloud-upload-feign" />
+        <module name="service-oauth2" />
+        <module name="configuration-sentinel" />
         <module name="user-service-register" />
-        <module name="provider-log" />
+        <module name="service-blog" />
         <module name="provider-user-api" />
       </profile>
     </annotationProcessing>
@@ -68,6 +70,8 @@
       <module name="provider-user" target="1.8" />
       <module name="provider-user-api" target="1.8" />
       <module name="service" target="1.8" />
+      <module name="service-blog" target="1.8" />
+      <module name="service-blog-feign" target="1.8" />
       <module name="service-oauth2" target="1.8" />
       <module name="service-user" target="1.8" />
       <module name="service-user-feign" target="1.8" />
@@ -100,6 +104,8 @@
       <module name="provider-message-api" options="-parameters" />
       <module name="provider-user" options="-parameters" />
       <module name="provider-user-api" options="-parameters" />
+      <module name="service-blog" options="-parameters" />
+      <module name="service-blog-feign" options="-parameters" />
       <module name="service-oauth2" options="-parameters" />
       <module name="service-user" options="-parameters" />
       <module name="service-user-feign" options="-parameters" />
