@@ -15,21 +15,21 @@
         <module name="gateway" />
         <module name="commons-dto" />
         <module name="cloud-message-feign" />
-        <module name="user-service-register" />
+        <module name="provider-log-api" />
         <module name="configuration-feign" />
+        <module name="service-oauth2" />
         <module name="cloud-upload-service" />
         <module name="provider-user" />
         <module name="message" />
         <module name="service-user" />
-        <module name="provider-log" />
-        <module name="provider-message" />
+        <module name="configuration-sentinel" />
+        <module name="provider-message-api" />
         <module name="commons-utils" />
         <module name="cloud-message-api" />
-        <module name="provider-log-api" />
-        <module name="provider-message-api" />
+        <module name="provider-message" />
         <module name="cloud-upload-feign" />
-        <module name="service-oauth2" />
-        <module name="configuration-sentinel" />
+        <module name="user-service-register" />
+        <module name="provider-log" />
         <module name="provider-user-api" />
       </profile>
     </annotationProcessing>
