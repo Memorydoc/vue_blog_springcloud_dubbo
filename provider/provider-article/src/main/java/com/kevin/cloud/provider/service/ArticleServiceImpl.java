@@ -8,17 +8,13 @@ import com.kevin.cloud.commons.platform.dto.FallBackResult;
 import com.kevin.cloud.commons.platform.dto.PageResult;
 import com.kevin.cloud.commons.platform.dto.QueryPageParam;
 import com.kevin.cloud.commons.platform.utils.BaseServiceUtils;
-import com.kevin.cloud.commons.utils.MapperUtils;
 import com.kevin.cloud.provider.api.ArticleService;
 import com.kevin.cloud.provider.domain.SiArticle;
 import com.kevin.cloud.provider.mapper.SiArticleMapper;
 import com.kevin.cloud.provider.service.fallback.ArticleServiceDubboFallBack;
-import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.Date;
