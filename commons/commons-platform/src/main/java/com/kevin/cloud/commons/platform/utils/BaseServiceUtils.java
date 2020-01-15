@@ -15,7 +15,8 @@ public class BaseServiceUtils {
       return   PageResult.builder().pages(pageInfo.getPages())
               .list(pageInfo.getList())
               .pageNum(pageInfo.getPageNum())
-              .pageSize(pageInfo.getPageSize()).build();
+              .pageSize(pageInfo.getPageSize())
+              .total(pageInfo.getTotal()).build();
     }
 
 }

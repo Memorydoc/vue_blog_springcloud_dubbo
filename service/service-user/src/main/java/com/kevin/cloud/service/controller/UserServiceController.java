@@ -7,6 +7,7 @@ import com.kevin.cloud.commons.platform.dto.FallBackResult;
 import com.kevin.cloud.commons.platform.dto.QueryPageParam;
 import com.kevin.cloud.commons.platform.dto.ResponseResult;
 import com.kevin.cloud.provider.api.ProviderLogService;
+import com.kevin.cloud.provider.api.RoleService;
 import com.kevin.cloud.service.feign.dto.UmsAdminDTO;
 import com.kevin.cloud.service.controller.fallback.UserServiceControllerFallback;
 import com.kevin.cloud.user.api.UserService;

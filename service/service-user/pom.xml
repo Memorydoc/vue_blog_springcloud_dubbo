@@ -71,6 +71,11 @@
             <artifactId>service-user-feign</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.kevin.cloud.plus</groupId>
+            <artifactId>provider-blog-api</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
         <!--Projects End-->
     </dependencies>
 

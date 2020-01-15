@@ -1,7 +1,7 @@
 package com.kevin.cloud.provider.api;
 
 
-import com.kevin.cloud.domain.Menu;
+import com.kevin.cloud.provider.domain.Menu;
 
 import java.util.List;
 

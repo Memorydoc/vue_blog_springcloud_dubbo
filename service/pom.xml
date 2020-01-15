@@ -70,7 +70,11 @@
             <artifactId>commons-dto</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.kevin.cloud.plus</groupId>
+            <artifactId>provider-blog-api</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
         <!-- Projects End-->
     </dependencies>
 
@@ -80,5 +84,7 @@
         <module>service-user-feign</module>
         <module>service-blog</module>
         <module>service-blog-feign</module>
+        <module>service-article</module>
+        <module>service-article-feign</module>
     </modules>
 </project>

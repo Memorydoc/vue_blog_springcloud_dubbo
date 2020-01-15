@@ -55,6 +55,18 @@ spring:
             - Path=/api/message/**
           filters:
             - StripPrefix=1
+        - id: SERVICE-BLOG
+          uri: lb://service-blog
+          predicates:
+            - Path=/api/blog/**
+          filters:
+            - StripPrefix=1
+        - id: SERVICE-ARTICLE
+          uri: lb://service-article
+          predicates:
+            - Path=/api/article/**
+          filters:
+            - StripPrefix=1
 
 server:
   port: 8888

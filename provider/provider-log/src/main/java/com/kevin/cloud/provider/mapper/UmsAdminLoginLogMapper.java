@@ -1,7 +1,7 @@
 package com.kevin.cloud.provider.mapper;
 
 import com.kevin.cloud.provider.domain.UmsAdminLoginLog;
-import tk.mybatis.mapper.common.Mapper;
+import tk.mybatis.mapper.MyMapper;
 
-public interface UmsAdminLoginLogMapper extends Mapper<UmsAdminLoginLog> {
+public interface UmsAdminLoginLogMapper extends MyMapper<UmsAdminLoginLog> {
 }

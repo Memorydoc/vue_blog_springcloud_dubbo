@@ -1,7 +1,7 @@
 package com.kevin.cloud.provider.service;
 
-import com.kevin.cloud.domain.Menu;
 import com.kevin.cloud.provider.api.MenuService;
+import com.kevin.cloud.provider.domain.Menu;
 import com.kevin.cloud.provider.mapper.MenuMapper;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;

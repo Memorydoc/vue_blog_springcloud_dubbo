@@ -3,6 +3,8 @@ package com.kevin.cloud.service.controller;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.google.common.collect.Maps;
 import com.kevin.cloud.commons.dto.IpInfo;
+import com.kevin.cloud.commons.dto.RoleUserDto;
+import com.kevin.cloud.commons.dto.user.UmsAdminDto;
 import com.kevin.cloud.commons.utils.MapperUtils;
 import com.kevin.cloud.commons.utils.OkHttpClientUtil;
 import com.kevin.cloud.commons.utils.UserAgentUtils;
@@ -17,12 +19,19 @@ import com.kevin.cloud.user.api.UserService;
 import com.kevin.cloud.user.domain.UmsAdmin;
 import okhttp3.Response;
 import org.apache.dubbo.config.annotation.Reference;
+import org.bouncycastle.util.Arrays;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,7 +41,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -111,24 +123,52 @@ public class LoginController {
     }
 
     @GetMapping(value = "infoByFeign")
-    //@SentinelResource(value = "infoByFeign", fallback = "infoFallback")
-    public ResponseResult<UmsAdmin> infoByFeign() throws Exception {
+    public ResponseResult<UmsAdminDto> infoByFeign() throws Exception {
         // 获取认证信息
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
         // 获取个人信息
         String jsonString = userServiceFeign.info(authentication.getName());
 
         UmsAdmin umsAdmin = MapperUtils.json2pojoByTree(jsonString, "data", UmsAdmin.class);
-
+        UmsAdminDto umsAdminDto = new UmsAdminDto();
         if (umsAdmin.getUsername() == null) {
-            return new ResponseResult<>(ResponseResult.CodeStatus.ILLEGAL_REQUEST, "服务发生了熔断", umsAdmin);
+            return new ResponseResult<UmsAdminDto>(ResponseResult.CodeStatus.ILLEGAL_REQUEST, "服务发生了熔断", umsAdminDto);
         }
+        BeanUtils.copyProperties(umsAdmin, umsAdminDto);
+        Collection<? extends GrantedAuthority> grantedAuthorities = authentication.getAuthorities();
+        List<String> roleCodes = new ArrayList<>();
+        for (GrantedAuthority grantedAuthority : grantedAuthorities) {
+            roleCodes.add(grantedAuthority.getAuthority());
+        }
+        umsAdminDto.setRoleUserDtoList(roleCodes);
+
+
         // 如果触发熔断则返回熔断结果
         if (umsAdmin == null) {
             return MapperUtils.json2pojo(jsonString, ResponseResult.class);
         }
-        return new ResponseResult<UmsAdmin>(ResponseResult.CodeStatus.OK, "通过feign获取个人信息", umsAdmin);
+        return new ResponseResult<UmsAdminDto>(ResponseResult.CodeStatus.OK, "通过feign获取个人信息", umsAdminDto);
     }
 
+
+    @Autowired
+    private TokenStore tokenStore;
+
+    /**
+     * 注销
+     *
+     * @return {@link ResponseResult}
+     */
+    @PreAuthorize("hasAuthority('USER')")
+    @PostMapping(value = "logout")
+    public ResponseResult<Void> logout(HttpServletRequest request) {
+        // 获取 token
+        String token = request.getParameter("access_token");
+        // 删除 token 以注销
+        OAuth2AccessToken oAuth2AccessToken = tokenStore.readAccessToken(token);
+        tokenStore.removeAccessToken(oAuth2AccessToken);
+        return new ResponseResult<Void>(ResponseResult.CodeStatus.OK, "用户已注销");
+    }
 
 }

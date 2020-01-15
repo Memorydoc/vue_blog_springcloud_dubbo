@@ -7,34 +7,38 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="commons-platform" />
-        <module name="cloud-message-service" />
-        <module name="service-blog-feign" />
-        <module name="commons-provider" />
-        <module name="common-platform" />
-        <module name="service-user-feign" />
-        <module name="gateway" />
-        <module name="commons-dto" />
-        <module name="provider-blog" />
-        <module name="cloud-message-feign" />
-        <module name="provider-log-api" />
-        <module name="configuration-feign" />
-        <module name="service-user" />
-        <module name="cloud-upload-service" />
-        <module name="provider-user" />
-        <module name="message" />
-        <module name="provider-blog-api" />
-        <module name="provider-log" />
-        <module name="provider-message" />
-        <module name="commons-utils" />
         <module name="cloud-message-api" />
-        <module name="provider-message-api" />
+        <module name="common-platform" />
+        <module name="provider-log" />
+        <module name="service-blog-feign" />
         <module name="cloud-upload-feign" />
-        <module name="service-oauth2" />
+        <module name="provider-user" />
         <module name="configuration-sentinel" />
+        <module name="cloud-upload-service" />
         <module name="user-service-register" />
-        <module name="service-blog" />
+        <module name="cloud-message-service" />
+        <module name="provider-log-api" />
+        <module name="service-article-feign" />
+        <module name="service-user" />
+        <module name="commons-utils" />
+        <module name="provider-message" />
         <module name="provider-user-api" />
+        <module name="service-article" />
+        <module name="service-user-feign" />
+        <module name="commons-dto" />
+        <module name="service-blog" />
+        <module name="cloud-message-feign" />
+        <module name="provider-article" />
+        <module name="provider-message-api" />
+        <module name="service-oauth2" />
+        <module name="provider-blog-api" />
+        <module name="configuration-feign" />
+        <module name="commons-provider" />
+        <module name="provider-blog" />
+        <module name="gateway" />
+        <module name="commons-platform" />
+        <module name="message" />
+        <module name="provider-article-api" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -61,6 +65,8 @@
       <module name="message" target="1.8" />
       <module name="parent" target="1.8" />
       <module name="provider" target="1.8" />
+      <module name="provider-article" target="1.8" />
+      <module name="provider-article-api" target="1.8" />
       <module name="provider-blog" target="1.8" />
       <module name="provider-blog-api" target="1.8" />
       <module name="provider-log" target="1.8" />
@@ -70,6 +76,8 @@
       <module name="provider-user" target="1.8" />
       <module name="provider-user-api" target="1.8" />
       <module name="service" target="1.8" />
+      <module name="service-article" target="1.8" />
+      <module name="service-article-feign" target="1.8" />
       <module name="service-blog" target="1.8" />
       <module name="service-blog-feign" target="1.8" />
       <module name="service-oauth2" target="1.8" />
@@ -96,6 +104,8 @@
       <module name="configuration-sentinel" options="-parameters" />
       <module name="gateway" options="-parameters" />
       <module name="message" options="-parameters" />
+      <module name="provider-article" options="-parameters" />
+      <module name="provider-article-api" options="-parameters" />
       <module name="provider-blog" options="-parameters" />
       <module name="provider-blog-api" options="-parameters" />
       <module name="provider-log" options="-parameters" />
@@ -104,6 +114,8 @@
       <module name="provider-message-api" options="-parameters" />
       <module name="provider-user" options="-parameters" />
       <module name="provider-user-api" options="-parameters" />
+      <module name="service-article" options="-parameters" />
+      <module name="service-article-feign" options="-parameters" />
       <module name="service-blog" options="-parameters" />
       <module name="service-blog-feign" options="-parameters" />
       <module name="service-oauth2" options="-parameters" />

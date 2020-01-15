@@ -18,7 +18,11 @@ public abstract class BaseFallBack implements IBaseFallBack {
             fallBackResultEnd = new FallBackResult();
         }
         fallBackResultEnd.setStatus(false);
-        fallBackResultEnd.setFallbackReason(throwable.toString().substring(0, errorLength));
+        if(throwable.toString().length() >= errorLength){
+            fallBackResultEnd.setFallbackReason(throwable.toString().substring(0, errorLength));
+        }else{
+            fallBackResultEnd.setFallbackReason(throwable.toString());
+        }
         return fallBackResultEnd;
     }
 
