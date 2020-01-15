@@ -13,8 +13,6 @@ import com.kevin.cloud.provider.api.ArticleService;
 import com.kevin.cloud.provider.domain.SiArticle;
 import com.kevin.cloud.provider.mapper.SiArticleMapper;
 import com.kevin.cloud.provider.service.fallback.ArticleServiceDubboFallBack;
-import com.kevin.cloud.user.api.UserService;
-import com.kevin.cloud.user.domain.UmsAdmin;
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.BeanUtils;
