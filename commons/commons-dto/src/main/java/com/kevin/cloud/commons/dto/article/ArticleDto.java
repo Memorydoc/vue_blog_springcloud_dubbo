@@ -10,6 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @program: vue-blog-backend
@@ -23,6 +24,9 @@ import java.util.Date;
 @NoArgsConstructor
 @Builder
 public class ArticleDto implements Serializable {
+
+    private List<Long> deleteIdArr;
+
     private static final long serialVersionUID = -5031493477217878426L;
     /**
      * id

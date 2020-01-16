@@ -5,6 +5,8 @@ import com.kevin.cloud.commons.platform.dto.FallBackResult;
 import com.kevin.cloud.commons.platform.dto.QueryPageParam;
 import com.kevin.cloud.provider.domain.SiArticle;
 
+import java.util.List;
+
 
 /**
  * @program: vue-blog-backend
@@ -19,5 +21,7 @@ public interface ArticleService {
     public ArticleDto viewArticleById(Long articleId);
 
     public int saveArticle(SiArticle siArticled);
+
+    public int deleteIdArr(List<Long> idArr);
 
 }

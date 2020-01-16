@@ -61,5 +61,12 @@ public class ArticleServiceImpl implements ArticleService {
         return siArticleMapper.updateByExampleSelective(siArticle, example);
     }
 
+    @Override
+    public int deleteIdArr(List<Long> idArr) {
+        Example example = new Example(SiArticle.class);
+        example.createCriteria().andIn("id", idArr);
+        return  siArticleMapper.deleteByExample(example);
+    }
+
 
 }

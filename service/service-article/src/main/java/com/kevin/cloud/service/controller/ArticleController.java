@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * @program: vue-blog-backend
  * @description: 文章接口服务
@@ -65,6 +67,15 @@ public class ArticleController {
         siArticle.setUpdateBy(umsAdmin.getId());
         int i = articleService.saveArticle(siArticle);
         return new ResponseResult(ResponseResult.CodeStatus.OK, "修改成功", null);
+    }
+
+    /**
+     * 删除文章
+     */
+    @PostMapping("deleteArticle")
+    public ResponseResult deleteArticle(@RequestBody ArticleDto articleDto){
+        int i = articleService.deleteIdArr(articleDto.getDeleteIdArr());
+        return  new ResponseResult(ResponseResult.CodeStatus.OK, "删除成功", null);
     }
 
 }
