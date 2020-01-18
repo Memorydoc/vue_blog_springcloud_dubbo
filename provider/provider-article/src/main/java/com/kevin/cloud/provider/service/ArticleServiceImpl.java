@@ -3,10 +3,10 @@ package com.kevin.cloud.provider.service;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.kevin.cloud.commons.dto.article.ArticleDto;
+import com.kevin.cloud.commons.dto.QueryPageParam;
+import com.kevin.cloud.commons.dto.article.dto.ArticleDto;
 import com.kevin.cloud.commons.platform.dto.FallBackResult;
 import com.kevin.cloud.commons.platform.dto.PageResult;
-import com.kevin.cloud.commons.platform.dto.QueryPageParam;
 import com.kevin.cloud.commons.platform.utils.BaseServiceUtils;
 import com.kevin.cloud.provider.api.ArticleService;
 import com.kevin.cloud.provider.domain.SiArticle;
@@ -50,8 +50,6 @@ public class ArticleServiceImpl implements ArticleService {
         BeanUtils.copyProperties(siArticle, articleDto);
         return articleDto;
     }
-
-
 
     @Override
     public int saveArticle(SiArticle siArticle) {

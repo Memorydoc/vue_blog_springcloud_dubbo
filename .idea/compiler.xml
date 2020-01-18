@@ -9,11 +9,10 @@
         <outputRelativeToContentRoot value="true" />
         <module name="cloud-message-api" />
         <module name="common-platform" />
-        <module name="provider-log" />
         <module name="service-blog-feign" />
-        <module name="cloud-upload-feign" />
-        <module name="provider-user" />
         <module name="configuration-sentinel" />
+        <module name="provider-user" />
+        <module name="provider-blog" />
         <module name="cloud-upload-service" />
         <module name="user-service-register" />
         <module name="cloud-message-service" />
@@ -24,17 +23,20 @@
         <module name="provider-message" />
         <module name="provider-user-api" />
         <module name="service-article" />
+        <module name="provider-elasticsearch" />
         <module name="service-user-feign" />
         <module name="commons-dto" />
         <module name="service-blog" />
         <module name="cloud-message-feign" />
         <module name="provider-article" />
         <module name="provider-message-api" />
+        <module name="cloud-upload-feign" />
         <module name="service-oauth2" />
         <module name="provider-blog-api" />
         <module name="configuration-feign" />
         <module name="commons-provider" />
-        <module name="provider-blog" />
+        <module name="provider-elasticsearch-api" />
+        <module name="provider-log" />
         <module name="gateway" />
         <module name="commons-platform" />
         <module name="message" />
@@ -44,6 +46,7 @@
     <bytecodeTargetLevel>
       <module name="business-oauth2" target="1.8" />
       <module name="cloud" target="1.8" />
+      <module name="cloud-elasticsearch-service" target="1.8" />
       <module name="cloud-message-api" target="1.8" />
       <module name="cloud-message-feign" target="1.8" />
       <module name="cloud-message-service" target="1.8" />
@@ -69,6 +72,8 @@
       <module name="provider-article-api" target="1.8" />
       <module name="provider-blog" target="1.8" />
       <module name="provider-blog-api" target="1.8" />
+      <module name="provider-elasticsearch" target="1.8" />
+      <module name="provider-elasticsearch-api" target="1.8" />
       <module name="provider-log" target="1.8" />
       <module name="provider-log-api" target="1.8" />
       <module name="provider-message" target="1.8" />
@@ -90,6 +95,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="business-oauth2" options="-parameters" />
       <module name="cloud" options="-parameters" />
+      <module name="cloud-elasticsearch-service" options="-parameters" />
       <module name="cloud-message-api" options="-parameters" />
       <module name="cloud-message-feign" options="-parameters" />
       <module name="cloud-message-service" options="-parameters" />
@@ -108,6 +114,8 @@
       <module name="provider-article-api" options="-parameters" />
       <module name="provider-blog" options="-parameters" />
       <module name="provider-blog-api" options="-parameters" />
+      <module name="provider-elasticsearch" options="-parameters" />
+      <module name="provider-elasticsearch-api" options="-parameters" />
       <module name="provider-log" options="-parameters" />
       <module name="provider-log-api" options="-parameters" />
       <module name="provider-message" options="-parameters" />

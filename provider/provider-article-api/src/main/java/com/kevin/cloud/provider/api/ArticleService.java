@@ -1,8 +1,8 @@
 package com.kevin.cloud.provider.api;
 
-import com.kevin.cloud.commons.dto.article.ArticleDto;
+import com.kevin.cloud.commons.dto.QueryPageParam;
+import com.kevin.cloud.commons.dto.article.dto.ArticleDto;
 import com.kevin.cloud.commons.platform.dto.FallBackResult;
-import com.kevin.cloud.commons.platform.dto.QueryPageParam;
 import com.kevin.cloud.provider.domain.SiArticle;
 
 import java.util.List;

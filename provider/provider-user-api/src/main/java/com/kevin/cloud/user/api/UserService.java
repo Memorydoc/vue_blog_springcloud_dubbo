@@ -1,6 +1,11 @@
 package com.kevin.cloud.user.api;
 
+import com.kevin.cloud.commons.dto.user.dto.UmsAdminDto;
+import com.kevin.cloud.commons.dto.user.vo.UmsAdminVo;
+import com.kevin.cloud.commons.platform.dto.PageResult;
 import com.kevin.cloud.user.domain.UmsAdmin;
+
+import java.util.List;
 
 public interface UserService {
 
@@ -24,4 +29,9 @@ public interface UserService {
      */
     UmsAdmin get(UmsAdmin umsAdmin);
 
+    PageResult userList(UmsAdminVo umsAdminVo);
+
+    int deleteUser(UmsAdminVo umsAdminVo);
+
+    int editUser(UmsAdminVo umsAdminVo);
 }

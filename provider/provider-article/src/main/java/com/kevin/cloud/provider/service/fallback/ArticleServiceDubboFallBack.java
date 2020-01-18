@@ -1,7 +1,7 @@
 package com.kevin.cloud.provider.service.fallback;
 
+import com.kevin.cloud.commons.dto.QueryPageParam;
 import com.kevin.cloud.commons.platform.dto.FallBackResult;
-import com.kevin.cloud.commons.platform.dto.QueryPageParam;
 import com.kevin.cloud.commons.platform.service.fallback.BaseFallBack;
 
 /**

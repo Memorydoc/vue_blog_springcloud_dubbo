@@ -1,4 +1,4 @@
-package com.kevin.cloud.commons.dto.article;
+package com.kevin.cloud.commons.dto.article.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;

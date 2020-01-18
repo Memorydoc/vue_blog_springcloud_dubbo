@@ -1,6 +1,6 @@
 package com.kevin.cloud.service.controller.fallback;
 
-import com.kevin.cloud.commons.platform.dto.QueryPageParam;
+import com.kevin.cloud.commons.dto.QueryPageParam;
 import com.kevin.cloud.commons.platform.dto.ResponseResult;
 import com.kevin.cloud.service.feign.dto.UmsAdminDTO;
 import com.kevin.cloud.service.feign.fallback.UserServiceFeignFallBack;

@@ -1,9 +1,9 @@
 package com.kevin.cloud.service.controller;
 
-import com.kevin.cloud.commons.dto.article.ArticleDto;
+import com.kevin.cloud.commons.dto.QueryPageParam;
+import com.kevin.cloud.commons.dto.article.dto.ArticleDto;
 import com.kevin.cloud.commons.platform.dto.FallBackResult;
 import com.kevin.cloud.commons.platform.dto.PageResult;
-import com.kevin.cloud.commons.platform.dto.QueryPageParam;
 import com.kevin.cloud.commons.platform.dto.ResponseResult;
 import com.kevin.cloud.provider.api.ArticleService;
 import com.kevin.cloud.provider.domain.SiArticle;
@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 /**
  * @program: vue-blog-backend
@@ -77,5 +75,7 @@ public class ArticleController {
         int i = articleService.deleteIdArr(articleDto.getDeleteIdArr());
         return  new ResponseResult(ResponseResult.CodeStatus.OK, "删除成功", null);
     }
+
+
 
 }

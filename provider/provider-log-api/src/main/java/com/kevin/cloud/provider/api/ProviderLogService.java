@@ -1,7 +1,7 @@
 package com.kevin.cloud.provider.api;
 
+import com.kevin.cloud.commons.dto.QueryPageParam;
 import com.kevin.cloud.commons.platform.dto.FallBackResult;
-import com.kevin.cloud.commons.platform.dto.QueryPageParam;
 import com.kevin.cloud.provider.domain.UmsAdminLoginLog;
 
 /**

@@ -1,4 +1,4 @@
-package com.kevin.cloud.commons.dto.user;
+package com.kevin.cloud.commons.dto.user.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.kevin.cloud.commons.dto.RoleUserDto;

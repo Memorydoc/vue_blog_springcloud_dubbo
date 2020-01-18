@@ -117,5 +117,7 @@
         <module>provider-log-api</module>
         <module>provider-blog</module>
         <module>provider-blog-api</module>
+        <module>provider-article</module>
+        <module>provider-article-api</module>
     </modules>
 </project>

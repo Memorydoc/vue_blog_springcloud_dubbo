@@ -1,4 +1,4 @@
-package com.kevin.cloud.commons.dto;
+package com.kevin.cloud.commons.dto.log.dto;
 
 import java.util.Date;
 

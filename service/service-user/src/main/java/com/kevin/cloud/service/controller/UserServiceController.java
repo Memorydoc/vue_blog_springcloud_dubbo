@@ -2,12 +2,13 @@ package com.kevin.cloud.service.controller;
 
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
-import com.kevin.cloud.commons.dto.UmsAdminLoginLogDto;
+import com.kevin.cloud.commons.dto.QueryPageParam;
+import com.kevin.cloud.commons.dto.log.dto.UmsAdminLoginLogDto;
+import com.kevin.cloud.commons.dto.user.vo.UmsAdminVo;
 import com.kevin.cloud.commons.platform.dto.FallBackResult;
-import com.kevin.cloud.commons.platform.dto.QueryPageParam;
+import com.kevin.cloud.commons.platform.dto.PageResult;
 import com.kevin.cloud.commons.platform.dto.ResponseResult;
 import com.kevin.cloud.provider.api.ProviderLogService;
-import com.kevin.cloud.provider.api.RoleService;
 import com.kevin.cloud.service.feign.dto.UmsAdminDTO;
 import com.kevin.cloud.service.controller.fallback.UserServiceControllerFallback;
 import com.kevin.cloud.user.api.UserService;
@@ -97,5 +98,33 @@ public class UserServiceController {
         }
     }
 
+    //获取 用户列表
+    @PostMapping("userList")
+    public ResponseResult userList(@RequestBody UmsAdminVo umsAdminVo) {
+        PageResult pageResult = userService.userList(umsAdminVo);
+        return  new ResponseResult(ResponseResult.CodeStatus.OK, "用户列表分页查询成功", pageResult);
+    }
+    //删除用户
+    @PostMapping("deleteUser")
+    public ResponseResult deleteUser(@RequestBody UmsAdminVo umsAdminVo ){
+       int  count =  userService.deleteUser(umsAdminVo);
+       if(count > 0){
+           return  new ResponseResult(ResponseResult.CodeStatus.OK, "用户删除成功", null);
+       }else{
+           return  new ResponseResult(ResponseResult.CodeStatus.OK, "用户不存在", null);
+       }
+    }
+
+    // 修改用户信息
+    @PostMapping("editUser")
+    public ResponseResult editUser(@RequestBody UmsAdminVo umsAdminVo){
+       int count =  userService.editUser(umsAdminVo);
+       if(count >=1){
+           return new ResponseResult(ResponseResult.CodeStatus.OK, "修改成功", null);
+       }else{
+           return new ResponseResult(ResponseResult.CodeStatus.FAIL, "修改失败", null);
+       }
+
+    }
 
 }
