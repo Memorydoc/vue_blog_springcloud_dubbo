@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kevin.cloud.provider.mapper.RoleMapper">
+    <resultMap id="BaseResultMap" type="com.kevin.cloud.provider.domain.Role">
+        <!--@mbg.generated generated on Wed Jan 15 12:17:36 CST 2020.-->
+        <!--@Table role-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="role_name" jdbcType="VARCHAR" property="roleName"/>
+        <result column="is_active" jdbcType="BOOLEAN" property="isActive"/>
+        <result column="update_by" jdbcType="BIGINT" property="updateBy"/>
+        <result column="create_by" jdbcType="BIGINT" property="createBy"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="role_code" jdbcType="VARCHAR" property="roleCode"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated generated on Wed Jan 15 12:17:36 CST 2020.-->
+        id, role_name, is_active, update_by, create_by, create_time, update_time, role_code
+    </sql>
+
+
+    <select id="getRoleByUserId" parameterType="java.lang.Long" resultType="com.kevin.cloud.commons.dto.RoleUserDto">
+        SELECT * FROM (SELECT t.id, t.`role_name`, u.id AS u_id , t.role_code FROM role t
+        LEFT JOIN role_user u ON u.`role_id` = t.`id` ) m WHERE 1= 1 AND m.u_id = #{userId};
+
+    </select>
+</mapper>
