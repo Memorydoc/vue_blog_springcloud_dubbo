@@ -4,8 +4,6 @@ base:
       hostname: localhost
       port: 8020
 
-
-
 spring:
   application:
     name: service-user
@@ -19,7 +17,7 @@ spring:
       discovery:
         server-addr: www.sizegang.cn:8848
       config:
-        namespace: decf2861-e65f-43b4-bb76-9df16200867f
+        namespace: fb409926-dcc5-4426-945f-5d1c5cdf3813
     sentinel:
       transport:
         dashboard: ${base.config.sentile.hostname}:${base.config.sentile.port}

@@ -36,7 +36,9 @@ public class ArticleServiceImpl implements ArticleService {
     public FallBackResult articleList(QueryPageParam queryPageParam) {
         FallBackResult fallBackResult = new FallBackResult();
         PageHelper.startPage(queryPageParam.getPageNum(), queryPageParam.getPageSize());
-        List<SiArticle> siArticles = siArticleMapper.selectByExample(new Example(SiArticle.class));
+        Example example = new Example(SiArticle.class);
+        example.setOrderByClause("create_date desc");
+        List<SiArticle> siArticles = siArticleMapper.selectByExample(example);
         PageInfo pageInfo = new PageInfo(siArticles);
         PageResult pageResult = BaseServiceUtils.buildPageResult(pageInfo);
         fallBackResult.setData(pageResult);
@@ -64,6 +66,11 @@ public class ArticleServiceImpl implements ArticleService {
         Example example = new Example(SiArticle.class);
         example.createCriteria().andIn("id", idArr);
         return  siArticleMapper.deleteByExample(example);
+    }
+
+    @Override
+    public int insert(SiArticle siArticle) {
+        return siArticleMapper.insertSelective(siArticle);
     }
 
 

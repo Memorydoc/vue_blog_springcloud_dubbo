@@ -8,6 +8,7 @@ import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @program: kevin-cloud-dubbo2.0
@@ -28,6 +29,16 @@ public class PageResult<T> implements Serializable {
     private int pageSize;    // 每页记录数
     private int pages;        // 总页数
     /*private int size;        // 就是返回的数据条数，*/
+    /**
+     * 本页的数据列表 搜索引擎分页会用到
+     */
+    private List<Map<String, Object>> recordList;
 
 
+    public PageResult(int pageNum, int pageSize, long total, List<Map<String, Object>> recordList) {
+        this.total = total;
+        this.pageNum = pageNum;
+        this.pageSize = pageSize;
+        this.recordList = recordList;
+    }
 }

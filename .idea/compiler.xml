@@ -31,11 +31,11 @@
         <module name="provider-article" />
         <module name="provider-message-api" />
         <module name="cloud-upload-feign" />
-        <module name="service-oauth2" />
         <module name="provider-blog-api" />
         <module name="configuration-feign" />
         <module name="commons-provider" />
         <module name="provider-elasticsearch-api" />
+        <module name="service-oauth2" />
         <module name="provider-log" />
         <module name="gateway" />
         <module name="commons-platform" />
@@ -47,6 +47,7 @@
       <module name="business-oauth2" target="1.8" />
       <module name="cloud" target="1.8" />
       <module name="cloud-elasticsearch-service" target="1.8" />
+      <module name="cloud-es-service" target="1.8" />
       <module name="cloud-message-api" target="1.8" />
       <module name="cloud-message-feign" target="1.8" />
       <module name="cloud-message-service" target="1.8" />
@@ -96,6 +97,7 @@
       <module name="business-oauth2" options="-parameters" />
       <module name="cloud" options="-parameters" />
       <module name="cloud-elasticsearch-service" options="-parameters" />
+      <module name="cloud-es-service" options="-parameters" />
       <module name="cloud-message-api" options="-parameters" />
       <module name="cloud-message-feign" options="-parameters" />
       <module name="cloud-message-service" options="-parameters" />

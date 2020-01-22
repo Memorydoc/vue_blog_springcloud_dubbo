@@ -76,6 +76,11 @@
             <artifactId>service-article-feign</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.kevin.cloud.plus</groupId>
+            <artifactId>provider-elasticsearch-api</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
         <!--Projects End-->
     </dependencies>
 

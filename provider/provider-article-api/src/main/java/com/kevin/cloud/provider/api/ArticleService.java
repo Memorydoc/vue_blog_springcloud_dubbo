@@ -20,8 +20,14 @@ public interface ArticleService {
 
     public ArticleDto viewArticleById(Long articleId);
 
+    //修改
     public int saveArticle(SiArticle siArticled);
 
     public int deleteIdArr(List<Long> idArr);
+
+
+
+    // 新增文章
+    public int insert(SiArticle siArticle);
 
 }

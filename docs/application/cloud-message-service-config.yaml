@@ -4,7 +4,7 @@ base:
       hostname: localhost
       port: 9001
     nacos:
-      hostname: www.sizegang.cn
+      hostname: ali.sizegang.cn
       port: 8848
     rocketmq:
       hostname: www.sizegang.cn
@@ -23,7 +23,7 @@ spring:
       discovery:
         server-addr: ${base.config.nacos.hostname}:${base.config.nacos.port}
       config:
-        namespace: decf2861-e65f-43b4-bb76-9df16200867f
+        namespace: fb409926-dcc5-4426-945f-5d1c5cdf3813
     stream:
       rocketmq:
         binder:

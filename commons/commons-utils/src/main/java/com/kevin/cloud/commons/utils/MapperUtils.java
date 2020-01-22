@@ -41,7 +41,6 @@ public class MapperUtils {
 
     /**
      * 转换为 JSON 字符串，忽略空值
-     *
      * @param obj
      * @return
      * @throws Exception

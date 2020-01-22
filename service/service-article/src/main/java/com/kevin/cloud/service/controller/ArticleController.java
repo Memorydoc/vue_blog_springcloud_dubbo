@@ -2,10 +2,13 @@ package com.kevin.cloud.service.controller;
 
 import com.kevin.cloud.commons.dto.QueryPageParam;
 import com.kevin.cloud.commons.dto.article.dto.ArticleDto;
+import com.kevin.cloud.commons.dto.article.vo.ArticleVo;
 import com.kevin.cloud.commons.platform.dto.FallBackResult;
 import com.kevin.cloud.commons.platform.dto.PageResult;
 import com.kevin.cloud.commons.platform.dto.ResponseResult;
+import com.kevin.cloud.commons.utils.MapperUtils;
 import com.kevin.cloud.provider.api.ArticleService;
+import com.kevin.cloud.provider.api.ESService;
 import com.kevin.cloud.provider.domain.SiArticle;
 import com.kevin.cloud.user.api.UserService;
 import com.kevin.cloud.user.domain.UmsAdmin;
@@ -19,6 +22,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Random;
+import java.util.UUID;
 
 /**
  * @program: vue-blog-backend
@@ -55,15 +61,19 @@ public class ArticleController {
 
     @Reference(version = "1.0.0")
     private UserService userService;
+    @Reference(version = "1.0.0")
+    private ESService esService;
 
     @PostMapping("saveArticle")
-    public ResponseResult saveArticle(@RequestBody ArticleDto articleDto) {
+    public ResponseResult saveArticle(@RequestBody ArticleDto articleDto) throws Exception {
         SiArticle siArticle = new SiArticle();
         BeanUtils.copyProperties(articleDto, siArticle);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UmsAdmin umsAdmin = userService.get(authentication.getName());
         siArticle.setUpdateBy(umsAdmin.getId());
+        //先将文章保存到数据库
         int i = articleService.saveArticle(siArticle);
+
         return new ResponseResult(ResponseResult.CodeStatus.OK, "修改成功", null);
     }
 
@@ -76,6 +86,37 @@ public class ArticleController {
         return  new ResponseResult(ResponseResult.CodeStatus.OK, "删除成功", null);
     }
 
+
+    /**
+     * 添加文章
+     */
+    @PostMapping("addArticle")
+    public ResponseResult addArticle(@RequestBody ArticleVo articleVo) throws Exception {
+        SiArticle siArticle = new SiArticle();
+        BeanUtils.copyProperties(articleVo, siArticle);
+        siArticle.setId(System.currentTimeMillis());
+        int i = articleService.insert(siArticle);
+        if(i >0){
+            System.out.println("插入数据库成功");
+        }else{
+            System.out.println("插入数据库失败");
+        }
+        //将 数据添加到es中
+        String jsonString = MapperUtils.obj2jsonIgnoreNull(siArticle);
+        /*//创建索引库，并且绑定mapping
+        esService.initIndex();*/
+        // 将文章保存到es中 方便全文搜索
+        esService.save(jsonString);
+
+        return  new ResponseResult(ResponseResult.CodeStatus.OK, "文章添加成功", null);
+    }
+
+    //分页查询文章, 从ES 中查询数据
+    @PostMapping("queryArticleFromEsByPage")
+    public ResponseResult queryArticleFromEsByPage(@RequestBody ArticleVo articleVo){
+        PageResult result= esService.searchByPage(articleVo.getKeyword(), articleVo.getPageNum(), articleVo.getPageSize());
+        return  new ResponseResult(ResponseResult.CodeStatus.OK, "ES文章分页查询成功", result);
+    }
 
 
 }
