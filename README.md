@@ -20,7 +20,15 @@
 ##### 统一的依赖管理模块 dependencies
     进行统一 <code>Maven</code> 管理， 版本控制
 ##### common模块
-    包括公共 dto、 utils、公用的provider        
+    包括公共 dto、 utils、公用的provider     
+    
+#### provider-elasticsearch  搜索引擎模块
+    提供了索引初始化方法 和 动态匹配索引方法， 使用spring-data，
+    提供全文查找、分页、 高亮字段 等一系列功能，使用 tracntionclient 查询，
+    如果需要使用spring-data 的方法，代码中也有提供部分代码， 使用spring-data方法查询可以使用
+    spring提供的api，可以自己定制findByxxx方法， 通过实现 <code>ElasticsearchRepository</code>接口
+    
+       
 
 
 #### 安装教程
