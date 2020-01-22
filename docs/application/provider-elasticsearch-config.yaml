@@ -1,0 +1,39 @@
+base:
+  config:
+    nacos:
+      hostname: ali.sizegang.cn
+      port: 8848
+    es:
+      hostname: 182.92.153.190
+      port: 9300
+      cluster-name: es-cluster
+
+spring:
+  application:
+    name: provider-elasticsearch
+  main:
+    allow-bean-definition-overriding: true
+  elasticsearch:
+    rest:
+      uris: ["http://182.92.153.190:9200"]
+  data:
+    elasticsearch:
+      cluster-name: ${base.config.es.cluster-name}
+      cluster-nodes: ${base.config.es.hostname}:${base.config.es.port}
+      repositories:
+        enabled: true
+dubbo:
+  scan:
+    base-packages: com.kevin.cloud.provider.repository
+  protocol:
+    name: dubbo
+    port: -1
+    serialization: kryo
+  registry:
+    address: nacos://${base.config.nacos.hostname}
+    port: ${base.config.nacos.port}
+# 如果不配置
+#management:
+#  health:
+#    elasticsearch:
+#      enabled: false
