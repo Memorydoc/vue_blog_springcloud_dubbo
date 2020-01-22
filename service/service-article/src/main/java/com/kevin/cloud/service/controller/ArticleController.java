@@ -1,8 +1,10 @@
 package com.kevin.cloud.service.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.kevin.cloud.commons.dto.QueryPageParam;
 import com.kevin.cloud.commons.dto.article.dto.ArticleDto;
 import com.kevin.cloud.commons.dto.article.vo.ArticleVo;
+import com.kevin.cloud.commons.platform.dto.ESParamDto;
 import com.kevin.cloud.commons.platform.dto.FallBackResult;
 import com.kevin.cloud.commons.platform.dto.PageResult;
 import com.kevin.cloud.commons.platform.dto.ResponseResult;
@@ -102,11 +104,9 @@ public class ArticleController {
             System.out.println("插入数据库失败");
         }
         //将 数据添加到es中
-        String jsonString = MapperUtils.obj2jsonIgnoreNull(siArticle);
-        /*//创建索引库，并且绑定mapping
-        esService.initIndex();*/
+        //String jsonString = MapperUtils.obj2jsonIgnoreNull(siArticle);
         // 将文章保存到es中 方便全文搜索
-        esService.save(jsonString);
+        esService.addData(JSONObject.parseObject(siArticle.toString()), "article", "item");
 
         return  new ResponseResult(ResponseResult.CodeStatus.OK, "文章添加成功", null);
     }
@@ -114,9 +114,25 @@ public class ArticleController {
     //分页查询文章, 从ES 中查询数据
     @PostMapping("queryArticleFromEsByPage")
     public ResponseResult queryArticleFromEsByPage(@RequestBody ArticleVo articleVo){
-        PageResult result= esService.searchByPage(articleVo.getKeyword(), articleVo.getPageNum(), articleVo.getPageSize());
+        ESParamDto esParamDto = new ESParamDto();
+        esParamDto.setHightLight(true);
+        esParamDto.setPage(true);
+        esParamDto.setPageNum(articleVo.getPageNum());
+        esParamDto.setPageSize(articleVo.getPageSize());
+        esParamDto.setKeyword(articleVo.getKeyword());
+        esParamDto.setMatchField("mc,content");
+        esParamDto.setIndex("article");
+        esParamDto.setType("item");
+        esParamDto.setHightLightField("mc,content");
+        PageResult result= (PageResult)esService.search(esParamDto);
         return  new ResponseResult(ResponseResult.CodeStatus.OK, "ES文章分页查询成功", result);
     }
+    //分页查询文章, 从ES 中查询数据
+    /*@PostMapping("queryArticleFromEsByPageByClient")
+    public ResponseResult queryArticleFromEsByPageByClient(@RequestBody ArticleVo articleVo){
+        PageResult result= esService.searchDataPage(articleVo.getKeyword(), articleVo.getPageNum(), articleVo.getPageSize());
+        return  new ResponseResult(ResponseResult.CodeStatus.OK, "ES文章分页查询成功", result);
+    }*/
 
 
 }
