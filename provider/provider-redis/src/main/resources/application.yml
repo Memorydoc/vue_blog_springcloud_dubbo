@@ -1,0 +1,43 @@
+base:
+  config:
+    nacos:
+      hostname: ali.sizegang.cn
+      port: 8848
+    redis:
+      hostname: www.sizegang.cn
+      port: 16379
+
+spring:
+  application:
+    name: provider-redis
+  main:
+    allow-bean-definition-overriding: true
+  redis:
+    host: ${base.config.redis.hostname}
+    port: ${base.config.redis.port}
+    lettuce:
+      pool:
+        min-idle: 0
+        max-idle: 8
+        max-wait: -1ms
+        max-active: 8
+        sentinel:
+          master: mymaster
+          nodes: ${base.config.redis.hostname}:26379,${base.config.redis.hostname}:26380,${base.config.redis.hostname}
+
+dubbo:
+  scan:
+    base-packages: com.kevin.cloud.provider.service
+  protocol:
+    name: dubbo
+    port: -1
+    serialization: kryo
+  registry:
+    address: nacos://${base.config.nacos.hostname}
+    port: ${base.config.nacos.port}
+redisson:
+  master-name: mymaster
+  password:
+  sentinel-addresses: ${base.config.redis.hostname}:26379,${base.config.redis.hostname}:26380,${base.config.redis.hostname}:26381
+  fail-max: 3
+  pool-size: 10
