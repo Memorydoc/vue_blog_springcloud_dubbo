@@ -1,5 +1,8 @@
 package com.kevin.cloud.message.service.config;
 
+import com.kevin.cloud.configuration.oauth2.AuthExceptionEntryPoint;
+import com.kevin.cloud.configuration.oauth2.CustomAccessDeniedHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -22,10 +25,15 @@ public class MessageResourceServerConfiguration extends ResourceServerConfigurer
                 .antMatchers("/**").hasAuthority("USER");
     }
 
+    @Autowired
+    CustomAccessDeniedHandler customAccessDeniedHandler;
+
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-        // 配置资源 ID
-        resources.resourceId("backend-resources");
+        // 配置资源 ID0
+        resources.resourceId("backend-resources"). // 这个在认证服务器那里 配置的
+                authenticationEntryPoint(new AuthExceptionEntryPoint())
+                .accessDeniedHandler(customAccessDeniedHandler);
     }
 
 }

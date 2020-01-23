@@ -1,7 +1,6 @@
 package com.kevin.cloud.provider.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.sql.Time;
@@ -96,7 +95,7 @@ public interface RedisTemplateService {
      * @param value
      * @param time  失效时间(秒)
      */
-    public void set(String key, Object value, Time time);
+    public void set(String key, Object value, long time);
 
     /**
      * 将value对象以JSON格式写入缓存

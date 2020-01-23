@@ -41,11 +41,8 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 
-        <!-- Spring Cloud -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-oauth2</artifactId>
-        </dependency>
+
+
 
         <!-- Spring Cloud Alibaba -->
         <dependency>
@@ -106,7 +103,11 @@
             <artifactId>provider-redis-api</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.kevin.cloud.plus</groupId>
+            <artifactId>configuration-oauth2</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
         <!--Projects End-->
     </dependencies>
 

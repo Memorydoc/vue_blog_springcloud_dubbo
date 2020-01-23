@@ -1,4 +1,6 @@
 package com.kevin.cloud.service.config;
+
+import com.kevin.cloud.configuration.oauth2.CustomWebResponseExceptionTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -15,6 +17,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
@@ -28,7 +31,6 @@ import javax.sql.DataSource;
  *
  * @author kevin
  * @version v1.0.0
- *
  */
 @Configuration
 @EnableAuthorizationServer
@@ -56,7 +58,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     @Bean
     public TokenStore tokenStore() {
         // 基于 JDBC 实现，令牌保存到数据库
- //       return new JdbcTokenStore(dataSource());
+        //       return new JdbcTokenStore(dataSource()); // 在使用数据源的时候， 必须要创建oauth2 的表
         return new RedisTokenStore(redisConnectionFactory);
     }
 
@@ -66,12 +68,33 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         return new JdbcClientDetailsService(dataSource());
     }
 
+    @Bean
+    public DefaultTokenServices tokenService() {
+        DefaultTokenServices tokenServices = new DefaultTokenServices();
+        //配置token存储
+        tokenServices.setTokenStore(tokenStore());
+        //开启支持refresh_token，此处如果之前没有配置，启动服务后再配置重启服务，可能会导致不返回token的问题，解决方式：清除redis对应token存储
+        tokenServices.setSupportRefreshToken(true);
+        //复用refresh_token
+        tokenServices.setReuseRefreshToken(true);
+        //token有效期，设置12小时 默认也是12个小时
+        tokenServices.setAccessTokenValiditySeconds(12 * 60 * 60);
+        //refresh_token有效期，设置一周
+        tokenServices.setRefreshTokenValiditySeconds(7 * 24 * 60 * 60);
+        return tokenServices;
+    }
+    @Autowired
+    CustomWebResponseExceptionTranslator customWebResponseExceptionTranslator;
+
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints
                 // 用于支持密码模式
                 .authenticationManager(authenticationManager)
+                //配置token存储的服务与位置 超时时间等等
+                .tokenServices(tokenService())
                 .tokenStore(tokenStore());
+        endpoints.exceptionTranslator(customWebResponseExceptionTranslator);
     }
 
     @Override

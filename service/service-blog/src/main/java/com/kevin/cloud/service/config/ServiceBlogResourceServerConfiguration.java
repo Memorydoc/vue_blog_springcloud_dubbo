@@ -1,5 +1,8 @@
 package com.kevin.cloud.service.config;
 
+import com.kevin.cloud.configuration.oauth2.AuthExceptionEntryPoint;
+import com.kevin.cloud.configuration.oauth2.CustomAccessDeniedHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -40,9 +43,14 @@ public class ServiceBlogResourceServerConfiguration extends ResourceServerConfig
                 .antMatchers("/**").hasAuthority("USER");
     }
 
+    @Autowired
+    CustomAccessDeniedHandler customAccessDeniedHandler;
+
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         // 配置资源 ID0
-        resources.resourceId("backend-resources"); // 这个在认证服务器那里 配置的
+        resources.resourceId("backend-resources"). // 这个在认证服务器那里 配置的
+                authenticationEntryPoint(new AuthExceptionEntryPoint())
+                .accessDeniedHandler(customAccessDeniedHandler);
     }
 }

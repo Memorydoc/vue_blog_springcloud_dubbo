@@ -9,6 +9,7 @@ import com.kevin.cloud.commons.utils.OkHttpClientUtil;
 import com.kevin.cloud.commons.utils.UserAgentUtils;
 import com.kevin.cloud.commons.platform.dto.MessageCommonDto;
 import com.kevin.cloud.commons.platform.dto.ResponseResult;
+import com.kevin.cloud.provider.api.RedisTemplateService;
 import com.kevin.cloud.service.BusinessException;
 import com.kevin.cloud.service.BusinessStatus;
 import com.kevin.cloud.message.api.CloudMessageService;
@@ -74,6 +75,9 @@ public class LoginController {
 
     @Value("${server.port}")
     private int port;
+    @Reference(version = "1.0.0")
+    private RedisTemplateService redisTemplateService;
+
 
     @PostMapping(value = "login")
     public ResponseResult<Map<String, Object>> login(@RequestBody LoginParam loginParam, HttpServletRequest request) throws Exception {
@@ -99,6 +103,7 @@ public class LoginController {
         // 用户登录成功，异步发送消息， 写日志
         sendAdminLoginLogByMessage(request);
         //将 用户信息保存在redis中
+        redisTemplateService.setJson("userInfo", map, 30 * 60L);
 
         return new ResponseResult<Map<String, Object>>(ResponseResult.CodeStatus.OK, "登录成功", result);
     }
@@ -166,6 +171,8 @@ public class LoginController {
         // 删除 token 以注销
         OAuth2AccessToken oAuth2AccessToken = tokenStore.readAccessToken(token);
         tokenStore.removeAccessToken(oAuth2AccessToken);
+        // 删除redis中的用户信息
+        redisTemplateService.del("userInfo");
         return new ResponseResult<Void>(ResponseResult.CodeStatus.OK, "用户已注销");
     }
 

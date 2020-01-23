@@ -68,6 +68,11 @@
             <artifactId>configuration-feign</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.kevin.cloud.plus</groupId>
+            <artifactId>configuration-oauth2</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
     </dependencies>
 
     <modules>

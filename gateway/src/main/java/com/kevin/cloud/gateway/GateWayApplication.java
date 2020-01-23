@@ -32,7 +32,6 @@ import reactor.core.publisher.Mono;
 public class GateWayApplication {
 
     // ----------------------------- 解决跨域 Begin -----------------------------
-
     private static final String ALL = "*";
     private static final String MAX_AGE = "3600L";
 

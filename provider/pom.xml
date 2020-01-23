@@ -83,14 +83,16 @@
         <!--Dubbo End-->
 
 
-
-
         <dependency>
             <groupId>com.kevin.cloud.plus</groupId>
             <artifactId>commons-provider</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.kevin.cloud.plus</groupId>
+            <artifactId>configuration-oauth2</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.kevin.cloud.plus</groupId>
             <artifactId>commons-platform</artifactId>
@@ -120,5 +122,7 @@
         <module>provider-article-api</module>
         <module>provider-elasticsearch-api</module>
         <module>provider-elasticsearch</module>
+        <module>provider-redis-api</module>
+        <module>provider-redis</module>
     </modules>
 </project>

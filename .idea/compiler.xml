@@ -26,6 +26,7 @@
         <module name="provider-user-api" />
         <module name="service-article" />
         <module name="provider-elasticsearch" />
+        <module name="configuration-oauth2" />
         <module name="service-user-feign" />
         <module name="configuration-service" />
         <module name="commons-dto" />
@@ -65,6 +66,7 @@
       <module name="commons-utils" target="1.8" />
       <module name="configuration" target="1.8" />
       <module name="configuration-feign" target="1.8" />
+      <module name="configuration-oauth2" target="1.8" />
       <module name="configuration-sentinel" target="1.8" />
       <module name="configuration-service" target="1.8" />
       <module name="dependencies" target="1.5" />
@@ -115,6 +117,7 @@
       <module name="commons-provider" options="-parameters" />
       <module name="commons-utils" options="-parameters" />
       <module name="configuration-feign" options="-parameters" />
+      <module name="configuration-oauth2" options="-parameters" />
       <module name="configuration-sentinel" options="-parameters" />
       <module name="configuration-service" options="-parameters" />
       <module name="gateway" options="-parameters" />
