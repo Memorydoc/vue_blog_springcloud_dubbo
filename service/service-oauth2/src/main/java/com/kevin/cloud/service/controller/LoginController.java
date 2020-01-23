@@ -140,8 +140,6 @@ public class LoginController {
             roleCodes.add(grantedAuthority.getAuthority());
         }
         umsAdminDto.setRoleUserDtoList(roleCodes);
-
-
         // 如果触发熔断则返回熔断结果
         if (umsAdmin == null) {
             return MapperUtils.json2pojo(jsonString, ResponseResult.class);

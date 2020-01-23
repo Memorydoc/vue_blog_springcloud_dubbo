@@ -1,8 +1,8 @@
 package com.kevin.cloud.service.feign.fallback;
 
+import com.kevin.cloud.commons.dto.user.dto.UmsAdminDto;
 import com.kevin.cloud.commons.utils.MapperUtils;
 import com.kevin.cloud.commons.platform.dto.ResponseResult;
-import com.kevin.cloud.service.feign.dto.UmsAdminDTO;
 import com.kevin.cloud.service.feign.UserServiceFeign;
 import org.springframework.stereotype.Component;
 
@@ -16,13 +16,21 @@ public class UserServiceFeignFallBack implements UserServiceFeign {
 
     @Override
     public String info(String username) {
-        UmsAdminDTO umsAdminDTO = new UmsAdminDTO();
+        UmsAdminDto umsAdminDTO = new UmsAdminDto();
         umsAdminDTO.setEmail("error.qq.com");
         try {
-            return MapperUtils.obj2json(new ResponseResult<UmsAdminDTO>(ResponseResult.CodeStatus.BREAKING, BREAKING_MESSAGE, umsAdminDTO));
+            return MapperUtils.obj2json(new ResponseResult<UmsAdminDto>(ResponseResult.CodeStatus.BREAKING, BREAKING_MESSAGE, umsAdminDTO));
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public UmsAdminDto getCurrentUser() {
+        UmsAdminDto umsAdminDto = new UmsAdminDto();
+        umsAdminDto.setId(-1L);
+        umsAdminDto.setUsername(BREAKING_MESSAGE);
+        return  umsAdminDto;
     }
 }

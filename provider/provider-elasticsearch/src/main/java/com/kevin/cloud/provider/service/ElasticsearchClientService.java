@@ -16,6 +16,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -124,6 +125,13 @@ public class ElasticsearchClientService implements ESService {
     @Override
     public void deleteDataById(String index, String type, String id) {
         ElasticsearchUtil.deleteDataById(index, type, id);
+    }
+
+    @Override
+    public void deleteDataByIdMany(String index, String type, List<String> ids) {
+        for (String id : ids) {
+            deleteDataById(index, type, id);
+        }
     }
 
     @Override

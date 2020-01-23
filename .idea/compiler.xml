@@ -25,17 +25,18 @@
         <module name="service-article" />
         <module name="provider-elasticsearch" />
         <module name="service-user-feign" />
+        <module name="configuration-service" />
         <module name="commons-dto" />
         <module name="service-blog" />
         <module name="cloud-message-feign" />
         <module name="provider-article" />
         <module name="provider-message-api" />
         <module name="cloud-upload-feign" />
+        <module name="service-oauth2" />
         <module name="provider-blog-api" />
         <module name="configuration-feign" />
         <module name="commons-provider" />
         <module name="provider-elasticsearch-api" />
-        <module name="service-oauth2" />
         <module name="provider-log" />
         <module name="gateway" />
         <module name="commons-platform" />
@@ -63,6 +64,7 @@
       <module name="configuration" target="1.8" />
       <module name="configuration-feign" target="1.8" />
       <module name="configuration-sentinel" target="1.8" />
+      <module name="configuration-service" target="1.8" />
       <module name="dependencies" target="1.5" />
       <module name="gateway" target="1.8" />
       <module name="kevin-cloud-dubbo2.0" target="1.8" />
@@ -110,6 +112,7 @@
       <module name="commons-utils" options="-parameters" />
       <module name="configuration-feign" options="-parameters" />
       <module name="configuration-sentinel" options="-parameters" />
+      <module name="configuration-service" options="-parameters" />
       <module name="gateway" options="-parameters" />
       <module name="message" options="-parameters" />
       <module name="provider-article" options="-parameters" />

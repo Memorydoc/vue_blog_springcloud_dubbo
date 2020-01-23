@@ -1,6 +1,8 @@
 package com.kevin.cloud.commons.dto.article.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.kevin.cloud.commons.dto.serializer.CustomJsonDateDeserializer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -101,7 +103,6 @@ public class ArticleDto implements Serializable {
     /**
      * 创建时间
      */
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createDate;
 
     /**
@@ -113,7 +114,6 @@ public class ArticleDto implements Serializable {
     /**
      * 修改时间
      */
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateDate;
 
     /**
@@ -135,4 +135,6 @@ public class ArticleDto implements Serializable {
      * 是否代码发布
      */
     private String sfdm;
+
+    private String esId;
 }

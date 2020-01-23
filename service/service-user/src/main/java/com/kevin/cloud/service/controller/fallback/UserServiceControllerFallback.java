@@ -1,8 +1,8 @@
 package com.kevin.cloud.service.controller.fallback;
 
 import com.kevin.cloud.commons.dto.QueryPageParam;
+import com.kevin.cloud.commons.dto.user.dto.UmsAdminDto;
 import com.kevin.cloud.commons.platform.dto.ResponseResult;
-import com.kevin.cloud.service.feign.dto.UmsAdminDTO;
 import com.kevin.cloud.service.feign.fallback.UserServiceFeignFallBack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,12 +19,12 @@ public class UserServiceControllerFallback {
      *
      * @param username {@code String} 用户名
      */
-    public static ResponseResult<UmsAdminDTO> infoFallback(String username, Throwable ex) {
-        UmsAdminDTO umsAdminDTO = new UmsAdminDTO();
+    public static ResponseResult<UmsAdminDto> infoFallback(String username, Throwable ex) {
+        UmsAdminDto umsAdminDTO = new UmsAdminDto();
         umsAdminDTO.setUsername("我是cloud熔断后的用户");
         logger.warn("Invoke infoFallback: " + ex.getClass().getTypeName());
         ex.printStackTrace();
-        return new ResponseResult<UmsAdminDTO>(ResponseResult.CodeStatus.BREAKING, UserServiceFeignFallBack.BREAKING_MESSAGE, umsAdminDTO);
+        return new ResponseResult<UmsAdminDto>(ResponseResult.CodeStatus.BREAKING, UserServiceFeignFallBack.BREAKING_MESSAGE, umsAdminDTO);
     }
 
     /**
@@ -32,7 +32,7 @@ public class UserServiceControllerFallback {
      * @param ex 异常
      * @return
      */
-    public static ResponseResult<UmsAdminDTO> queryByPageUmsAdminLoginLogFallback(QueryPageParam queryPageParam, Throwable ex) {
+    public static ResponseResult<UmsAdminDto> queryByPageUmsAdminLoginLogFallback(QueryPageParam queryPageParam, Throwable ex) {
         logger.warn("Invoke infoFallback: " + ex.getClass().getTypeName());
         ex.printStackTrace();
         return new ResponseResult(ResponseResult.CodeStatus.BREAKING, UserServiceFeignFallBack.BREAKING_MESSAGE, "发生异常");

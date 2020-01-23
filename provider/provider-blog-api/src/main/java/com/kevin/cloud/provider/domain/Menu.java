@@ -1,7 +1,7 @@
 package com.kevin.cloud.provider.domain;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.kevin.cloud.commons.platform.serializer.CustomJsonDateDeserializer;
+import com.kevin.cloud.commons.dto.serializer.CustomJsonDateDeserializer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

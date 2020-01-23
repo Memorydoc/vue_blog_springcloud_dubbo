@@ -47,8 +47,6 @@
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-okhttp</artifactId>
         </dependency>
-
-
         <!-- Projects Start-->
         <dependency>
             <groupId>com.kevin.cloud.plus</groupId>

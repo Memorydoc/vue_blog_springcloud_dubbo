@@ -1,5 +1,7 @@
 package com.kevin.cloud.commons.dto;
 
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
@@ -8,9 +10,8 @@ import java.io.Serializable;
  * @author: kevin
  * @create: 2020-01-12 22:56
  **/
-public class QueryPageParam implements Serializable {
-
-    private static final long serialVersionUID = 4021449332228999455L;
+@Data
+public class QueryPageParam  {
     private Integer pageNum;//第几页
     private Integer pageSize; //每页的数量
 

@@ -4,6 +4,7 @@ package com.kevin.cloud.provider.api;
 import com.alibaba.fastjson.JSONObject;
 import com.kevin.cloud.commons.platform.dto.ESParamDto;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,9 +21,11 @@ public interface ESService {
     public boolean deleteIndex(Class indexClass);
 
     public String addData(JSONObject jsonObject, String index, String type) throws Exception; // 添加数据 无需指定id， UUID 自动生成ID
-    public String addDataId(JSONObject jsonObject, String index, String type, String id);// 指定ID添加数据
+    public String addDataId(JSONObject jsonObject, String index, String type, String id) throws  Exception;// 指定ID添加数据
 
     public void deleteDataById(String index, String type, String id);// 通过id删除数据
+    public void deleteDataByIdMany(String index, String type, List<String> ids);// 批量刪除
+
 
     public void updateDataById(JSONObject jsonObject, String index, String type, String id);// 通过id 更新数据
     /**
@@ -35,10 +38,6 @@ public interface ESService {
      * @return
      */
     public Map<String, Object> searchDataById(String index, String type, String id, String fields);// 通过id查询数据
-
-
-
-
 
 
 }

@@ -4,18 +4,20 @@ package com.kevin.cloud.service.controller;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.kevin.cloud.commons.dto.QueryPageParam;
 import com.kevin.cloud.commons.dto.log.dto.UmsAdminLoginLogDto;
+import com.kevin.cloud.commons.dto.user.dto.UmsAdminDto;
 import com.kevin.cloud.commons.dto.user.vo.UmsAdminVo;
 import com.kevin.cloud.commons.platform.dto.FallBackResult;
 import com.kevin.cloud.commons.platform.dto.PageResult;
 import com.kevin.cloud.commons.platform.dto.ResponseResult;
 import com.kevin.cloud.provider.api.ProviderLogService;
-import com.kevin.cloud.service.feign.dto.UmsAdminDTO;
 import com.kevin.cloud.service.controller.fallback.UserServiceControllerFallback;
 import com.kevin.cloud.user.api.UserService;
 import com.kevin.cloud.user.domain.UmsAdmin;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -74,11 +76,11 @@ public class UserServiceController {
 
     @GetMapping(value = "info/{username}")
     @SentinelResource(value = "info", fallback = "infoFallback", fallbackClass = UserServiceControllerFallback.class)
-    public ResponseResult<UmsAdminDTO> info(@PathVariable String username) {
+    public ResponseResult<UmsAdminDto> info(@PathVariable String username) {
         UmsAdmin umsAdmin = userService.get(username);
-        UmsAdminDTO umsAdminDTO = new UmsAdminDTO();
+        UmsAdminDto umsAdminDTO = new UmsAdminDto();
         BeanUtils.copyProperties(umsAdmin, umsAdminDTO);
-        return new ResponseResult<UmsAdminDTO>(ResponseResult.CodeStatus.OK, "获取个人信息", umsAdminDTO);
+        return new ResponseResult<UmsAdminDto>(ResponseResult.CodeStatus.OK, "获取个人信息", umsAdminDTO);
     }
 
 
@@ -102,29 +104,42 @@ public class UserServiceController {
     @PostMapping("userList")
     public ResponseResult userList(@RequestBody UmsAdminVo umsAdminVo) {
         PageResult pageResult = userService.userList(umsAdminVo);
-        return  new ResponseResult(ResponseResult.CodeStatus.OK, "用户列表分页查询成功", pageResult);
+        return new ResponseResult(ResponseResult.CodeStatus.OK, "用户列表分页查询成功", pageResult);
     }
+
     //删除用户
     @PostMapping("deleteUser")
-    public ResponseResult deleteUser(@RequestBody UmsAdminVo umsAdminVo ){
-       int  count =  userService.deleteUser(umsAdminVo);
-       if(count > 0){
-           return  new ResponseResult(ResponseResult.CodeStatus.OK, "用户删除成功", null);
-       }else{
-           return  new ResponseResult(ResponseResult.CodeStatus.OK, "用户不存在", null);
-       }
+    public ResponseResult deleteUser(@RequestBody UmsAdminVo umsAdminVo) {
+        int count = userService.deleteUser(umsAdminVo);
+        if (count > 0) {
+            return new ResponseResult(ResponseResult.CodeStatus.OK, "用户删除成功", null);
+        } else {
+            return new ResponseResult(ResponseResult.CodeStatus.OK, "用户不存在", null);
+        }
     }
 
     // 修改用户信息
     @PostMapping("editUser")
-    public ResponseResult editUser(@RequestBody UmsAdminVo umsAdminVo){
-       int count =  userService.editUser(umsAdminVo);
-       if(count >=1){
-           return new ResponseResult(ResponseResult.CodeStatus.OK, "修改成功", null);
-       }else{
-           return new ResponseResult(ResponseResult.CodeStatus.FAIL, "修改失败", null);
-       }
+    public ResponseResult editUser(@RequestBody UmsAdminVo umsAdminVo) {
+        int count = userService.editUser(umsAdminVo);
+        if (count >= 1) {
+            return new ResponseResult(ResponseResult.CodeStatus.OK, "修改成功", null);
+        } else {
+            return new ResponseResult(ResponseResult.CodeStatus.FAIL, "修改失败", null);
+        }
+    }
 
+
+    /**
+     * 获取当前登录人信息
+     */
+    @GetMapping(value = "getCurrentUser")
+    public UmsAdminDto getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UmsAdmin umsAdmin = userService.get(authentication.getName());
+        UmsAdminDto umsAdminDTO = new UmsAdminDto();
+        BeanUtils.copyProperties(umsAdmin, umsAdminDTO);
+        return umsAdminDTO;
     }
 
 }

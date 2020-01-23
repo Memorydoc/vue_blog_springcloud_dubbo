@@ -1,6 +1,7 @@
 package com.kevin.cloud.service.controller;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.google.common.collect.Lists;
 import com.kevin.cloud.commons.dto.QueryPageParam;
 import com.kevin.cloud.commons.dto.article.dto.ArticleDto;
 import com.kevin.cloud.commons.dto.article.vo.ArticleVo;
@@ -8,14 +9,17 @@ import com.kevin.cloud.commons.platform.dto.ESParamDto;
 import com.kevin.cloud.commons.platform.dto.FallBackResult;
 import com.kevin.cloud.commons.platform.dto.PageResult;
 import com.kevin.cloud.commons.platform.dto.ResponseResult;
-import com.kevin.cloud.commons.utils.MapperUtils;
+import com.kevin.cloud.commons.utils.CommonUtils;
 import com.kevin.cloud.provider.api.ArticleService;
 import com.kevin.cloud.provider.api.ESService;
 import com.kevin.cloud.provider.domain.SiArticle;
+import com.kevin.cloud.service.IdGenerator;
+import com.kevin.cloud.service.feign.UserServiceFeign;
 import com.kevin.cloud.user.api.UserService;
 import com.kevin.cloud.user.domain.UmsAdmin;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,8 +29,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Random;
-import java.util.UUID;
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @program: vue-blog-backend
@@ -75,19 +79,31 @@ public class ArticleController {
         siArticle.setUpdateBy(umsAdmin.getId());
         //先将文章保存到数据库
         int i = articleService.saveArticle(siArticle);
-
+        esService.updateDataById(CommonUtils.beanToJSONObject(siArticle), "article", "item", siArticle.getId().toString());
         return new ResponseResult(ResponseResult.CodeStatus.OK, "修改成功", null);
     }
+
+    @Autowired
+    private IdGenerator idGenerator;
 
     /**
      * 删除文章
      */
     @PostMapping("deleteArticle")
-    public ResponseResult deleteArticle(@RequestBody ArticleDto articleDto){
+    public ResponseResult deleteArticle(@RequestBody ArticleDto articleDto) {
+        List<String> esList = Lists.newArrayList();
         int i = articleService.deleteIdArr(articleDto.getDeleteIdArr());
-        return  new ResponseResult(ResponseResult.CodeStatus.OK, "删除成功", null);
+        // 刪除es 中的文章
+        articleDto.getDeleteIdArr().forEach(x -> {
+            esList.add(x.toString());
+        });
+        esService.deleteDataByIdMany("article", "item", esList);
+        return new ResponseResult(ResponseResult.CodeStatus.OK, "删除成功", null);
     }
 
+
+    @Resource
+    private UserServiceFeign userServiceFeign;
 
     /**
      * 添加文章
@@ -96,24 +112,24 @@ public class ArticleController {
     public ResponseResult addArticle(@RequestBody ArticleVo articleVo) throws Exception {
         SiArticle siArticle = new SiArticle();
         BeanUtils.copyProperties(articleVo, siArticle);
-        siArticle.setId(System.currentTimeMillis());
+        siArticle.setId(idGenerator.nextLid());
+        siArticle.setCreateBy(userServiceFeign.getCurrentUser().getId());
         int i = articleService.insert(siArticle);
-        if(i >0){
+        if (i > 0) {
             System.out.println("插入数据库成功");
-        }else{
+        } else {
             System.out.println("插入数据库失败");
         }
-        //将 数据添加到es中
-        //String jsonString = MapperUtils.obj2jsonIgnoreNull(siArticle);
-        // 将文章保存到es中 方便全文搜索
-        esService.addData(JSONObject.parseObject(siArticle.toString()), "article", "item");
 
-        return  new ResponseResult(ResponseResult.CodeStatus.OK, "文章添加成功", null);
+        // 将文章保存到es中 方便全文搜索
+        String esId = esService.addDataId(CommonUtils.beanToJSONObject(siArticle), "article", "item", siArticle.getId() + "");
+
+        return new ResponseResult(ResponseResult.CodeStatus.OK, "文章添加成功", esId);
     }
 
     //分页查询文章, 从ES 中查询数据
     @PostMapping("queryArticleFromEsByPage")
-    public ResponseResult queryArticleFromEsByPage(@RequestBody ArticleVo articleVo){
+    public ResponseResult queryArticleFromEsByPage(@RequestBody ArticleVo articleVo) {
         ESParamDto esParamDto = new ESParamDto();
         esParamDto.setHightLight(true);
         esParamDto.setPage(true);
@@ -124,15 +140,7 @@ public class ArticleController {
         esParamDto.setIndex("article");
         esParamDto.setType("item");
         esParamDto.setHightLightField("mc,content");
-        PageResult result= (PageResult)esService.search(esParamDto);
-        return  new ResponseResult(ResponseResult.CodeStatus.OK, "ES文章分页查询成功", result);
+        PageResult result = (PageResult) esService.search(esParamDto);
+        return new ResponseResult(ResponseResult.CodeStatus.OK, "ES文章分页查询成功", result);
     }
-    //分页查询文章, 从ES 中查询数据
-    /*@PostMapping("queryArticleFromEsByPageByClient")
-    public ResponseResult queryArticleFromEsByPageByClient(@RequestBody ArticleVo articleVo){
-        PageResult result= esService.searchDataPage(articleVo.getKeyword(), articleVo.getPageNum(), articleVo.getPageSize());
-        return  new ResponseResult(ResponseResult.CodeStatus.OK, "ES文章分页查询成功", result);
-    }*/
-
-
 }

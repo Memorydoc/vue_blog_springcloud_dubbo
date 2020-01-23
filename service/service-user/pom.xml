@@ -73,6 +73,11 @@
         </dependency>
         <dependency>
             <groupId>com.kevin.cloud.plus</groupId>
+            <artifactId>commons-dto</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.kevin.cloud.plus</groupId>
             <artifactId>provider-blog-api</artifactId>
             <version>${project.parent.version}</version>
         </dependency>

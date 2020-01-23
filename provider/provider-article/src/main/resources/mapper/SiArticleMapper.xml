@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kevin.cloud.provider.mapper.SiArticleMapper">
   <resultMap id="BaseResultMap" type="com.kevin.cloud.provider.domain.SiArticle">
-    <!--@mbg.generated generated on Wed Jan 15 23:21:58 CST 2020.-->
+    <!--@mbg.generated generated on Thu Jan 23 12:08:34 CST 2020.-->
     <!--@Table si_article-->
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="mc" jdbcType="VARCHAR" property="mc" />
@@ -25,11 +25,12 @@
     <result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
     <result column="fbzt" jdbcType="VARCHAR" property="fbzt" />
     <result column="sfdm" jdbcType="VARCHAR" property="sfdm" />
+    <result column="es_id" jdbcType="VARCHAR" property="esId" />
   </resultMap>
   <sql id="Base_Column_List">
-    <!--@mbg.generated generated on Wed Jan 15 23:21:58 CST 2020.-->
+    <!--@mbg.generated generated on Thu Jan 23 12:08:34 CST 2020.-->
     id, mc, wgrs, content, bz, `type`, title, pl, keywords, `describe`, category, tags, 
     titlepic, visibility, create_date, create_by, update_date, update_by, del_flag, fbzt, 
-    sfdm
+    sfdm, es_id
   </sql>
 </mapper>

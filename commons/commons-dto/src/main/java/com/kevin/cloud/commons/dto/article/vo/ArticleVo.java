@@ -14,6 +14,7 @@ import java.util.List;
  * @author: kevin
  * @create: 2020-01-17 16:26
  **/
+
 @Data
 public class ArticleVo extends QueryPageParam  implements Serializable {
 

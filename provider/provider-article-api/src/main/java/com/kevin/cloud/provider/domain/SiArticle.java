@@ -150,5 +150,15 @@ public class SiArticle implements Serializable {
     @Column(name = "sfdm")
     private String sfdm;
 
+    /**
+     * es 搜索引擎id
+     */
+    @Column(name = "es_id")
+    private String esId;
+
     private static final long serialVersionUID = 1L;
+
+    public static SiArticleBuilder builder() {
+        return new SiArticleBuilder();
+    }
 }

@@ -2,11 +2,13 @@ package com.kevin.cloud.commons.dto.user.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.kevin.cloud.commons.dto.RoleUserDto;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,9 +22,10 @@ import java.util.List;
 @Setter
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
 public class UmsAdminDto {
 
-    private List<String> roleUserDtoList;
+    private List<String> roleUserDtoList = new ArrayList<>();
 
     private Long id;
 

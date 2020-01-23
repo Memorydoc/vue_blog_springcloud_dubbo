@@ -13,6 +13,14 @@
     <artifactId>service-user-feign</artifactId>
     <packaging>jar</packaging>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.kevin.cloud.plus</groupId>
+            <artifactId>commons-dto</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+    </dependencies>
+
     <licenses>
         <license>
             <name>Apache 2.0</name>
