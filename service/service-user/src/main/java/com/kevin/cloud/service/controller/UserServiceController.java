@@ -135,10 +135,12 @@ public class UserServiceController {
      */
     @GetMapping(value = "getCurrentUser")
     public UmsAdminDto getCurrentUser() {
+        System.out.println("正在获取");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UmsAdmin umsAdmin = userService.get(authentication.getName());
         UmsAdminDto umsAdminDTO = new UmsAdminDto();
         BeanUtils.copyProperties(umsAdmin, umsAdminDTO);
+        System.out.println("当前登录人为" + umsAdmin.getUsername());
         return umsAdminDTO;
     }
 

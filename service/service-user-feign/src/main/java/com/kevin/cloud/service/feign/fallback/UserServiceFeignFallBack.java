@@ -26,11 +26,4 @@ public class UserServiceFeignFallBack implements UserServiceFeign {
         return null;
     }
 
-    @Override
-    public UmsAdminDto getCurrentUser() {
-        UmsAdminDto umsAdminDto = new UmsAdminDto();
-        umsAdminDto.setId(-1L);
-        umsAdminDto.setUsername(BREAKING_MESSAGE);
-        return  umsAdminDto;
-    }
 }

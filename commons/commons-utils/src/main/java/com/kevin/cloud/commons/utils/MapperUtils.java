@@ -95,6 +95,16 @@ public class MapperUtils {
     }
 
     /**
+     * 将对象转成Map
+     */
+    public  static <T> Map<String, Object> javaBeanToMap(Object obj) throws Exception {
+        String json = obj2jsonIgnoreNull(obj);
+        return  json2map(json);
+    }
+
+
+
+    /**
      * 字符串转换为 Map<String, T>
      */
     public static <T> Map<String, T> json2map(String jsonString, Class<T> clazz) throws Exception {

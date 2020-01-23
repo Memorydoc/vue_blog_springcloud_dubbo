@@ -26,7 +26,4 @@ public interface UserServiceFeign {
     @GetMapping(value = "info/{username}")
     String info(@PathVariable String username);
 
-
-    @GetMapping(value = "getCurrentUser")
-    UmsAdminDto getCurrentUser();
 }

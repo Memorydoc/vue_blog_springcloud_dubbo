@@ -102,8 +102,6 @@ public class ArticleController {
     }
 
 
-    @Resource
-    private UserServiceFeign userServiceFeign;
 
     /**
      * 添加文章
@@ -113,7 +111,7 @@ public class ArticleController {
         SiArticle siArticle = new SiArticle();
         BeanUtils.copyProperties(articleVo, siArticle);
         siArticle.setId(idGenerator.nextLid());
-        siArticle.setCreateBy(userServiceFeign.getCurrentUser().getId());
+        //
         int i = articleService.insert(siArticle);
         if (i > 0) {
             System.out.println("插入数据库成功");

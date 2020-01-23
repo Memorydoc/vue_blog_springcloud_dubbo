@@ -34,4 +34,5 @@ public interface UserService {
     int deleteUser(UmsAdminVo umsAdminVo);
 
     int editUser(UmsAdminVo umsAdminVo);
+
 }

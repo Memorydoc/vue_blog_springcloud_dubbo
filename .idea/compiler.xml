@@ -18,8 +18,10 @@
         <module name="cloud-message-service" />
         <module name="provider-log-api" />
         <module name="service-article-feign" />
+        <module name="provider-redis" />
         <module name="service-user" />
         <module name="commons-utils" />
+        <module name="provider-redis-api" />
         <module name="provider-message" />
         <module name="provider-user-api" />
         <module name="service-article" />
@@ -81,6 +83,8 @@
       <module name="provider-log-api" target="1.8" />
       <module name="provider-message" target="1.8" />
       <module name="provider-message-api" target="1.8" />
+      <module name="provider-redis" target="1.8" />
+      <module name="provider-redis-api" target="1.8" />
       <module name="provider-user" target="1.8" />
       <module name="provider-user-api" target="1.8" />
       <module name="service" target="1.8" />
@@ -125,6 +129,8 @@
       <module name="provider-log-api" options="-parameters" />
       <module name="provider-message" options="-parameters" />
       <module name="provider-message-api" options="-parameters" />
+      <module name="provider-redis" options="-parameters" />
+      <module name="provider-redis-api" options="-parameters" />
       <module name="provider-user" options="-parameters" />
       <module name="provider-user-api" options="-parameters" />
       <module name="service-article" options="-parameters" />
