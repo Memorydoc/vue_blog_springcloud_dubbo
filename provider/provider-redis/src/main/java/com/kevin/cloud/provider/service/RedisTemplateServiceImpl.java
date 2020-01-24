@@ -146,8 +146,9 @@ public class RedisTemplateServiceImpl implements RedisTemplateService {
      */
     @Override
     @SuppressWarnings("unchecked")
-    public <T> T get(String key, Class<T> clazz) {
-        return (T) redisTemplate.boundValueOps(key).get();
+    public <T> T get(String key, Class<T> clazz) throws Exception {
+        Object o = (T) redisTemplate.boundValueOps(key).get();
+        return MapperUtils.json2pojoByFastJson(o.toString(), clazz);
     }
 
     /**

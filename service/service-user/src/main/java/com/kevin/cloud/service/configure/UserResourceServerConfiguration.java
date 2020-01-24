@@ -1,7 +1,7 @@
 package com.kevin.cloud.service.configure;
 
-import com.kevin.cloud.configuration.oauth2.AuthExceptionEntryPoint;
-import com.kevin.cloud.configuration.oauth2.CustomAccessDeniedHandler;
+import com.kevin.cloud.service.AuthExceptionEntryPoint;
+import com.kevin.cloud.service.CustomAccessDeniedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -52,5 +52,6 @@ public class UserResourceServerConfiguration extends ResourceServerConfigurerAda
         resources.resourceId("backend-resources"). // 这个在认证服务器那里 配置的
                 authenticationEntryPoint(new AuthExceptionEntryPoint())
                 .accessDeniedHandler(customAccessDeniedHandler);
+
     }
 }

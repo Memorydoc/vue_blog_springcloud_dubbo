@@ -35,4 +35,6 @@ public interface UserService {
 
     int editUser(UmsAdminVo umsAdminVo);
 
+    UmsAdminDto getCurrentUser();
+
 }

@@ -1,6 +1,7 @@
 package com.kevin.cloud.service.controller;
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
+import com.alibaba.nacos.client.utils.StringUtils;
 import com.google.common.collect.Maps;
 import com.kevin.cloud.commons.dto.IpInfo;
 import com.kevin.cloud.commons.dto.user.dto.UmsAdminDto;
@@ -123,9 +124,15 @@ public class LoginController {
     @GetMapping(value = "info/{username}")
     @SentinelResource(value = "info", fallback = "infoFallback")
     public ResponseResult<UmsAdmin> info(@PathVariable String username) {
+        if (StringUtils.isBlank(username)) {
+            // 获取认证信息
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            username = authentication.getName();
+        }
         UmsAdmin umsAdmin = userService.get(username);
         return new ResponseResult<UmsAdmin>(ResponseResult.CodeStatus.OK, "获取个人信息", umsAdmin);
     }
+
 
     @GetMapping(value = "infoByFeign")
     public ResponseResult<UmsAdminDto> infoByFeign() throws Exception {
@@ -133,9 +140,10 @@ public class LoginController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         // 获取个人信息
+        //UmsAdmin umsAdmin = (UmsAdmin)redisTemplateService.get("userInfo", UmsAdmin.class);
         String jsonString = userServiceFeign.info(authentication.getName());
-
         UmsAdmin umsAdmin = MapperUtils.json2pojoByTree(jsonString, "data", UmsAdmin.class);
+
         UmsAdminDto umsAdminDto = new UmsAdminDto();
         if (umsAdmin.getUsername() == null) {
             return new ResponseResult<UmsAdminDto>(ResponseResult.CodeStatus.ILLEGAL_REQUEST, "服务发生了熔断", umsAdminDto);
@@ -149,7 +157,7 @@ public class LoginController {
         umsAdminDto.setRoleUserDtoList(roleCodes);
         // 如果触发熔断则返回熔断结果
         if (umsAdmin == null) {
-            return MapperUtils.json2pojo(jsonString, ResponseResult.class);
+            return new ResponseResult(ResponseResult.CodeStatus.OK, "", umsAdmin);
         }
         return new ResponseResult<UmsAdminDto>(ResponseResult.CodeStatus.OK, "通过feign获取个人信息", umsAdminDto);
     }

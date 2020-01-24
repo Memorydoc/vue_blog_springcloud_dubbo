@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
  * Version 1.0
  **/
 @FeignClient(value = "service-user" ,path = "user" ,configuration = FeignRequestConfiguration.class
-, fallback = UserServiceFeignFallBack.class)
+/*, fallback = UserServiceFeignFallBack.class*/)
 public interface UserServiceFeign {
     /**
      * 获取个人信息

@@ -14,7 +14,7 @@ import org.springframework.cloud.stream.annotation.EnableBinding;
  * @create: 2020-01-10 16:50
  **/
 
-@SpringBootApplication(exclude= {DataSourceAutoConfiguration.class})
+@SpringBootApplication(exclude= {DataSourceAutoConfiguration.class},scanBasePackages = "com.kevin.cloud.service")
 @EnableDiscoveryClient
 @EnableBinding({MessageSource.class}) // 配置消息绑定器
 public class CloudMessageServiceApplication {

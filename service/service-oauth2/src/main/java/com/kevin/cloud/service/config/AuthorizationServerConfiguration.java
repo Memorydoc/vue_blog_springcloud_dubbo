@@ -1,6 +1,6 @@
 package com.kevin.cloud.service.config;
 
-import com.kevin.cloud.configuration.oauth2.CustomWebResponseExceptionTranslator;
+import com.kevin.cloud.service.CustomWebResponseExceptionTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -78,7 +78,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         //复用refresh_token
         tokenServices.setReuseRefreshToken(true);
         //token有效期，设置12小时 默认也是12个小时
-        tokenServices.setAccessTokenValiditySeconds(12 * 60 * 60);
+        tokenServices.setAccessTokenValiditySeconds(/*12 * 60 **/ 60);
         //refresh_token有效期，设置一周
         tokenServices.setRefreshTokenValiditySeconds(7 * 24 * 60 * 60);
         return tokenServices;

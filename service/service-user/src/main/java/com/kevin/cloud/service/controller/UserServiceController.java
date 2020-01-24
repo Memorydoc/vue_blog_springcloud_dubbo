@@ -75,7 +75,7 @@ public class UserServiceController {
 
 
     @GetMapping(value = "info/{username}")
-    @SentinelResource(value = "info", fallback = "infoFallback", fallbackClass = UserServiceControllerFallback.class)
+    //@SentinelResource(value = "info", fallback = "infoFallback", fallbackClass = UserServiceControllerFallback.class)
     public ResponseResult<UmsAdminDto> info(@PathVariable String username) {
         UmsAdmin umsAdmin = userService.get(username);
         UmsAdminDto umsAdminDTO = new UmsAdminDto();

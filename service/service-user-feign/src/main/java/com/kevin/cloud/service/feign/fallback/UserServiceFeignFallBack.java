@@ -26,4 +26,5 @@ public class UserServiceFeignFallBack implements UserServiceFeign {
         return null;
     }
 
+
 }

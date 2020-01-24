@@ -15,6 +15,7 @@ import com.kevin.cloud.provider.api.ESService;
 import com.kevin.cloud.provider.domain.SiArticle;
 import com.kevin.cloud.service.IdGenerator;
 import com.kevin.cloud.service.feign.UserServiceFeign;
+import com.kevin.cloud.service.help.AuthUserHelperImpl;
 import com.kevin.cloud.user.api.UserService;
 import com.kevin.cloud.user.domain.UmsAdmin;
 import org.apache.dubbo.config.annotation.Reference;
@@ -101,7 +102,8 @@ public class ArticleController {
         return new ResponseResult(ResponseResult.CodeStatus.OK, "删除成功", null);
     }
 
-
+    @Autowired
+    private AuthUserHelperImpl authUserHelper;
 
     /**
      * 添加文章
@@ -111,7 +113,7 @@ public class ArticleController {
         SiArticle siArticle = new SiArticle();
         BeanUtils.copyProperties(articleVo, siArticle);
         siArticle.setId(idGenerator.nextLid());
-        //
+        siArticle.setCreateBy(authUserHelper.getCurrentUser().getId());
         int i = articleService.insert(siArticle);
         if (i > 0) {
             System.out.println("插入数据库成功");

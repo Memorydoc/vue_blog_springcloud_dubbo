@@ -1,7 +1,7 @@
 base:
   config:
     nacos:
-      hostname: ali.sizegang.cn
+      hostname: 182.92.153.190
       port: 8848
 
 spring:

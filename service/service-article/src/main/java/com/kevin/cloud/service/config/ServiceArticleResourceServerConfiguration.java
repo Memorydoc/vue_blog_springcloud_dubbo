@@ -1,7 +1,7 @@
 package com.kevin.cloud.service.config;
 
-import com.kevin.cloud.configuration.oauth2.AuthExceptionEntryPoint;
-import com.kevin.cloud.configuration.oauth2.CustomAccessDeniedHandler;
+import com.kevin.cloud.service.AuthExceptionEntryPoint;
+import com.kevin.cloud.service.CustomAccessDeniedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

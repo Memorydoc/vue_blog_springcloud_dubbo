@@ -76,7 +76,7 @@ public interface RedisTemplateService {
      * @return
      */
     @SuppressWarnings("unchecked")
-    public <T> T get(String key, Class<T> clazz);
+    public <T> T get(String key, Class<T> clazz) throws Exception;
 
     /**
      * 获取缓存json对象<br>
