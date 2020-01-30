@@ -96,4 +96,14 @@ public class UserServiceImpl implements UserService {
         return umsAdminMapper.updateByPrimaryKeySelective(umsAdmin);
     }
 
+    /**
+     * 获取当前登录人
+     * @return
+     */
+    @Override
+    public UmsAdminDto getCurrentUser() {
+
+        return null;
+    }
+
 }

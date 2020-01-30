@@ -1,6 +1,7 @@
 package com.kevin.cloud.service.config;
 
-import com.kevin.cloud.service.CustomWebResponseExceptionTranslator;
+import com.kevin.cloud.service.AuthExceptionEntryPoint;
+import com.kevin.cloud.service.CustomAccessDeniedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -78,7 +79,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         //复用refresh_token
         tokenServices.setReuseRefreshToken(true);
         //token有效期，设置12小时 默认也是12个小时
-        tokenServices.setAccessTokenValiditySeconds(/*12 * 60 **/ 60);
+        tokenServices.setAccessTokenValiditySeconds(/*12 * 60 **/ 10);
         //refresh_token有效期，设置一周
         tokenServices.setRefreshTokenValiditySeconds(7 * 24 * 60 * 60);
         return tokenServices;
@@ -89,12 +90,12 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints
+                .exceptionTranslator(customWebResponseExceptionTranslator)
                 // 用于支持密码模式
                 .authenticationManager(authenticationManager)
                 //配置token存储的服务与位置 超时时间等等
                 .tokenServices(tokenService())
                 .tokenStore(tokenStore());
-        endpoints.exceptionTranslator(customWebResponseExceptionTranslator);
     }
 
     @Override
@@ -102,7 +103,9 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         security
                 // 允许客户端访问 /oauth/check_token 检查 token
                 .checkTokenAccess("isAuthenticated()")
-                .allowFormAuthenticationForClients();
+                .allowFormAuthenticationForClients()
+                .accessDeniedHandler(new CustomAccessDeniedHandler())
+                .authenticationEntryPoint(new AuthExceptionEntryPoint());
     }
 
     /**

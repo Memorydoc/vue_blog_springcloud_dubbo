@@ -12,6 +12,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.TokenStore;
+
+import javax.annotation.Resource;
+import javax.annotation.Resources;
 
 /**
  * 资源服务器
@@ -26,6 +30,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 @EnableResourceServer
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class UserResourceServerConfiguration extends ResourceServerConfigurerAdapter {
+
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -43,15 +48,12 @@ public class UserResourceServerConfiguration extends ResourceServerConfigurerAda
                 .antMatchers("/**").hasAuthority("USER");
     }
 
-    @Autowired
-    CustomAccessDeniedHandler customAccessDeniedHandler;
-
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         // 配置资源 ID0
         resources.resourceId("backend-resources"). // 这个在认证服务器那里 配置的
                 authenticationEntryPoint(new AuthExceptionEntryPoint())
-                .accessDeniedHandler(customAccessDeniedHandler);
+                .accessDeniedHandler(new CustomAccessDeniedHandler());
 
     }
 }
