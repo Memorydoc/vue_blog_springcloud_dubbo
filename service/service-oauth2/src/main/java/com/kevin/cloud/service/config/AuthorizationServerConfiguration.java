@@ -3,6 +3,7 @@ package com.kevin.cloud.service.config;
 import com.kevin.cloud.service.AuthExceptionEntryPoint;
 import com.kevin.cloud.service.CustomAccessDeniedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -38,6 +39,11 @@ import javax.sql.DataSource;
 public class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+
+    @Value("${oauth.config.access-token-second}")
+    private int accessTokenSecond;
+    @Value("${oauth.config.refresh-token-second}")
+    private int refreshTokenSecond;
 
     /**
      * 注入用于支持 password 模式
@@ -79,9 +85,9 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         //复用refresh_token
         tokenServices.setReuseRefreshToken(true);
         //token有效期，设置12小时 默认也是12个小时
-        tokenServices.setAccessTokenValiditySeconds(/*12 * 60 **/ 10);
+        tokenServices.setAccessTokenValiditySeconds(accessTokenSecond);
         //refresh_token有效期，设置一周
-        tokenServices.setRefreshTokenValiditySeconds(7 * 24 * 60 * 60);
+        tokenServices.setRefreshTokenValiditySeconds(refreshTokenSecond);
         return tokenServices;
     }
     @Autowired

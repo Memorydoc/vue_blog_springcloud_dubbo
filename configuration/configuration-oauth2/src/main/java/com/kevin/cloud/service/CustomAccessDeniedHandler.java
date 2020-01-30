@@ -33,14 +33,15 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
         response.setContentType("application/json;charset=UTF-8");
         Map<String,Object> map = new HashMap<String,Object>();
         map.put("code", HttpServletResponse.SC_UNAUTHORIZED);//401
-        map.put("msg", "权限不足");
+        map.put("message", "权限不足");
         map.put("data", accessDeniedException.getMessage());
         map.put("success", false);
         map.put("path", request.getServletPath());
         map.put("timestamp", String.valueOf(new Date().getTime()));
         ObjectMapper mapper = new ObjectMapper();
         response.setContentType("application/json");
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        // 这里为了 配合前台vue， 也是返回200 状态，因为vue-element-admin 的requestjs中使用的是code判断超时
+        response.setStatus(HttpServletResponse.SC_OK);
         response.getWriter().write(mapper.writeValueAsString(map));
     }
 }

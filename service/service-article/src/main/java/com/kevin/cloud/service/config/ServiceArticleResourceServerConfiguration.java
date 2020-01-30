@@ -43,14 +43,12 @@ public class ServiceArticleResourceServerConfiguration extends ResourceServerCon
                 .antMatchers("/**").hasAuthority("USER");
     }
 
-    @Autowired
-    CustomAccessDeniedHandler customAccessDeniedHandler;
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         // 配置资源 ID0
         resources.resourceId("backend-resources"). // 这个在认证服务器那里 配置的
                 authenticationEntryPoint(new AuthExceptionEntryPoint())
-                .accessDeniedHandler(customAccessDeniedHandler);
+                .accessDeniedHandler(new CustomAccessDeniedHandler());
     }
 }

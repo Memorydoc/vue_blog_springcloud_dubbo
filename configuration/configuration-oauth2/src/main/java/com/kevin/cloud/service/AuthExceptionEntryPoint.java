@@ -19,8 +19,6 @@ import java.util.Map;
  * @create: 2020-01-24 00:14
  **/
 public class AuthExceptionEntryPoint implements AuthenticationEntryPoint {
-
-
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws ServletException {
@@ -38,7 +36,8 @@ public class AuthExceptionEntryPoint implements AuthenticationEntryPoint {
         map.put("path", request.getServletPath());
         map.put("timestamp", String.valueOf(new Date().getTime()));
         response.setContentType("application/json");
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        // 这里为了 配合前台vue， 也是返回200 状态，因为vue-element-admin 的requestjs中使用的是code判断超时
+        response.setStatus(HttpServletResponse.SC_OK);
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.writeValue(response.getOutputStream(), map);
