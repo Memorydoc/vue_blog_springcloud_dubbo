@@ -39,7 +39,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         //开放user/login 供给前端登录
         web.ignoring()
-                .antMatchers("/oauth/login");
+                .antMatchers("/oauth/login", "**/front/**");
     }
 
     @Override
@@ -76,7 +76,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 // 授权访问
                 .antMatchers("/user/info").hasAuthority("USER")
-                .antMatchers("/user/logout").hasAuthority("USER")
+                .antMatchers("/user/logout").hasAuthority("USER");
         ;
     }
 }

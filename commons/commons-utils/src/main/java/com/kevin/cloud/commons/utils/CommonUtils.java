@@ -47,4 +47,12 @@ public class CommonUtils {
         return JSONObject.parseObject(JSON.toJSONString(o, SerializerFeature.WriteNullNumberAsZero));
     }
 
+
+    /**
+     * 获取当前系统时间 年月日时分秒
+     */
+
+
+
+
 }

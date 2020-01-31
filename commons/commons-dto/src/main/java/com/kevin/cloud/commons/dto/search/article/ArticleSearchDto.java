@@ -1,32 +1,24 @@
-package com.kevin.cloud.commons.dto.article.dto;
+package com.kevin.cloud.commons.dto.search.article;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.kevin.cloud.commons.dto.serializer.CustomJsonDateDeserializer;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 /**
- * @program: vue-blog-backend
- * @description:
- * @author: kevin
- * @create: 2020-01-15 14:16
- **/
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-public class ArticleDto implements Serializable {
+ * @ProjectName: vue-blog-backend
+ * @Package: com.kevin.cloud.commons.dto.search.article
+ * @ClassName: ArticleSearchDto
+ * @Author: kevin
+ * @Description: es 使用
+ * @Date: 2020/2/1 0:32
+ * @Version: 1.0
+ */
+@Data
+public class ArticleSearchDto implements Serializable {
 
+    private static final long serialVersionUID = -4346910011534908296L;
     private List<Long> deleteIdArr;
 
     /**
@@ -82,7 +74,7 @@ public class ArticleDto implements Serializable {
     /**
      * 栏目
      */
-    private Long category;
+    private String category;
 
 
     /**
@@ -109,7 +101,7 @@ public class ArticleDto implements Serializable {
     /**
      * 创建时间
      */
-    private Date createDate;
+    private String  createDate;
 
     /**
      * 创建人
@@ -120,12 +112,12 @@ public class ArticleDto implements Serializable {
     /**
      * 修改时间
      */
-    private Date updateDate;
+    private String updateDate;
 
     /**
      * 修改人
      */
-    private Long updateBy;
+    private String updateBy;
 
     /**
      * 删除标志

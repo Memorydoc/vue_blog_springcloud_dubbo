@@ -40,7 +40,9 @@ public class ServiceArticleResourceServerConfiguration extends ResourceServerCon
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/**").hasAuthority("USER");
+                .antMatchers("/article/front/**").permitAll() // 不拦截前端请求
+                .antMatchers("/article/**").hasAuthority("USER");
+
     }
 
 

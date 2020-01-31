@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.kevin.cloud.commons.dto.QueryPageParam;
 import com.kevin.cloud.commons.dto.article.dto.ArticleDto;
+import com.kevin.cloud.commons.dto.article.vo.ArticleVo;
 import com.kevin.cloud.commons.platform.dto.FallBackResult;
 import com.kevin.cloud.commons.platform.dto.PageResult;
 import com.kevin.cloud.commons.platform.utils.BaseServiceUtils;
@@ -33,12 +34,12 @@ public class ArticleServiceImpl implements ArticleService {
 
     @SentinelResource(value = "articleList", fallback = "articleListFallBack", fallbackClass = ArticleServiceDubboFallBack.class)
     @Override
-    public FallBackResult articleList(QueryPageParam queryPageParam) {
+    public FallBackResult articleList(ArticleVo articleVo) {
         FallBackResult fallBackResult = new FallBackResult();
-        PageHelper.startPage(queryPageParam.getPageNum(), queryPageParam.getPageSize());
+        PageHelper.startPage(articleVo.getPageNum(), articleVo.getPageSize());
         Example example = new Example(SiArticle.class);
         example.setOrderByClause("create_date DESC");
-        List<SiArticle> siArticles = siArticleMapper.selectByExample(example);
+        List<ArticleDto> siArticles = siArticleMapper.queryArticleList(articleVo);
         PageInfo pageInfo = new PageInfo(siArticles);
         PageResult pageResult = BaseServiceUtils.buildPageResult(pageInfo);
         fallBackResult.setData(pageResult);
@@ -65,7 +66,7 @@ public class ArticleServiceImpl implements ArticleService {
     public int deleteIdArr(List<Long> idArr) {
         Example example = new Example(SiArticle.class);
         example.createCriteria().andIn("id", idArr);
-        return  siArticleMapper.deleteByExample(example);
+        return siArticleMapper.deleteByExample(example);
     }
 
     @Override

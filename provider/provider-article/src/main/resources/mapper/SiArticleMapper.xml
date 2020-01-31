@@ -33,4 +33,47 @@
     titlepic, visibility, create_date, create_by, update_date, update_by, del_flag, fbzt, 
     sfdm, es_id
   </sql>
+
+  <select id="queryArticleList" resultType="com.kevin.cloud.commons.dto.article.dto.ArticleDto" parameterType="com.kevin.cloud.commons.dto.article.vo.ArticleVo">
+    SELECT
+    m.*
+    FROM
+    (SELECT
+    t.id,
+    t.`mc`,
+    t.wgrs,
+    t.`content`,
+    t.`del_flag`,
+    t.`es_id`,
+    t.`describe`,
+    t.`pl`,
+    t.`title`,
+    t.type,
+    t.`bz`,
+    t.category AS category,
+    n.lmmc as categoryName,
+    t.`tags`,
+    t.`titlepic`,
+    t.`visibility`,
+    t.`create_date` AS createDate,
+    m.`username` createBy,
+    t.`update_date` AS updateDate,
+    t.`update_by` AS updateBy,
+    t.`fbzt`,
+    t.`sfdm`
+    FROM
+    si_article t
+    LEFT JOIN ums_admin m
+    ON t.`create_by` = m.id
+    LEFT JOIN si_column n ON n.id  = t.`category`
+    ) m
+    WHERE 1 = 1
+    <if test="mc != null and mc != ''">
+      and m.mc like concat(concat('%',#{mc}),'%')
+    </if>
+
+    ORDER BY m.createDate DESC
+  </select>
+
+  
 </mapper>

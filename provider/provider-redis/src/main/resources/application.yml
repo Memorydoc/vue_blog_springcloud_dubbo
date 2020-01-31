@@ -35,6 +35,8 @@ dubbo:
   registry:
     address: nacos://${base.config.nacos.hostname}
     port: ${base.config.nacos.port}
+  provider:
+    timeout: 5000
 redisson:
   master-name: mymaster
   password:

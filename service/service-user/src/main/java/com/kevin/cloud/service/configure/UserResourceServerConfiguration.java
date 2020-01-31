@@ -45,7 +45,8 @@ public class UserResourceServerConfiguration extends ResourceServerConfigurerAda
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/**").hasAuthority("USER");
+                .antMatchers("/**").hasAuthority("USER")
+                .antMatchers("**/front/**").permitAll(); // 不拦截前端请求
     }
 
     @Override

@@ -56,23 +56,28 @@ public class ElasticsearchClientService implements ESService {
     public Object search(ESParamDto esParamDto) {
         QueryBuilder query = null;
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
-        if (esParamDto.getQueryBuilder() != null) {
-            query = (QueryBuilder) esParamDto.getQueryBuilder();
+        if (esParamDto.getKeyword() == null) {
+            query = boolQueryBuilder;
         } else {
 
-            String matchField = esParamDto.getMatchField();
-            if (StringUtils.isBlank(matchField)) {
-                throw new RuntimeException("matchField is error ");
-            }
-            String[] split = matchField.split(",");
-            for (String key : split) {
-                QueryBuilder queryBuilder = QueryBuilders.matchQuery(key, esParamDto.getKeyword())
-                        .analyzer(analysis);
-                //创建 QueryBuilder
-                boolQueryBuilder = boolQueryBuilder.should(queryBuilder);
+            if (esParamDto.getQueryBuilder() != null) {
+                query = (QueryBuilder) esParamDto.getQueryBuilder();
+            } else {
 
+                String matchField = esParamDto.getMatchField();
+                if (StringUtils.isBlank(matchField)) {
+                    throw new RuntimeException("matchField is error ");
+                }
+                String[] split = matchField.split(",");
+                for (String key : split) {
+                    QueryBuilder queryBuilder = QueryBuilders.matchQuery(key, esParamDto.getKeyword())
+                            .analyzer(analysis);
+                    //创建 QueryBuilder
+                    boolQueryBuilder = boolQueryBuilder.should(queryBuilder);
+
+                }
+                query = boolQueryBuilder; //最后 这个是查询
             }
-            query = boolQueryBuilder; //最后 这个是查询
         }
         //分页并且高亮
         if (esParamDto.isPage() && esParamDto.isHightLight()) {

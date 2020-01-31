@@ -2,6 +2,7 @@ package com.kevin.cloud.provider.api;
 
 import com.kevin.cloud.commons.dto.QueryPageParam;
 import com.kevin.cloud.commons.dto.article.dto.ArticleDto;
+import com.kevin.cloud.commons.dto.article.vo.ArticleVo;
 import com.kevin.cloud.commons.platform.dto.FallBackResult;
 import com.kevin.cloud.provider.domain.SiArticle;
 
@@ -16,7 +17,7 @@ import java.util.List;
  **/
 public interface ArticleService {
 
-    public FallBackResult articleList(QueryPageParam queryPageParam);
+    public FallBackResult articleList(ArticleVo articleVo);
 
     public ArticleDto viewArticleById(Long articleId);
 
