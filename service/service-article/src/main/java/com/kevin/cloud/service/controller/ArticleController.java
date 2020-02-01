@@ -132,9 +132,15 @@ public class ArticleController {
     @PostMapping("addArticle")
     @Transactional
     public ResponseResult addArticle(@RequestBody ArticleVo articleVo) throws Exception {
+        ArticleSearchDto articleSearchDto = new ArticleSearchDto();
+        BeanUtils.copyProperties(articleVo, articleSearchDto);
+        articleSearchDto.setCreateDate(DateUtils.getDate("yyyy-MM-dd hh:mm:ss"));
+        // 将文章保存到es中 方便全文搜索
+        String esId = esService.addDataId(CommonUtils.beanToJSONObject(articleSearchDto), "article", "item", idGenerator.nextSid());
         SiArticle siArticle = new SiArticle();
         BeanUtils.copyProperties(articleVo, siArticle);
         siArticle.setId(idGenerator.nextLid());
+        siArticle.setEsId(esId);
         siArticle.setCreateBy(authUserHelper.getCurrentUser().getId());
         siArticle.setCreateDate(new Date());
         int i = articleService.insert(siArticle);
@@ -143,11 +149,6 @@ public class ArticleController {
         } else {
             System.out.println("插入数据库失败");
         }
-        ArticleSearchDto articleSearchDto = new ArticleSearchDto();
-        BeanUtils.copyProperties(articleVo, articleSearchDto);
-        articleSearchDto.setCreateDate(DateUtils.getDate("yyyy-MM-dd hh:mm:ss"));
-        // 将文章保存到es中 方便全文搜索
-        String esId = esService.addDataId(CommonUtils.beanToJSONObject(articleSearchDto), "article", "item", siArticle.getId() + "");
 
         return new ResponseResult(ResponseResult.CodeStatus.OK, "文章添加成功", esId);
     }
