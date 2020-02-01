@@ -2,6 +2,7 @@ package com.kevin.cloud.provider.util;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.nacos.client.utils.StringUtils;
+import com.kevin.cloud.commons.dto.CommonConstant;
 import com.kevin.cloud.commons.platform.dto.PageResult;
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexResponse;
@@ -17,7 +18,9 @@ import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.text.Text;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
@@ -197,6 +200,24 @@ public class ElasticsearchUtil {
     }
 
 
+    private static void setHightFields(SearchRequestBuilder searchRequestBuilder, String highlightField) {
+        // 高亮（xxx=111,aaa=222）
+        // 预设置 高亮字段， 在进行高亮设置的时候会用到
+        if (StringUtils.isNotEmpty(highlightField)) {
+            // 可以高亮多个字段
+            String[] split = highlightField.split(",");
+            HighlightBuilder highlightBuilder = new HighlightBuilder();
+            highlightBuilder.preTags("<span style='color:red' ><strong>");//设置前缀
+            highlightBuilder.postTags("</strong></span>");//设置后缀
+            // 设置高亮字段
+            for (String key : split) {
+                highlightBuilder.field(key.trim());
+                searchRequestBuilder.highlighter(highlightBuilder);
+            }
+        }
+    }
+
+
     /**
      * 使用分词查询,并分页
      *
@@ -227,20 +248,7 @@ public class ElasticsearchUtil {
             searchRequestBuilder.addSort(sortField, SortOrder.DESC);
         }
 
-        // 高亮（xxx=111,aaa=222）
-        if (StringUtils.isNotEmpty(highlightField)) {
-            // 可以高亮多个字段
-            String[] split = highlightField.split(",");
-            HighlightBuilder highlightBuilder = new HighlightBuilder();
-            highlightBuilder.preTags("<span style='color:red' >");//设置前缀
-            highlightBuilder.postTags("</span>");//设置后缀
-            // 设置高亮字段
-            for (String key : split) {
-                highlightBuilder.field(key.trim());
-                searchRequestBuilder.highlighter(highlightBuilder);
-            }
-
-        }
+        setHightFields(searchRequestBuilder, highlightField);
 
         //searchRequestBuilder.setQuery(QueryBuilders.matchAllQuery());
         searchRequestBuilder.setQuery(query);
@@ -294,13 +302,7 @@ public class ElasticsearchUtil {
         if (StringUtils.isNotEmpty(type)) {
             searchRequestBuilder.setTypes(type.split(","));
         }
-
-        if (StringUtils.isNotEmpty(highlightField)) {
-            HighlightBuilder highlightBuilder = new HighlightBuilder();
-            // 设置高亮字段
-            highlightBuilder.field(highlightField);
-            searchRequestBuilder.highlighter(highlightBuilder);
-        }
+        setHightFields(searchRequestBuilder, highlightField);
 
         searchRequestBuilder.setQuery(query);
 
@@ -339,15 +341,14 @@ public class ElasticsearchUtil {
     /**
      * 高亮结果集 特殊处理
      *
-     * @param searchResponse
-     * @param highlightField
+     * @param searchResponse 这是查询的结果集，是为了设置高亮的
+     * @param highlightField 需要高亮的字段
      */
     private static List<Map<String, Object>> setSearchResponse(SearchResponse searchResponse, String highlightField) {
         List<Map<String, Object>> sourceList = new ArrayList<Map<String, Object>>();
 
-
         for (SearchHit searchHit : searchResponse.getHits().getHits()) {
-            searchHit.getSourceAsMap().put("id", searchHit.getId());
+            searchHit.getSourceAsMap().put("esId", searchHit.getId()); // 这里是设置es 的ID
             if (StringUtils.isNotEmpty(highlightField)) {
                 String[] split = highlightField.trim().split(",");
                 for (String highlight : split) {

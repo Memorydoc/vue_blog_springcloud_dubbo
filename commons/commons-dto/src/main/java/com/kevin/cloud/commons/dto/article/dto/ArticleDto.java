@@ -143,4 +143,14 @@ public class ArticleDto implements Serializable {
     private String sfdm;
 
     private String esId;
+
+    /**
+     * 喜欢人数
+     */
+    private Integer liks;
+
+    /**
+     * 是否特别推荐 默认不推荐为0
+     */
+    private Integer tuijian;
 }

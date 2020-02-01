@@ -77,6 +77,12 @@ public class ArticleVo extends QueryPageParam  implements Serializable {
      */
     private Long category;
 
+
+    /**
+     * 栏目
+     */
+    private String categoryName;
+
     /**
      * 标签
      */
@@ -127,4 +133,18 @@ public class ArticleVo extends QueryPageParam  implements Serializable {
      * 是否代码发布
      */
     private String sfdm;
+
+
+
+    /**
+     * 喜欢人数
+     */
+    private Integer liks;
+
+    /**
+     * 是否特别推荐 默认不推荐为0
+     */
+    private Integer tuijian;
+
+    private String esId;
 }

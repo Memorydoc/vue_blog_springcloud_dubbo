@@ -15,7 +15,7 @@ import java.util.Map;
  **/
 public interface ESService {
     public Object search(ESParamDto esParamDto);
-
+    public Object searchById(ESParamDto esParamDto);
     public boolean createIndex(String index); // 这里使用 spring注解的方式创建索引，所以一般用不到这个
     public boolean deleteIndex(String index);
     public boolean deleteIndex(Class indexClass);

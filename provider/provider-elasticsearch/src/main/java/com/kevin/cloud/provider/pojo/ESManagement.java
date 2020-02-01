@@ -1,8 +1,6 @@
 package com.kevin.cloud.provider.pojo;
 
-import com.kevin.cloud.provider.api.ESService;
 import org.springframework.stereotype.Component;
-
 import java.util.HashMap;
 import java.util.Map;
 

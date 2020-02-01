@@ -2,6 +2,8 @@ package com.kevin.cloud.provider.api;
 
 import com.kevin.cloud.commons.dto.QueryPageParam;
 import com.kevin.cloud.commons.dto.article.dto.ArticleDto;
+import com.kevin.cloud.commons.dto.article.dto.SiColumnDto;
+import com.kevin.cloud.commons.dto.article.dto.SiFinkDto;
 import com.kevin.cloud.commons.dto.article.vo.ArticleVo;
 import com.kevin.cloud.commons.platform.dto.FallBackResult;
 import com.kevin.cloud.provider.domain.SiArticle;
@@ -30,5 +32,13 @@ public interface ArticleService {
 
     // 新增文章
     public int insert(SiArticle siArticle);
+
+
+    /**
+     * 加载特别推荐数据
+     */
+    public List<ArticleDto> initTuijian();
+
+    public List<SiColumnDto> tuijianTags();
 
 }

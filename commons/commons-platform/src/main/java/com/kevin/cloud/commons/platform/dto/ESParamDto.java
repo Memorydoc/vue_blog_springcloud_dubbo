@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ESParamDto {
+    private String esId;
     private String index;// 索引库名
     private String type; // 表名，匹配 type
     private String keyword; // 查询关键字

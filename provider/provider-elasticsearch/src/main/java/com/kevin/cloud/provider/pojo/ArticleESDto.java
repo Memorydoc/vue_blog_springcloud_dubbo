@@ -10,6 +10,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.persistence.Column;
 import javax.persistence.Id;
 import java.io.Serializable;
 
@@ -52,6 +53,7 @@ public class ArticleESDto implements BaseESDto, Serializable {
     /**
      * 围观人数
      */
+    @Field(type = FieldType.Long)
     private Long wgrs;
 
     /**
@@ -83,5 +85,37 @@ public class ArticleESDto implements BaseESDto, Serializable {
      */
     @Field(type = FieldType.Keyword, index = false)
     private String titlepic;
+
+
+    /**
+     * 标题图片
+     */
+    @Field(type = FieldType.Text, index = false)
+    private String createDate;
+
+
+    /**
+     * 标题图片
+     */
+    @Field(type = FieldType.Text, index = false)
+    private String updateDate;
+
+    /**
+     * 所属分类
+     */
+    @Field(type = FieldType.Text, index = false)
+    private String categoryName;
+
+    /**
+     * 喜欢人数
+     */
+    @Field(type = FieldType.Integer)
+    private Integer liks;
+
+    /**
+     * 是否特别推荐 默认不推荐为0
+     */
+    @Field(type = FieldType.Integer)
+    private Integer tuijian;
 
 }

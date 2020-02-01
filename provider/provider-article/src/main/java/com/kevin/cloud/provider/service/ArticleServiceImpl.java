@@ -3,8 +3,11 @@ package com.kevin.cloud.provider.service;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Lists;
 import com.kevin.cloud.commons.dto.QueryPageParam;
 import com.kevin.cloud.commons.dto.article.dto.ArticleDto;
+import com.kevin.cloud.commons.dto.article.dto.SiColumnDto;
+import com.kevin.cloud.commons.dto.article.dto.SiFinkDto;
 import com.kevin.cloud.commons.dto.article.vo.ArticleVo;
 import com.kevin.cloud.commons.platform.dto.FallBackResult;
 import com.kevin.cloud.commons.platform.dto.PageResult;
@@ -73,6 +76,25 @@ public class ArticleServiceImpl implements ArticleService {
     public int insert(SiArticle siArticle) {
         siArticle.setCreateDate(new Date());
         return siArticleMapper.insertSelective(siArticle);
+    }
+
+    @Override
+    public List<ArticleDto> initTuijian() {
+        Example example = new Example(SiArticle.class);
+        example.createCriteria().andEqualTo("tuijian", 1);
+        List<ArticleDto> list = Lists.newArrayList();
+        List<SiArticle> siArticles = siArticleMapper.selectByExample(example);
+        siArticles.forEach(x -> {
+            ArticleDto articleDto = new ArticleDto();
+            BeanUtils.copyProperties(x, articleDto);
+            list.add(articleDto);
+        });
+        return list;
+    }
+
+    @Override
+    public List<SiColumnDto> tuijianTags() {
+      return siArticleMapper.tuijianTags();
     }
 
 

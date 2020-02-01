@@ -1,11 +1,6 @@
 package com.kevin.cloud.provider.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -14,12 +9,7 @@ import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
 
-@Getter
-@Setter
-@ToString
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 @Table(name = "si_article")
 public class SiArticle implements Serializable {
     /**
@@ -156,9 +146,17 @@ public class SiArticle implements Serializable {
     @Column(name = "es_id")
     private String esId;
 
-    private static final long serialVersionUID = 1L;
+    /**
+     * 喜欢人数
+     */
+    @Column(name = "liks")
+    private Integer liks;
 
-    public static SiArticleBuilder builder() {
-        return new SiArticleBuilder();
-    }
+    /**
+     * 是否特别推荐 默认不推荐为0
+     */
+    @Column(name = "tuijian")
+    private Integer tuijian;
+
+    private static final long serialVersionUID = 1L;
 }

@@ -1,6 +1,7 @@
 package com.kevin.cloud.provider.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.kevin.cloud.commons.dto.CommonConstant;
 import com.kevin.cloud.commons.platform.dto.ESParamDto;
 import com.kevin.cloud.provider.api.ESService;
 import com.kevin.cloud.provider.pojo.BaseESDto;
@@ -27,7 +28,7 @@ import java.util.Map;
  **/
 @Service(version = "1.0.0")
 public class ElasticsearchClientService implements ESService {
-    private static final String analysis = "ik_smart";
+
 
     @Autowired
     private ElasticsearchTemplate elasticsearchTemplate;    //es工具
@@ -56,7 +57,7 @@ public class ElasticsearchClientService implements ESService {
     public Object search(ESParamDto esParamDto) {
         QueryBuilder query = null;
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
-        if (esParamDto.getKeyword() == null) {
+        if (StringUtils.isBlank(esParamDto.getKeyword())) {
             query = boolQueryBuilder;
         } else {
 
@@ -71,7 +72,8 @@ public class ElasticsearchClientService implements ESService {
                 String[] split = matchField.split(",");
                 for (String key : split) {
                     QueryBuilder queryBuilder = QueryBuilders.matchQuery(key, esParamDto.getKeyword())
-                            .analyzer(analysis);
+                            .analyzer(CommonConstant.analysis
+                            );
                     //创建 QueryBuilder
                     boolQueryBuilder = boolQueryBuilder.should(queryBuilder);
 
@@ -100,6 +102,12 @@ public class ElasticsearchClientService implements ESService {
                     esParamDto.getFields(), esParamDto.getSortField(), null);
         }
     }
+
+    @Override
+    public Object searchById(ESParamDto esParamDto) {
+        return ElasticsearchUtil.searchDataById(esParamDto.getIndex(), esParamDto.getType(), esParamDto.getEsId(), esParamDto.getMatchField());
+    }
+
 
     @Override
     public boolean createIndex(String index) {

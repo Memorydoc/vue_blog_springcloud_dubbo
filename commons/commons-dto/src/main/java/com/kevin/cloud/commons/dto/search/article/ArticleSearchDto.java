@@ -72,9 +72,9 @@ public class ArticleSearchDto implements Serializable {
     private String describe;
 
     /**
-     * 栏目
+     * 栏目Id
      */
-    private String category;
+    private Long category;
 
 
     /**
