@@ -28,13 +28,11 @@ public class UploadResourceServerConfiguration extends ResourceServerConfigurerA
                 .and()
                 .authorizeRequests()
                 .antMatchers("/**").hasAuthority("USER")
-                .antMatchers("**/front/**").permitAll(); // 不拦截前端请求
+                .antMatchers("/cloud/front/**").permitAll(); // 不拦截前端请求
     }
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         // 配置资源 ID0
-        resources.resourceId("backend-resources"). // 这个在认证服务器那里 配置的
-                authenticationEntryPoint(new AuthExceptionEntryPoint())
-                .accessDeniedHandler(new CustomAccessDeniedHandler());
+        resources.resourceId("backend-resources");// 这个在认证服务器那里 配置的
     }
 }

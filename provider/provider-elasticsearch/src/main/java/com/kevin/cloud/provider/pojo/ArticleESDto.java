@@ -86,11 +86,16 @@ public class ArticleESDto implements BaseESDto, Serializable {
     @Field(type = FieldType.Keyword, index = false)
     private String titlepic;
 
+    /**
+     * 标题图片
+     */
+    @Field(type = FieldType.Keyword, index = false)
+    private String titlepicname;
 
     /**
      * 标题图片
      */
-    @Field(type = FieldType.Text, index = false)
+    @Field(type = FieldType.Date, index = false)
     private String createDate;
 
 

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kevin.cloud.provider.mapper.SiArticleMapper">
     <resultMap id="BaseResultMap" type="com.kevin.cloud.provider.domain.SiArticle">
-        <!--@mbg.generated generated on Sat Feb 01 13:02:13 CST 2020.-->
+        <!--@mbg.generated generated on Sun Feb 02 14:07:51 CST 2020.-->
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="mc" jdbcType="VARCHAR" property="mc"/>
         <result column="wgrs" jdbcType="BIGINT" property="wgrs"/>
@@ -27,12 +27,13 @@
         <result column="es_id" jdbcType="VARCHAR" property="esId"/>
         <result column="liks" jdbcType="INTEGER" property="liks"/>
         <result column="tuijian" jdbcType="INTEGER" property="tuijian"/>
+        <result column="titlepicname" jdbcType="VARCHAR" property="titlepicname"/>
     </resultMap>
     <sql id="Base_Column_List">
-        <!--@mbg.generated generated on Sat Feb 01 13:02:13 CST 2020.-->
+        <!--@mbg.generated generated on Sun Feb 02 14:07:51 CST 2020.-->
         id, mc, wgrs, content, bz, `type`, title, pl, keywords, `describe`, category, tags,
         titlepic, visibility, create_date, create_by, update_date, update_by, del_flag, fbzt,
-        sfdm, es_id, liks, tuijian
+        sfdm, es_id, liks, tuijian, titlepicname
     </sql>
 
     <select id="queryArticleList" parameterType="com.kevin.cloud.commons.dto.article.vo.ArticleVo"
@@ -92,8 +93,34 @@ FROM
     si_column k
     INNER JOIN si_article a
       ON a.`category` = k.`id`
-  GROUP BY a.`id`) m
+  GROUP BY  k.id ) m
 WHERE 1 = 1
   AND m.tuijian  = 1
   </select>
+
+    <select id="loadBefore" parameterType="java.util.Date"
+            resultType="com.kevin.cloud.commons.dto.article.dto.ArticleDto">
+SELECT
+        t.id AS id,
+        t.es_id AS esId,
+        t.mc AS mc
+        FROM
+        si_article t
+        WHERE t.create_date &lt;     #{createDate}
+        LIMIT 1
+
+    </select>
+
+
+    <select id="loadAfter" parameterType="java.util.Date"
+            resultType="com.kevin.cloud.commons.dto.article.dto.ArticleDto">
+SELECT
+        t.id AS id,
+        t.es_id AS esId,
+        t.mc AS mc
+        FROM
+        si_article t
+        WHERE t.create_date &gt;  #{createDate}
+        LIMIT 1
+    </select>
 </mapper>

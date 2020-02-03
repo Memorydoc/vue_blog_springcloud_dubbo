@@ -158,5 +158,11 @@ public class SiArticle implements Serializable {
     @Column(name = "tuijian")
     private Integer tuijian;
 
+    /**
+     * 文章封面图片名称
+     */
+    @Column(name = "titlepicname")
+    private String titlepicname;
+
     private static final long serialVersionUID = 1L;
 }

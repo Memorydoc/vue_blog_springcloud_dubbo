@@ -101,7 +101,7 @@ public class ArticleSearchDto implements Serializable {
     /**
      * 创建时间
      */
-    private String  createDate;
+    private Date createDate;
 
     /**
      * 创建人
@@ -112,7 +112,7 @@ public class ArticleSearchDto implements Serializable {
     /**
      * 修改时间
      */
-    private String updateDate;
+    private Date updateDate;
 
     /**
      * 修改人
@@ -135,4 +135,6 @@ public class ArticleSearchDto implements Serializable {
     private String sfdm;
 
     private String esId;
+
+    private Integer liks = 0;
 }

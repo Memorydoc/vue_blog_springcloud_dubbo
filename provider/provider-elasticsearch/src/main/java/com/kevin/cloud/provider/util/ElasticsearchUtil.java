@@ -364,10 +364,12 @@ public class ElasticsearchUtil {
                             searchHit.getSourceAsMap().put(highlight, stringBuffer.toString());
                         }
                     }
+                    //对es查询的数据进行额外的处理
                 }
             }
             sourceList.add(searchHit.getSourceAsMap());
         }
         return sourceList;
     }
+
 }

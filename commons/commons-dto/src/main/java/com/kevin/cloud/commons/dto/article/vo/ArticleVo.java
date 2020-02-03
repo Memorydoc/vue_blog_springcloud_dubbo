@@ -58,6 +58,11 @@ public class ArticleVo extends QueryPageParam  implements Serializable {
     private String title;
 
     /**
+     * 标题图片名称
+     */
+    private String titlepicname;
+
+    /**
      * 评论编号
      */
     private Long pl;

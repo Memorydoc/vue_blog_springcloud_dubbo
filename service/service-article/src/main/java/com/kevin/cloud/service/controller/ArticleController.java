@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.awt.image.ReplicateScaleFilter;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -134,7 +135,7 @@ public class ArticleController {
     public ResponseResult addArticle(@RequestBody ArticleVo articleVo) throws Exception {
         ArticleSearchDto articleSearchDto = new ArticleSearchDto();
         BeanUtils.copyProperties(articleVo, articleSearchDto);
-        articleSearchDto.setCreateDate(DateUtils.getDate("yyyy-MM-dd hh:mm:ss"));
+        articleSearchDto.setCreateDate(new Date());
         // 将文章保存到es中 方便全文搜索
         String esId = esService.addDataId(CommonUtils.beanToJSONObject(articleSearchDto), "article", "item", idGenerator.nextSid());
         SiArticle siArticle = new SiArticle();
@@ -166,7 +167,13 @@ public class ArticleController {
         esParamDto.setIndex("article");
         esParamDto.setType("item");
         esParamDto.setHightLightField("mc,content");
+        esParamDto.setSortField("createDate"); // 按照创建时间排序
         PageResult result = (PageResult) esService.search(esParamDto);
+        List<Map> recordList = result.getRecordList();
+        recordList.forEach(x -> {
+            x.put("createDate", DateUtils.formatDate(new Date((Long) x.get("createDate")), "yyyy-MM-dd HH:mm:ss"));
+        });
+        result.setRecordList(recordList);
         return new ResponseResult(ResponseResult.CodeStatus.OK, "ES文章分页查询成功", result);
     }
 
@@ -193,11 +200,12 @@ public class ArticleController {
     @PostMapping("front/searchArticleByIdFromEs")
     public ResponseResult searchArticleByIdFromEs(@RequestBody ArticleVo articleVo) {
         ESParamDto esParamDto = new ESParamDto();
-        esParamDto.setMatchField("mc,content,createBy,id,category,pl,categoryName,content,createDate,wgrs");
+        esParamDto.setMatchField("mc,content,createBy,id,category,pl,categoryName,content,createDate,wgrs,titlepic,liks");
         esParamDto.setIndex("article");
         esParamDto.setEsId(articleVo.getEsId());
         esParamDto.setType("item");
         Map<String, Object> result = (Map<String, Object>) esService.searchById(esParamDto);
+        result.put("createDate", DateUtils.formatDate(new Date((Long) result.get("createDate")), "yyyy-MM-dd HH:mm:ss"));
         return new ResponseResult(ResponseResult.CodeStatus.OK, "ES文章分页查询成功", result);
     }
 
@@ -211,4 +219,24 @@ public class ArticleController {
         resultMap.put("tuijianTags", siColumnDtos);
         return new ResponseResult(ResponseResult.CodeStatus.OK, "", resultMap);
     }
+
+    /**
+     * @param esId esId
+     *             加载上一篇 下一篇文章数据
+     */
+    @GetMapping("front/loadBeforeAndBack")
+    public ResponseResult loadBeforeAndBack(String esId) {
+        Map resultMap = new HashMap();
+        List<ArticleDto> before = articleService.loadBefore(esId);
+        List<ArticleDto> after = articleService.loadAfter(esId);
+        if (before.size() > 0) {
+            resultMap.put("before", before.get(0));
+        }
+        if (after.size() > 0) {
+            resultMap.put("after", after.get(0));
+        }
+
+        return new ResponseResult(ResponseResult.CodeStatus.OK, "", resultMap);
+    }
+
 }

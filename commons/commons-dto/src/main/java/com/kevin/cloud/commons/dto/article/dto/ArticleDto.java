@@ -102,6 +102,11 @@ public class ArticleDto implements Serializable {
     private String titlepic;
 
     /**
+     * 标题图片名称
+     */
+    private String titlepicname;
+
+    /**
      * 是否公开(默认公开)
      */
     private String visibility;

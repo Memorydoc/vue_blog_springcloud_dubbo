@@ -43,6 +43,7 @@ public class UploadController {
     // markdown 上传图片
     @PostMapping("uploadImage")
     public ResponseResult uploadImage(@RequestParam(value = "image", required = false) MultipartFile multipartFile) {
+        System.out.println("*********************");
         String fileName = multipartFile.getOriginalFilename();
         String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
         String newName = UUID.randomUUID() + "." + suffix;
@@ -50,7 +51,7 @@ public class UploadController {
         try {
             client.putObject(new PutObjectRequest(BUCKET_NAME, newName, new ByteArrayInputStream(multipartFile.getBytes())));
             // 上传文件路径 = http://BUCKET_NAME.ENDPOINT/自定义路径/fileName
-            return new ResponseResult<FileInfo>(ResponseResult.CodeStatus.OK, "文件上传成功", new FileInfo("http://" + BUCKET_NAME + "." + ENDPOINT + "/" + newName));
+            return new ResponseResult<FileInfo>(ResponseResult.CodeStatus.OK, "文件上传成功", new FileInfo("http://" + BUCKET_NAME + "." + ENDPOINT + "/" + newName, fileName));
         } catch (IOException e) {
             return new ResponseResult<FileInfo>(ResponseResult.CodeStatus.FAIL, "文件上传失败，请重试");
         } finally {
@@ -71,4 +72,21 @@ public class UploadController {
         client.shutdown();
         return new ResponseResult(ResponseResult.CodeStatus.OK, "图片删除成功", null);
     }
+
+    @PostMapping("uploadArticleImage")
+    public ResponseResult uploadArticleImage(@RequestParam(value = "image", required = false) MultipartFile multipartFile) {
+        String fileName = multipartFile.getOriginalFilename();
+        String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
+        String newName = UUID.randomUUID() + "." + suffix;
+        OSS client = new OSSClientBuilder().build(ENDPOINT, ACCESS_KEY_ID, ACCESS_KEY_SECRET);
+        try {
+            client.putObject(new PutObjectRequest(BUCKET_NAME, newName, new ByteArrayInputStream(multipartFile.getBytes())));
+            return new ResponseResult(ResponseResult.CodeStatus.OK, "文章封面图片上传成功", new FileInfo("http://" + BUCKET_NAME + "." + ENDPOINT + "/" + newName, fileName));
+        } catch (IOException e) {
+            return new ResponseResult<FileInfo>(ResponseResult.CodeStatus.FAIL, "文章封面图片上传失败，请重试");
+        } finally {
+            client.shutdown();
+        }
+    }
+
 }

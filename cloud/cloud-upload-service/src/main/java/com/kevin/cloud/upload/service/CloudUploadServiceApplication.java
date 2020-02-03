@@ -11,11 +11,9 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * @author: kevin
  * @create: 2020-01-09 13:24
  **/
-@SpringBootApplication(exclude= {DataSourceAutoConfiguration.class},
-scanBasePackages = "com.kevin.cloud.service")
+@SpringBootApplication(exclude= {DataSourceAutoConfiguration.class})
 @EnableDiscoveryClient
 public class CloudUploadServiceApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(CloudUploadServiceApplication.class, args);
     }

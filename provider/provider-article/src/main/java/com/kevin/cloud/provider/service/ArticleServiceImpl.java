@@ -97,5 +97,20 @@ public class ArticleServiceImpl implements ArticleService {
       return siArticleMapper.tuijianTags();
     }
 
+    @Override
+    public List<ArticleDto> loadBefore(String esId) {
+        Example example = new Example(SiArticle.class);
+        example.createCriteria().andEqualTo("esId", esId);
+        SiArticle siArticle = siArticleMapper.selectByExample(example).get(0);
+        return siArticleMapper.loadBefore(siArticle.getCreateDate());
+    }
+
+    @Override
+    public List<ArticleDto> loadAfter(String esId) {
+        Example example = new Example(SiArticle.class);
+        example.createCriteria().andEqualTo("esId", esId);
+        SiArticle siArticle = siArticleMapper.selectByExample(example).get(0);
+        return siArticleMapper.loadAfter(siArticle.getCreateDate());
+    }
 
 }

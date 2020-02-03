@@ -41,4 +41,7 @@ public interface ArticleService {
 
     public List<SiColumnDto> tuijianTags();
 
+    List<ArticleDto> loadBefore(String esId);
+
+    List<ArticleDto> loadAfter(String esId);
 }

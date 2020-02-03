@@ -23,4 +23,9 @@ public class FileInfo implements Serializable {
      * 文件路径
      */
     private String path;
+
+    /**
+     * 文件名
+     */
+    private String name;
 }
