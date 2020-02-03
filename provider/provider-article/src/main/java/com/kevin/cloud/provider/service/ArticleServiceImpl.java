@@ -19,6 +19,7 @@ import com.kevin.cloud.provider.service.fallback.ArticleServiceDubboFallBack;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.Date;
@@ -94,7 +95,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public List<SiColumnDto> tuijianTags() {
-      return siArticleMapper.tuijianTags();
+        return siArticleMapper.tuijianTags();
     }
 
     @Override
@@ -111,6 +112,46 @@ public class ArticleServiceImpl implements ArticleService {
         example.createCriteria().andEqualTo("esId", esId);
         SiArticle siArticle = siArticleMapper.selectByExample(example).get(0);
         return siArticleMapper.loadAfter(siArticle.getCreateDate());
+    }
+
+    @Override
+    public List<SiArticle> selectLists() {
+        Example example = new Example(SiArticle.class);
+        return siArticleMapper.selectByExample(example);
+
+    }
+
+    @Override
+    public PageResult initTimesData(ArticleVo articleVo) {
+        PageHelper.startPage(articleVo.getPageNum(), articleVo.getPageSize());
+        Example example = new Example(SiArticle.class);
+        example.setOrderByClause("create_date DESC");
+        List<SiArticle> siArticles = siArticleMapper.selectByExample(example);
+        PageInfo pageInfo = new PageInfo(siArticles);
+        PageResult pageResult = BaseServiceUtils.buildPageResult(pageInfo);
+        return pageResult;
+    }
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    @Override
+    public ArticleDto doLikeByEsId(String esId) {
+        int update = 0;
+        try {
+            String doLikeSql = "UPDATE si_article SET liks = liks + 1 WHERE es_id = ?";
+            update = jdbcTemplate.update(doLikeSql, esId);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        if(update != 0){
+            Example example = new Example( SiArticle.class);
+            SiArticle siArticle= siArticleMapper.selectByExample(example).get(0);
+            ArticleDto articleDto = new ArticleDto();
+            BeanUtils.copyProperties(siArticle, articleDto);
+            return  articleDto;
+        }
+        return  null;
     }
 
 }

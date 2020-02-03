@@ -6,6 +6,7 @@ import com.kevin.cloud.commons.dto.article.dto.SiColumnDto;
 import com.kevin.cloud.commons.dto.article.dto.SiFinkDto;
 import com.kevin.cloud.commons.dto.article.vo.ArticleVo;
 import com.kevin.cloud.commons.platform.dto.FallBackResult;
+import com.kevin.cloud.commons.platform.dto.PageResult;
 import com.kevin.cloud.provider.domain.SiArticle;
 
 import java.util.List;
@@ -44,4 +45,10 @@ public interface ArticleService {
     List<ArticleDto> loadBefore(String esId);
 
     List<ArticleDto> loadAfter(String esId);
+
+    List<SiArticle> selectLists();
+
+    PageResult initTimesData(ArticleVo articleVo);
+
+    ArticleDto doLikeByEsId(String esId);
 }

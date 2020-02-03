@@ -114,7 +114,7 @@ SELECT
 
     <select id="loadAfter" parameterType="java.util.Date"
             resultType="com.kevin.cloud.commons.dto.article.dto.ArticleDto">
-SELECT
+        SELECT
         t.id AS id,
         t.es_id AS esId,
         t.mc AS mc

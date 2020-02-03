@@ -1,7 +1,9 @@
 package com.kevin.cloud.provider.service;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.kevin.cloud.commons.dto.CommonConstant;
+import com.kevin.cloud.commons.dto.article.dto.ArticleDto;
 import com.kevin.cloud.commons.platform.dto.ESParamDto;
 import com.kevin.cloud.provider.api.ESService;
 import com.kevin.cloud.provider.pojo.BaseESDto;
@@ -155,6 +157,18 @@ public class ElasticsearchClientService implements ESService {
     @Override
     public Map<String, Object> searchDataById(String index, String type, String id, String fields) {
         return ElasticsearchUtil.searchDataById(index, index, type, id);
+    }
+
+    @Override
+    public boolean doLikeByEsId(ArticleDto articleDto, String index, String type) {
+        try {
+            JSONObject jsonObject = JSONObject.parseObject(articleDto.toString());
+            ElasticsearchUtil.updateDataById(jsonObject,index, type, articleDto.getEsId());
+        }catch (Exception ex){
+            ex.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
 }

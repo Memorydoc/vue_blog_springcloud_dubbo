@@ -27,15 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.awt.image.ReplicateScaleFilter;
-import java.text.SimpleDateFormat;
+import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -131,7 +123,6 @@ public class ArticleController {
      * 添加文章
      */
     @PostMapping("addArticle")
-    @Transactional
     public ResponseResult addArticle(@RequestBody ArticleVo articleVo) throws Exception {
         ArticleSearchDto articleSearchDto = new ArticleSearchDto();
         BeanUtils.copyProperties(articleVo, articleSearchDto);
@@ -237,6 +228,36 @@ public class ArticleController {
         }
 
         return new ResponseResult(ResponseResult.CodeStatus.OK, "", resultMap);
+    }
+
+    /**
+     * 查询时间轴数据
+     */
+    @PostMapping("front/initTimesData")
+    public ResponseResult initTimesData(@RequestBody ArticleVo articleVo) {
+
+        PageResult pageResult = articleService.initTimesData(articleVo);
+        return new ResponseResult(ResponseResult.CodeStatus.OK, "", pageResult);
+    }
+
+    /**
+     * 文章点赞
+     */
+    @GetMapping("front/doLike")
+    public ResponseResult doLike(@RequestParam("esId") String esId) {
+        boolean esUpdate = false;
+        // 修改mysql数据库文章点赞数
+        ArticleDto articleDto = articleService.doLikeByEsId(esId);
+        //修改es中数据
+        if (articleDto != null) {
+            esUpdate = esService.doLikeByEsId(articleDto, "article", "item");
+        }
+        if (esUpdate) {
+            return new ResponseResult(ResponseResult.CodeStatus.FAIL, "点赞成功", null);
+        } else {
+            return new ResponseResult(ResponseResult.CodeStatus.FAIL, "点赞失败", null);
+        }
+
     }
 
 }

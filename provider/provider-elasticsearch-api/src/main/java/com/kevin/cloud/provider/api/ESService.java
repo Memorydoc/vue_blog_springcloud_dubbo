@@ -2,6 +2,7 @@ package com.kevin.cloud.provider.api;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.kevin.cloud.commons.dto.article.dto.ArticleDto;
 import com.kevin.cloud.commons.platform.dto.ESParamDto;
 
 import java.util.List;
@@ -40,4 +41,5 @@ public interface ESService {
     public Map<String, Object> searchDataById(String index, String type, String id, String fields);// 通过id查询数据
 
 
+    boolean doLikeByEsId(ArticleDto articleDto, String index, String type);
 }

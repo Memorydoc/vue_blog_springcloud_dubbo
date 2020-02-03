@@ -3,11 +3,12 @@ package com.kevin.cloud.provider.service;
 import com.google.common.collect.Lists;
 import com.kevin.cloud.commons.dto.article.dto.ArticleDto;
 import com.kevin.cloud.commons.dto.blog.dto.TypeViewDto;
+import com.kevin.cloud.provider.api.ArticleService;
 import com.kevin.cloud.provider.api.BlogService;
 import com.kevin.cloud.provider.domain.SiArticle;
 import com.kevin.cloud.provider.domain.SiColumn;
-import com.kevin.cloud.provider.mapper.SiArticleMapper;
 import com.kevin.cloud.provider.mapper.SiColumnMapper;
+import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,17 +34,16 @@ public class BlogServiceImpl implements BlogService {
     private SiColumnMapper siColumnMapper;
 
 
-    @Autowired
-    private SiArticleMapper siArticleMapper;
+    @Reference(version = "1.0.0")
+    private ArticleService articleService;
 
 
     @Override
     public List<TypeViewDto> initTypesData() {
         Example exampleType = new Example(SiColumn.class);
-        Example exampleArticle = new Example(SiArticle.class);
         List<TypeViewDto> listTypeViews = Lists.newArrayList();
         List<SiColumn> siColumns = siColumnMapper.selectByExample(exampleType);
-        List<SiArticle> siArticles = siArticleMapper.selectByExample(exampleArticle);
+        List<SiArticle> siArticles = articleService.selectLists();
         List<ArticleDto> listArticleDtos = Lists.newArrayList();
         siArticles.forEach(x ->{
             ArticleDto articleDto = new ArticleDto();

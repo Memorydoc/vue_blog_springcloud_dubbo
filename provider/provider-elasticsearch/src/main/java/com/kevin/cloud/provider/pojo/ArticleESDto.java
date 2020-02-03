@@ -56,6 +56,10 @@ public class ArticleESDto implements BaseESDto, Serializable {
     @Field(type = FieldType.Long)
     private Long wgrs;
 
+    @Field(type = FieldType.Text, analyzer = "ik_smart")
+    private String tasg;
+
+
     /**
      * 内容
      */

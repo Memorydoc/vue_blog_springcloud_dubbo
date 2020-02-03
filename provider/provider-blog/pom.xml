@@ -80,11 +80,6 @@
             <artifactId>provider-article-api</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.kevin.cloud.plus</groupId>
-            <artifactId>provider-article</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
     </dependencies>
 
     <build>

@@ -28,7 +28,7 @@ public class PageResult<T> implements Serializable {
     private int pageNum;    // 第几页
     private int pageSize;    // 每页记录数
     private int pages;        // 总页数
-    /*private int size;        // 就是返回的数据条数，*/
+    private int size;        // 就是返回的数据条数，
     /**
      * 本页的数据列表 搜索引擎分页会用到
      */
@@ -40,5 +40,12 @@ public class PageResult<T> implements Serializable {
         this.pageNum = pageNum;
         this.pageSize = pageSize;
         this.recordList = recordList;
+    }
+    public PageResult(int pageNum, int pageSize, long total, List<Map<String, Object>> recordList, int size) {
+        this.total = total;
+        this.pageNum = pageNum;
+        this.pageSize = pageSize;
+        this.recordList = recordList;
+        this.size = size;
     }
 }
