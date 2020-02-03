@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.kevin.cloud.commons.dto.CommonConstant;
 import com.kevin.cloud.commons.dto.article.dto.ArticleDto;
 import com.kevin.cloud.commons.platform.dto.ESParamDto;
+import com.kevin.cloud.commons.utils.MapperUtils;
 import com.kevin.cloud.provider.api.ESService;
 import com.kevin.cloud.provider.pojo.BaseESDto;
 import com.kevin.cloud.provider.pojo.ESManagement;
@@ -162,7 +163,7 @@ public class ElasticsearchClientService implements ESService {
     @Override
     public boolean doLikeByEsId(ArticleDto articleDto, String index, String type) {
         try {
-            JSONObject jsonObject = JSONObject.parseObject(articleDto.toString());
+            JSONObject jsonObject = JSONObject.parseObject(MapperUtils.obj2jsonIgnoreNull(articleDto));
             ElasticsearchUtil.updateDataById(jsonObject,index, type, articleDto.getEsId());
         }catch (Exception ex){
             ex.printStackTrace();
