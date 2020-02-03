@@ -12,7 +12,6 @@ public interface SiArticleMapper extends Mapper<SiArticle> {
 
     List<SiColumnDto> tuijianTags();
 
-    List<ArticleDto> loadBeforeAndBack(@Param("createDate") Date createDate);
 
     List<ArticleDto> loadBefore(Date createDate);
 

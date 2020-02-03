@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kevin.cloud.provider.mapper.SiColumnMapper">
+  <resultMap id="BaseResultMap" type="com.kevin.cloud.provider.domain.SiColumn">
+    <!--@mbg.generated generated on Fri Jan 31 13:03:06 CST 2020.-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="lmmc" jdbcType="VARCHAR" property="lmmc" />
+    <result column="bz" jdbcType="VARCHAR" property="bz" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="create_by" jdbcType="BIGINT" property="createBy" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="update_by" jdbcType="BIGINT" property="updateBy" />
+    <result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+    <result column="bm" jdbcType="VARCHAR" property="bm" />
+    <result column="gjz" jdbcType="VARCHAR" property="gjz" />
+    <result column="type_id" jdbcType="BIGINT" property="typeId" />
+    <result column="describe" jdbcType="VARCHAR" property="describe" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated generated on Fri Jan 31 13:03:06 CST 2020.-->
+    id, lmmc, bz, create_date, create_by, update_date, update_by, del_flag, bm, gjz, 
+    type_id, `describe`
+  </sql>
+</mapper>

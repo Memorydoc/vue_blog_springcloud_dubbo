@@ -95,14 +95,14 @@ public class ArticleESDto implements BaseESDto, Serializable {
     /**
      * 标题图片
      */
-    @Field(type = FieldType.Date, index = false)
+    @Field(type = FieldType.Long, index = false)
     private String createDate;
 
 
     /**
      * 标题图片
      */
-    @Field(type = FieldType.Text, index = false)
+    @Field(type = FieldType.Long, index = false)
     private String updateDate;
 
     /**

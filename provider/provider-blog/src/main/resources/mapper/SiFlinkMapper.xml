@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kevin.cloud.provider.mapper.SiFlinkMapper">
+  <resultMap id="BaseResultMap" type="com.kevin.cloud.provider.domain.SiFlink">
+    <!--@mbg.generated generated on Fri Jan 31 23:07:46 CST 2020.-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="ljmc" jdbcType="VARCHAR" property="ljmc" />
+    <result column="ljdz" jdbcType="VARCHAR" property="ljdz" />
+    <result column="titlepic" jdbcType="VARCHAR" property="titlepic" />
+    <result column="describe" jdbcType="VARCHAR" property="describe" />
+    <result column="zt" jdbcType="VARCHAR" property="zt" />
+    <result column="target" jdbcType="VARCHAR" property="target" />
+    <result column="rel" jdbcType="VARCHAR" property="rel" />
+    <result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated generated on Fri Jan 31 23:07:46 CST 2020.-->
+    id, ljmc, ljdz, titlepic, `describe`, zt, target, rel, del_flag, create_date, update_by, 
+    create_by, update_date
+  </sql>
+</mapper>
