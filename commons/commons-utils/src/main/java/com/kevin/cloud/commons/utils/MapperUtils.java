@@ -42,6 +42,7 @@ public class MapperUtils {
 
     /**
      * 转换为 JSON 字符串，忽略空值
+     *
      * @param obj
      * @return
      * @throws Exception
@@ -50,6 +51,14 @@ public class MapperUtils {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         return mapper.writeValueAsString(obj);
+    }
+
+    /**
+     * 将对象转成JSONObject
+     */
+
+    public static JSONObject objToJSONObjectIgnoreNull(Object obj) throws Exception {
+        return JSONObject.parseObject(MapperUtils.obj2jsonIgnoreNull(obj));
     }
 
     /**
@@ -63,13 +72,14 @@ public class MapperUtils {
     public static <T> T json2pojo(String jsonString, Class<T> clazz) throws Exception {
         //objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
         // 例如json数据中多出字段，而对象中没有此字段。如果设置true，抛出异常，因为字段不对应；false则忽略多出的字段，默认值为null，将其他字段反序列化成功
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         return objectMapper.readValue(jsonString, clazz);
     }
 
 
     /**
-     *使用fastjson的方式转成javabean
+     * 使用fastjson的方式转成javabean
+     *
      * @param jsonString
      * @param clazz
      * @param <T>
@@ -77,7 +87,7 @@ public class MapperUtils {
      * @throws Exception
      */
     public static <T> T json2pojoByFastJson(String jsonString, Class<T> clazz) throws Exception {
-       return JSONObject.parseObject(jsonString, clazz);
+        return JSONObject.parseObject(jsonString, clazz);
         //return objectMapper.readValue(jsonString, clazz);
     }
 
@@ -97,11 +107,10 @@ public class MapperUtils {
     /**
      * 将对象转成Map
      */
-    public  static <T> Map<String, Object> javaBeanToMap(Object obj) throws Exception {
+    public static <T> Map<String, Object> javaBeanToMap(Object obj) throws Exception {
         String json = obj2jsonIgnoreNull(obj);
-        return  json2map(json);
+        return json2map(json);
     }
-
 
 
     /**
