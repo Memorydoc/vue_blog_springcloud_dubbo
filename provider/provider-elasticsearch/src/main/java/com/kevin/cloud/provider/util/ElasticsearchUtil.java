@@ -18,6 +18,7 @@ import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.text.Text;
+import org.elasticsearch.index.IndexNotFoundException;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -154,7 +155,12 @@ public class ElasticsearchUtil {
      * @param id    数据ID
      */
     public static void deleteDataById(String index, String type, String id) {
-        DeleteResponse response = client.prepareDelete(index, type, id).execute().actionGet();
+        DeleteResponse response = null;
+        try {
+            response = client.prepareDelete(index, type, id).execute().actionGet();
+        } catch (IndexNotFoundException ex) {
+            // 如果没有则不做处理
+        }
         LOGGER.info("deleteDataById response status:{},id:{}", response.status().getStatus(), response.getId());
     }
 

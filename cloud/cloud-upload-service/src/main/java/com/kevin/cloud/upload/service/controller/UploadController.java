@@ -43,7 +43,6 @@ public class UploadController {
     // markdown 上传图片
     @PostMapping("uploadImage")
     public ResponseResult uploadImage(@RequestParam(value = "image", required = false) MultipartFile multipartFile) {
-        System.out.println("*********************");
         String fileName = multipartFile.getOriginalFilename();
         String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
         String newName = UUID.randomUUID() + "." + suffix;

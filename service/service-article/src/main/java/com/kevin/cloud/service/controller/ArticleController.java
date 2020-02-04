@@ -1,7 +1,12 @@
 package com.kevin.cloud.service.controller;
 
+import com.alibaba.csp.sentinel.Entry;
+import com.alibaba.csp.sentinel.SphU;
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
+import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
+import com.kevin.cloud.commons.dto.IpInfo;
 import com.kevin.cloud.commons.dto.article.dto.ArticleDto;
 import com.kevin.cloud.commons.dto.article.dto.SiColumnDto;
 import com.kevin.cloud.commons.dto.article.vo.ArticleVo;
@@ -13,21 +18,28 @@ import com.kevin.cloud.commons.platform.dto.ResponseResult;
 import com.kevin.cloud.commons.platform.utils.BaseServiceUtils;
 import com.kevin.cloud.commons.utils.CommonUtils;
 import com.kevin.cloud.commons.utils.DateUtils;
+import com.kevin.cloud.commons.utils.UserAgentUtils;
 import com.kevin.cloud.provider.api.ArticleService;
 import com.kevin.cloud.provider.api.ESService;
 import com.kevin.cloud.provider.api.SiColumnService;
 import com.kevin.cloud.provider.domain.SiArticle;
 import com.kevin.cloud.service.IdGenerator;
+import com.kevin.cloud.service.fallback.ArticleControllerFallBack;
 import com.kevin.cloud.service.help.AuthUserHelperImpl;
+import com.kevin.cloud.service.limit.ArticleControllerLimit;
 import com.kevin.cloud.user.api.UserService;
 import com.kevin.cloud.user.domain.UmsAdmin;
 import org.apache.dubbo.config.annotation.Reference;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -43,6 +55,8 @@ import java.util.Map;
 @RequestMapping("article")
 @RestController
 public class ArticleController {
+
+    Logger logger = LoggerFactory.getLogger(ArticleController.class);
 
     @Reference(version = "1.0.0")
     private ArticleService articleService;
@@ -129,6 +143,7 @@ public class ArticleController {
         articleSearchDto.setCreateDate(new Date());
         // 将文章保存到es中 方便全文搜索
         String esId = esService.addDataId(CommonUtils.beanToJSONObject(articleSearchDto), "article", "item", idGenerator.nextSid());
+        logger.info("文章插入成功,esId =>", esId);
         SiArticle siArticle = new SiArticle();
         BeanUtils.copyProperties(articleVo, siArticle);
         siArticle.setId(idGenerator.nextLid());
@@ -241,10 +256,17 @@ public class ArticleController {
     }
 
     /**
-     * 文章点赞
+     * 文章点赞  这里使用sentinel 自动注解方式限流， 下面的是手动方式限流
      */
     @GetMapping("front/doLike")
-    public ResponseResult doLike(@RequestParam("esId") String esId) {
+    @SentinelResource(value = "doLike", fallback = "doLikeFallBack",
+            fallbackClass = ArticleControllerFallBack.class,
+            blockHandler = "doLikeLimit",
+            blockHandlerClass = ArticleControllerLimit.class)
+    public ResponseResult doLike(@RequestParam("esId") String esId, HttpServletRequest request) {
+        // 点赞的时候，先判断IP是否已经点过赞
+        String ipAddr = UserAgentUtils.getIpAddr(request);
+        //IpInfo info = UserAgentUtils.getIpInfo(ipAddr);
         boolean esUpdate = false;
         // 修改mysql数据库文章点赞数
         ArticleDto articleDto = articleService.doLikeByEsId(esId);
@@ -253,11 +275,44 @@ public class ArticleController {
             esUpdate = esService.doLikeByEsId(articleDto, "article", "item");
         }
         if (esUpdate) {
-            return new ResponseResult(ResponseResult.CodeStatus.FAIL, "点赞成功", null);
+            return new ResponseResult(ResponseResult.CodeStatus.OK, "点赞成功", null);
         } else {
             return new ResponseResult(ResponseResult.CodeStatus.FAIL, "点赞失败", null);
         }
-
     }
 
+/**
+ * 文章点赞  这里使用sentinel 手动方式降级，会有代码侵入性 使用上面的方法是自动注解限流
+ */
+    /*@GetMapping("front/doLike")
+    public ResponseResult doLike(@RequestParam("esId") String esId, HttpServletRequest request) {
+        // 进行手动限流操作
+        Entry entry = null;
+        // 流控代码
+        try {
+            entry = SphU.entry("doLike");
+            // 点赞的时候，先判断IP是否已经点过赞
+            String ipAddr = UserAgentUtils.getIpAddr(request);
+            //IpInfo info = UserAgentUtils.getIpInfo(ipAddr);
+            boolean esUpdate = false;
+            // 修改mysql数据库文章点赞数
+            ArticleDto articleDto = articleService.doLikeByEsId(esId);
+            //修改es中数据
+            if (articleDto != null) {
+                esUpdate = esService.doLikeByEsId(articleDto, "article", "item");
+            }
+            if (esUpdate) {
+                return new ResponseResult(ResponseResult.CodeStatus.OK, "点赞成功", null);
+            } else {
+                return new ResponseResult(ResponseResult.CodeStatus.FAIL, "点赞失败", null);
+            }
+        } catch (BlockException e) {
+            e.printStackTrace();
+        }finally {
+            if(entry!=null){
+                entry.exit();
+            }
+        }
+        return new ResponseResult(ResponseResult.CodeStatus.FAIL, "操作过于频繁", null);
+    }*/
 }
