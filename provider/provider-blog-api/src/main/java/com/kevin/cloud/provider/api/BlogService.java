@@ -1,6 +1,8 @@
 package com.kevin.cloud.provider.api;
 
+import com.kevin.cloud.commons.dto.blog.dto.CommentDto;
 import com.kevin.cloud.commons.dto.blog.dto.TypeViewDto;
+import com.kevin.cloud.commons.dto.blog.vo.CommentVo;
 
 import java.util.List;
 
@@ -15,4 +17,10 @@ import java.util.List;
  */
 public interface BlogService {
     List<TypeViewDto> initTypesData();
+
+    List<CommentDto> initCommentData(Integer isReply);
+
+    boolean commitComment(CommentVo commentVo);
+
+    int commentLiks(String commentId);
 }

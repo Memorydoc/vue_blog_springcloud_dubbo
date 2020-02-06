@@ -11,14 +11,20 @@ import com.kevin.cloud.commons.platform.dto.PageResult;
 import com.kevin.cloud.commons.platform.dto.ResponseResult;
 import com.kevin.cloud.provider.api.ProviderLogService;
 import com.kevin.cloud.service.controller.fallback.UserServiceControllerFallback;
-import com.kevin.cloud.user.api.UserService;
-import com.kevin.cloud.user.domain.UmsAdmin;
+import com.kevin.cloud.user.provider.api.UserService;
+import com.kevin.cloud.user.provider.domain.UmsAdmin;
 import org.apache.dubbo.config.annotation.Reference;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * 用户注册服务。
@@ -142,6 +148,39 @@ public class UserServiceController {
         BeanUtils.copyProperties(umsAdmin, umsAdminDTO);
         System.out.println("当前登录人为" + umsAdmin.getUsername());
         return umsAdminDTO;
+    }
+
+    /**
+     * 游客登录
+     *
+     * @param umsAdminVo 登录信息
+     * @return
+     */
+    @PostMapping("front/customerStatus")
+    public ResponseResult customerStatus(@RequestBody UmsAdminVo umsAdminVo) {
+        Map<String, Object> stringObjectMap = userService.customerStatus(umsAdminVo);
+        if (stringObjectMap.get("customer") == null) {
+            return new ResponseResult(ResponseResult.CodeStatus.FAIL, stringObjectMap.get("resultMsg").toString(), null);
+        }
+        return new ResponseResult(ResponseResult.CodeStatus.OK, stringObjectMap.get("resultMsg").toString(), (UmsAdminDto) stringObjectMap.get("customer"));
+    }
+
+    /**
+     * @param umsAdminVo 注册用户信息
+     * @return
+     */
+    @Resource
+    public BCryptPasswordEncoder passwordEncoder;
+    @PostMapping("front/doCustomerRegister")
+    public ResponseResult doCustomerRegister(@RequestBody UmsAdminVo umsAdminVo) {
+        // 对注册的用户的密码进行加密
+        umsAdminVo.setPassword(passwordEncoder.encode(umsAdminVo.getPassword()));
+        UmsAdmin umsAdminDto = userService.doCustomerRegister(umsAdminVo);
+        if (umsAdminDto != null) {
+            return new ResponseResult(ResponseResult.CodeStatus.OK, "注册成功", umsAdminDto);
+        } else {
+            return new ResponseResult(ResponseResult.CodeStatus.FAIL, "注册失败", null);
+        }
     }
 
 }

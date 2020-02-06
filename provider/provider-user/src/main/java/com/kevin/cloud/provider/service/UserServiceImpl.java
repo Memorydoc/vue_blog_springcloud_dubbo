@@ -8,18 +8,23 @@ import com.kevin.cloud.commons.dto.user.dto.UmsAdminDto;
 import com.kevin.cloud.commons.dto.user.vo.UmsAdminVo;
 import com.kevin.cloud.commons.platform.dto.PageResult;
 import com.kevin.cloud.commons.platform.utils.BaseServiceUtils;
-import com.kevin.cloud.user.api.UserService;
-import com.kevin.cloud.user.domain.UmsAdmin;
+import com.kevin.cloud.provider.IdProviderGenerator;
 import com.kevin.cloud.provider.mapper.UmsAdminMapper;
 import com.kevin.cloud.provider.service.fallback.UserServiceImplFallback;
+import com.kevin.cloud.service.IdGenerator;
+import com.kevin.cloud.user.provider.api.UserService;
+import com.kevin.cloud.user.provider.domain.UmsAdmin;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service(version = "1.0.0")
 public class UserServiceImpl implements UserService {
@@ -103,6 +108,49 @@ public class UserServiceImpl implements UserService {
     @Override
     public UmsAdminDto getCurrentUser() {
 
+        return null;
+    }
+    @Override
+    public Map<String, Object> customerStatus(UmsAdminVo umsAdminVo) {
+        String resultMsg = "";
+        UmsAdmin umsADmin = null;
+        Map resultMap = new HashMap();
+        Example example = new Example(UmsAdmin.class);
+        example.createCriteria().andEqualTo("email", umsAdminVo.getEmail())
+                .andEqualTo("isCustomer", 1);
+        List<UmsAdmin> umsAdmins = umsAdminMapper.selectByExample(example);
+        if(umsAdmins.size() != 0){ //说明用户存在，继续验证密码是否正确
+            umsADmin = umsAdmins.get(0);
+            boolean matches = passwordEncoder.matches(umsAdminVo.getPassword(), umsADmin.getPassword());
+            if(matches){
+                UmsAdminDto umsAdminDto = new UmsAdminDto();
+                BeanUtils.copyProperties(umsADmin, umsAdminDto);
+                resultMap.put("resultMsg", "登录成功");
+                resultMap.put("customer", umsAdminDto);
+                return  resultMap;
+            }else{
+                resultMap.put("resultMsg", "密码错误");
+                resultMap.put("customer", null);
+                return  resultMap;
+            }
+        }
+        resultMap.put("resultMsg", "用户不存在,请先注册");
+        resultMap.put("customer", null);
+        return  resultMap;
+    }
+    @Autowired
+    private IdProviderGenerator idGenerator;
+
+    @Override
+    public UmsAdmin doCustomerRegister(UmsAdminVo umsAdminVo) {
+        UmsAdmin umsAdmin = new UmsAdmin();
+        BeanUtils.copyProperties(umsAdminVo, umsAdmin);
+        umsAdmin.setId(idGenerator.nextLid());
+        umsAdmin.setIsCustomer(1); // 设置 用户为游客
+        int i = umsAdminMapper.insertSelective(umsAdmin);
+        if(i > 0){
+            return  umsAdmin;
+        }
         return null;
     }
 

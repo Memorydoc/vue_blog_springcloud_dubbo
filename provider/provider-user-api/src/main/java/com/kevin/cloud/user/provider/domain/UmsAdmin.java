@@ -1,19 +1,18 @@
-package com.kevin.cloud.user.domain;
-
-import java.io.Serializable;
-import java.util.Date;
-import javax.persistence.*;
+package com.kevin.cloud.user.provider.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
-/**
- *
- */
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.io.Serializable;
+import java.util.Date;
+
 @Data
 @Table(name = "ums_admin")
 public class UmsAdmin implements Serializable {
-    private static final long serialVersionUID = -5604007880179803027L;
     @Id
     @Column(name = "id")
     @GeneratedValue(generator = "JDBC")
@@ -69,4 +68,11 @@ public class UmsAdmin implements Serializable {
     @Column(name = "`status`")
     private Integer status;
 
+    /**
+     * 是否为游客，默认不是 游客 为 0
+     */
+    @Column(name = "is_customer")
+    private Integer isCustomer;
+
+    private static final long serialVersionUID = 1L;
 }

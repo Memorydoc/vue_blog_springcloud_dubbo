@@ -51,4 +51,8 @@ public interface ArticleService {
     PageResult initTimesData(ArticleVo articleVo);
 
     ArticleDto doLikeByEsId(String esId);
+
+    ArticleDto updateWgCount(ArticleVo articleVo);
+
+    ArticleDto selectClickTop();
 }

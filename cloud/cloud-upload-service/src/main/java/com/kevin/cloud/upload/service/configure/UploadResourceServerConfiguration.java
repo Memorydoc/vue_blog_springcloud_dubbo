@@ -27,8 +27,8 @@ public class UploadResourceServerConfiguration extends ResourceServerConfigurerA
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/**").hasAuthority("USER")
-                .antMatchers("/cloud/front/**").permitAll(); // 不拦截前端请求
+                .antMatchers("/upload/front/**").permitAll() // 不拦截前端请求
+                .antMatchers("/**").hasAuthority("USER");
     }
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {

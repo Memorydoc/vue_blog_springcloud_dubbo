@@ -1,6 +1,7 @@
 package com.kevin.cloud.provider.service;
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
@@ -12,6 +13,7 @@ import com.kevin.cloud.commons.dto.article.vo.ArticleVo;
 import com.kevin.cloud.commons.platform.dto.FallBackResult;
 import com.kevin.cloud.commons.platform.dto.PageResult;
 import com.kevin.cloud.commons.platform.utils.BaseServiceUtils;
+import com.kevin.cloud.commons.utils.MapperUtils;
 import com.kevin.cloud.provider.api.ArticleService;
 import com.kevin.cloud.provider.domain.SiArticle;
 import com.kevin.cloud.provider.mapper.SiArticleMapper;
@@ -24,6 +26,7 @@ import tk.mybatis.mapper.entity.Example;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @program: vue-blog-backend
@@ -144,14 +147,42 @@ public class ArticleServiceImpl implements ArticleService {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        if(update != 0){
-            Example example = new Example( SiArticle.class);
-            SiArticle siArticle= siArticleMapper.selectByExample(example).get(0);
+        return getArticle(update);
+    }
+
+    @Override
+    public ArticleDto updateWgCount(ArticleVo articleVo) {
+        int update = 0;
+        try {
+            String wgSql = "UPDATE si_article SET wgrs = wgrs + 1 WHERE es_id = ?";
+            update = jdbcTemplate.update(wgSql, articleVo.getEsId());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return getArticle(update);
+    }
+
+    @Override
+    public ArticleDto selectClickTop() {
+        String sql = "SELECT  * FROM si_article ORDER BY wgrs DESC LIMIT 1 ";
+        Map<String, Object> stringObjectMap = jdbcTemplate.queryForMap(sql);
+        ArticleDto articleDto = MapperUtils.map2pojo(stringObjectMap, ArticleDto.class);
+        return articleDto;
+    }
+
+    private ArticleDto getArticle(int update) {
+        if (update != 0) {
+            Example example = new Example(SiArticle.class);
+            SiArticle siArticle = null;
+            List<SiArticle> siArticles = siArticleMapper.selectByExample(example);
+            if(siArticles.size() != 0){
+                siArticle = siArticles.get(0);
+            }
             ArticleDto articleDto = new ArticleDto();
             BeanUtils.copyProperties(siArticle, articleDto);
-            return  articleDto;
+            return articleDto;
         }
-        return  null;
+        return null;
     }
 
 }

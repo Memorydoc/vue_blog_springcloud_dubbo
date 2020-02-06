@@ -68,4 +68,6 @@ public class UmsAdminVo extends QueryPageParam {
      * 帐号启用状态：0->禁用；1->启用
      */
     private Integer status;
+
+    private Integer isCustomer;
 }

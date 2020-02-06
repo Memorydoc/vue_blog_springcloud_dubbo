@@ -1,5 +1,6 @@
 package com.kevin.cloud.commons.utils;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -8,6 +9,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kevin.cloud.commons.dto.article.dto.ArticleDto;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -233,7 +235,7 @@ public class MapperUtils {
      * @return
      */
     public static <T> T map2pojo(Map map, Class<T> clazz) {
-        return objectMapper.convertValue(map, clazz);
+        return (T) JSONObject.parseObject(JSON.toJSONString(map), ArticleDto.class);
     }
 
     /**
@@ -250,6 +252,14 @@ public class MapperUtils {
         }
         return "";
     }
+
+    /**
+     * 将Map  转成 javabean
+     */
+    /*public static <T> T mapToJavaBean(Map<String, Object> map, Class<T> clazz) {
+        return JSON.parseObject(JSON.toJSONString(map), clazz);
+    }
+    */
 
     /**
      * 将 JSON 对象转换为 JavaBean

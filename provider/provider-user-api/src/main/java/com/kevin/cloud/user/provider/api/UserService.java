@@ -1,15 +1,15 @@
-package com.kevin.cloud.user.api;
+package com.kevin.cloud.user.provider.api;
 
 import com.kevin.cloud.commons.dto.user.dto.UmsAdminDto;
 import com.kevin.cloud.commons.dto.user.vo.UmsAdminVo;
 import com.kevin.cloud.commons.platform.dto.PageResult;
-import com.kevin.cloud.user.domain.UmsAdmin;
+import com.kevin.cloud.user.provider.domain.UmsAdmin;
 
-import java.util.List;
+import java.util.Map;
 
 public interface UserService {
 
-    public String sayHello(String  username);
+    public String sayHello(String username);
 
     int insert(UmsAdmin umsAdmin);
 
@@ -37,4 +37,7 @@ public interface UserService {
 
     UmsAdminDto getCurrentUser();
 
+    Map<String, Object> customerStatus(UmsAdminVo umsAdminVo);
+
+    UmsAdmin doCustomerRegister(UmsAdminVo umsAdminVo);
 }

@@ -8,8 +8,8 @@ package com.kevin.cloud.service.help;
  **/
 
 import com.kevin.cloud.commons.dto.user.dto.UmsAdminDto;
-import com.kevin.cloud.user.api.UserService;
-import com.kevin.cloud.user.domain.UmsAdmin;
+import com.kevin.cloud.user.provider.api.UserService;
+import com.kevin.cloud.user.provider.domain.UmsAdmin;
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.BeanUtils;

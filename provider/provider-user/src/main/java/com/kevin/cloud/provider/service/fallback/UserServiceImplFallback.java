@@ -1,6 +1,6 @@
 package com.kevin.cloud.provider.service.fallback;
 
-import com.kevin.cloud.user.domain.UmsAdmin;
+import com.kevin.cloud.user.provider.domain.UmsAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -88,4 +88,21 @@ public class UploadController {
         }
     }
 
+    @PostMapping("front/uploadCustomerImage")
+    public ResponseResult uploadCustomerImage(@RequestParam(value = "image", required = false) MultipartFile imageFile ){
+        String fileName = imageFile.getOriginalFilename();
+        String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
+        String newName = UUID.randomUUID() + "." + suffix;
+        OSS client = new OSSClientBuilder().build(ENDPOINT, ACCESS_KEY_ID, ACCESS_KEY_SECRET);
+        try {
+            client.putObject(new PutObjectRequest(BUCKET_NAME, newName, new ByteArrayInputStream(imageFile.getBytes())));
+            // 上传文件路径 = http://BUCKET_NAME.ENDPOINT/自定义路径/fileName
+            return new ResponseResult<FileInfo>(ResponseResult.CodeStatus.OK, "头像上传成功", new FileInfo("http://" + BUCKET_NAME + "." + ENDPOINT + "/" + newName, fileName));
+        } catch (IOException e) {
+            return new ResponseResult<FileInfo>(ResponseResult.CodeStatus.FAIL, "头像上传失败，请重试");
+        } finally {
+            client.shutdown();
+        }
+    }
+
 }

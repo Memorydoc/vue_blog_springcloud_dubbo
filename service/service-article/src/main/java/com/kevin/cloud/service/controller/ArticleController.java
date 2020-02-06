@@ -27,8 +27,8 @@ import com.kevin.cloud.service.IdGenerator;
 import com.kevin.cloud.service.fallback.ArticleControllerFallBack;
 import com.kevin.cloud.service.help.AuthUserHelperImpl;
 import com.kevin.cloud.service.limit.ArticleControllerLimit;
-import com.kevin.cloud.user.api.UserService;
-import com.kevin.cloud.user.domain.UmsAdmin;
+import com.kevin.cloud.user.provider.api.UserService;
+import com.kevin.cloud.user.provider.domain.UmsAdmin;
 import org.apache.dubbo.config.annotation.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +44,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @program: vue-blog-backend
@@ -163,6 +164,7 @@ public class ArticleController {
     //分页查询文章, 从ES 中查询数据
     @PostMapping("front/queryArticleFromEsByPage")
     public ResponseResult queryArticleFromEsByPage(@RequestBody ArticleVo articleVo) {
+        Map resultMap = new ConcurrentHashMap();
         ESParamDto esParamDto = new ESParamDto();
         esParamDto.setHightLight(true);
         esParamDto.setPage(true);
@@ -180,7 +182,11 @@ public class ArticleController {
             x.put("createDate", DateUtils.formatDate(new Date((Long) x.get("createDate")), "yyyy-MM-dd HH:mm:ss"));
         });
         result.setRecordList(recordList);
-        return new ResponseResult(ResponseResult.CodeStatus.OK, "ES文章分页查询成功", result);
+        //查询文章点击状元
+        ArticleDto clickTop = articleService.selectClickTop();
+        resultMap.put("data", result);
+        resultMap.put("clickTop", clickTop);
+        return new ResponseResult(ResponseResult.CodeStatus.OK, "ES文章分页查询成功", resultMap);
     }
 
 
@@ -205,6 +211,7 @@ public class ArticleController {
 
     @PostMapping("front/searchArticleByIdFromEs")
     public ResponseResult searchArticleByIdFromEs(@RequestBody ArticleVo articleVo) {
+        boolean esUpdate = false;
         ESParamDto esParamDto = new ESParamDto();
         esParamDto.setMatchField("mc,content,createBy,id,category,pl,categoryName,content,createDate,wgrs,titlepic,liks");
         esParamDto.setIndex("article");
@@ -212,6 +219,16 @@ public class ArticleController {
         esParamDto.setType("item");
         Map<String, Object> result = (Map<String, Object>) esService.searchById(esParamDto);
         result.put("createDate", DateUtils.formatDate(new Date((Long) result.get("createDate")), "yyyy-MM-dd HH:mm:ss"));
+        //设置围观人数
+        ArticleDto articleDto = articleService.updateWgCount(articleVo);
+        //修改es中数据
+        if (articleDto != null) {
+            esUpdate = esService.doLikeByEsId(articleDto, "article", "item");
+        }
+        if (!esUpdate) {
+            logger.error("围观人数修改失败");
+        }
+
         return new ResponseResult(ResponseResult.CodeStatus.OK, "ES文章分页查询成功", result);
     }
 
@@ -262,7 +279,7 @@ public class ArticleController {
     @SentinelResource(value = "doLike", fallback = "doLikeFallBack",
             fallbackClass = ArticleControllerFallBack.class,
             blockHandler = "doLikeLimit",
-            blockHandlerClass = ArticleControllerLimit.class)
+            blockHandlerClass = {ArticleControllerLimit.class})
     public ResponseResult doLike(@RequestParam("esId") String esId, HttpServletRequest request) {
         // 点赞的时候，先判断IP是否已经点过赞
         String ipAddr = UserAgentUtils.getIpAddr(request);

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kevin.cloud.provider.mapper.UmsAdminMapper">
-  <resultMap id="BaseResultMap" type="com.kevin.cloud.user.domain.UmsAdmin">
-    <!--@mbg.generated generated on Sat Jan 04 20:08:29 CST 2020.-->
-    <!--@Table ums_admin-->
+  <resultMap id="BaseResultMap" type="com.kevin.cloud.user.provider.domain.UmsAdmin">
+    <!--@mbg.generated generated on Thu Feb 06 15:52:45 CST 2020.-->
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="password" jdbcType="VARCHAR" property="password" />
@@ -14,10 +13,11 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="login_time" jdbcType="TIMESTAMP" property="loginTime" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="is_customer" jdbcType="INTEGER" property="isCustomer" />
   </resultMap>
   <sql id="Base_Column_List">
-    <!--@mbg.generated generated on Sat Jan 04 20:08:29 CST 2020.-->
+    <!--@mbg.generated generated on Thu Feb 06 15:52:45 CST 2020.-->
     id, username, `password`, icon, email, nick_name, note, create_time, login_time, 
-    `status`
+    `status`, is_customer
   </sql>
 </mapper>
