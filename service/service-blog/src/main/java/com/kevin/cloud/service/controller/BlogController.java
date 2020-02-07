@@ -6,7 +6,6 @@ import com.kevin.cloud.commons.dto.blog.vo.CommentVo;
 import com.kevin.cloud.commons.platform.dto.ResponseResult;
 import com.kevin.cloud.provider.api.BlogService;
 import com.kevin.cloud.provider.api.SiFinkService;
-import com.kevin.cloud.provider.domain.SiComment;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
 

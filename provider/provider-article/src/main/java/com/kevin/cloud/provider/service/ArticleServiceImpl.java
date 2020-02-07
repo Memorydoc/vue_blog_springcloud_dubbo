@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -168,6 +169,27 @@ public class ArticleServiceImpl implements ArticleService {
         Map<String, Object> stringObjectMap = jdbcTemplate.queryForMap(sql);
         ArticleDto articleDto = MapperUtils.map2pojo(stringObjectMap, ArticleDto.class);
         return articleDto;
+    }
+
+    @Override
+    public List<SiArticle> loadCurrentTuijianData(String esId) {
+        SiArticle siArticle = new SiArticle();
+        Example example = new Example(SiArticle.class);
+        example.createCriteria().andEqualTo("es_id", esId);
+        List<SiArticle> siArticles = siArticleMapper.selectByExample(example);
+        if(siArticles.size() > 0){
+            siArticle = siArticles.get(0);
+        }else{
+            return  null;
+        }
+        Example exampleResult = new Example(SiArticle.class);
+        exampleResult.setOrderByClause("wgrs desc ");
+        exampleResult.createCriteria().andEqualTo("category", siArticle.getCategory());
+        List<SiArticle> resultList = siArticleMapper.selectByExample(exampleResult);
+        if(resultList.size() >= 5){
+            resultList = resultList.subList(0, 5);
+        }
+        return resultList;
     }
 
     private ArticleDto getArticle(int update) {

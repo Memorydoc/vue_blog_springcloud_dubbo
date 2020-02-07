@@ -29,6 +29,8 @@ import com.kevin.cloud.service.help.AuthUserHelperImpl;
 import com.kevin.cloud.service.limit.ArticleControllerLimit;
 import com.kevin.cloud.user.provider.api.UserService;
 import com.kevin.cloud.user.provider.domain.UmsAdmin;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.apache.dubbo.config.annotation.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -265,6 +267,7 @@ public class ArticleController {
     /**
      * 查询时间轴数据
      */
+    @ApiOperation(value = "查询时间轴数据", notes = "查询时间轴数据")
     @PostMapping("front/initTimesData")
     public ResponseResult initTimesData(@RequestBody ArticleVo articleVo) {
 
@@ -275,6 +278,7 @@ public class ArticleController {
     /**
      * 文章点赞  这里使用sentinel 自动注解方式限流， 下面的是手动方式限流
      */
+    @ApiOperation(value = "文章点赞", notes = "文章点赞  这里使用sentinel 自动注解方式限流， 下面的是手动方式限流")
     @GetMapping("front/doLike")
     @SentinelResource(value = "doLike", fallback = "doLikeFallBack",
             fallbackClass = ArticleControllerFallBack.class,
@@ -297,6 +301,8 @@ public class ArticleController {
             return new ResponseResult(ResponseResult.CodeStatus.FAIL, "点赞失败", null);
         }
     }
+
+
 
 /**
  * 文章点赞  这里使用sentinel 手动方式降级，会有代码侵入性 使用上面的方法是自动注解限流
@@ -332,4 +338,23 @@ public class ArticleController {
         }
         return new ResponseResult(ResponseResult.CodeStatus.FAIL, "操作过于频繁", null);
     }*/
+
+    /**
+     *  查询本栏推荐
+     * @param esId  文章对应的esId
+     * @return
+     */
+    @ApiOperation(value = "查询本栏推荐文章", notes = "当前文章类别，点击量最多的5条作为本栏推荐文章")
+    @GetMapping("front/loadCurrentTuijianData")
+    public ResponseResult loadCurrentTuijianData(@RequestParam(value = "esId")String esId){
+       List<SiArticle> articleDtos =  articleService.loadCurrentTuijianData(esId);
+       if(articleDtos != null){
+           return  new ResponseResult(ResponseResult.CodeStatus.OK, "", articleDtos);
+       }else{
+           return  new ResponseResult(ResponseResult.CodeStatus.FAIL, "查询", null);
+       }
+    }
+
+
+
 }

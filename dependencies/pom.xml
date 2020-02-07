@@ -25,6 +25,8 @@
         <redisson.version>3.5.7</redisson.version>
         <!-- Ali Cloud -->
         <aliyun-sdk-oss.version>3.8.0</aliyun-sdk-oss.version>
+        <swagger.versoin>2.9.2</swagger.versoin>
+        <guava.version>20.0</guava.version>
 
     </properties>
 
@@ -173,7 +175,25 @@
                 <artifactId>redisson</artifactId>
                 <version>${redisson.version}</version>
             </dependency>
+            <!--Swagger Start -->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${swagger.versoin}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${swagger.versoin}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+            <!--Swagger End-->
         </dependencies>
+
     </dependencyManagement>
 
     <repositories>

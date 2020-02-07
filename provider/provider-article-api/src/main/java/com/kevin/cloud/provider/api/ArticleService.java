@@ -55,4 +55,6 @@ public interface ArticleService {
     ArticleDto updateWgCount(ArticleVo articleVo);
 
     ArticleDto selectClickTop();
+
+    List<SiArticle> loadCurrentTuijianData(String esId);
 }
