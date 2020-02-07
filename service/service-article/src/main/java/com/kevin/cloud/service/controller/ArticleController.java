@@ -29,6 +29,7 @@ import com.kevin.cloud.service.help.AuthUserHelperImpl;
 import com.kevin.cloud.service.limit.ArticleControllerLimit;
 import com.kevin.cloud.user.provider.api.UserService;
 import com.kevin.cloud.user.provider.domain.UmsAdmin;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.dubbo.config.annotation.Reference;
@@ -346,13 +347,27 @@ public class ArticleController {
      */
     @ApiOperation(value = "查询本栏推荐文章", notes = "当前文章类别，点击量最多的5条作为本栏推荐文章")
     @GetMapping("front/loadCurrentTuijianData")
-    public ResponseResult loadCurrentTuijianData(@RequestParam(value = "esId")String esId){
+    public ResponseResult loadCurrentTuijianData(@ApiParam(value = "esId")String esId){
        List<SiArticle> articleDtos =  articleService.loadCurrentTuijianData(esId);
        if(articleDtos != null){
            return  new ResponseResult(ResponseResult.CodeStatus.OK, "", articleDtos);
        }else{
            return  new ResponseResult(ResponseResult.CodeStatus.FAIL, "查询", null);
        }
+    }
+
+    @ApiOperation(value = "查询文章页点击排行数据")
+    @GetMapping("front/loadClickTops")
+    public ResponseResult loadClickTops(){
+        List<SiArticle> articles = articleService.loadClickTops();
+        return new ResponseResult(ResponseResult.CodeStatus.OK, "查询文章排行数据成功", articles);
+    }
+
+    @ApiOperation(value = "加载相关文章数据")
+    @GetMapping("front/loadRelativeArticles")
+    public ResponseResult loadRelativeArticles(@ApiParam("esId")String esId){
+        List<SiArticle> articles = articleService.loadRelativeArticles(esId);
+        return new ResponseResult(ResponseResult.CodeStatus.OK, "查询相关文章数据成功", articles);
     }
 
 

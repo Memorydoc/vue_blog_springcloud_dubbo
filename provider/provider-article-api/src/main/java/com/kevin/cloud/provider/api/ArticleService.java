@@ -57,4 +57,8 @@ public interface ArticleService {
     ArticleDto selectClickTop();
 
     List<SiArticle> loadCurrentTuijianData(String esId);
+
+    List<SiArticle> loadClickTops();
+
+    List<SiArticle> loadRelativeArticles(String esId);
 }

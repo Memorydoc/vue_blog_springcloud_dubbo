@@ -23,4 +23,8 @@ public interface BlogService {
     boolean commitComment(CommentVo commentVo);
 
     int commentLiks(String commentId);
+
+    List<CommentDto> loadCommentData(String esId);
+
+    boolean articleCommentSubmit(CommentVo commentVo);
 }

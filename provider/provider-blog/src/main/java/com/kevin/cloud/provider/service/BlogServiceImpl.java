@@ -13,6 +13,7 @@ import com.kevin.cloud.provider.domain.SiColumn;
 import com.kevin.cloud.provider.domain.SiComment;
 import com.kevin.cloud.provider.mapper.SiColumnMapper;
 import com.kevin.cloud.provider.mapper.SiCommentMapper;
+import io.micrometer.core.instrument.simple.SimpleConfig;
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.BeanUtils;
@@ -88,6 +89,17 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public boolean commitComment(CommentVo commentVo) {
+        SiComment siComment = setCommentData(commentVo);
+        siComment.setIsLy(1);
+        int insertCount = siCommentMapper.insertSelective(siComment);
+        if (insertCount > 0) {
+            return true;
+        }
+        return false;
+    }
+
+
+    public SiComment setCommentData(CommentVo commentVo){
         SiComment siComment = new SiComment();
         BeanUtils.copyProperties(commentVo, siComment);
         siComment.setId(idProviderGenerator.nextLid());
@@ -102,12 +114,9 @@ public class BlogServiceImpl implements BlogService {
             siComment.setPlnr(stringBuffer.toString());
         }
         siComment.setPlsj(new Date());
-        int insertCount = siCommentMapper.insertSelective(siComment);
-        if (insertCount > 0) {
-            return true;
-        }
-        return false;
+        return  siComment;
     }
+
 
 
     @Autowired
@@ -116,6 +125,34 @@ public class BlogServiceImpl implements BlogService {
     public int commentLiks(String commentId) {
         String zanCommentSql = "UPDATE si_comment SET liks = liks + 1 WHERE id = ?";
         return  jdbcTemplate.update(zanCommentSql, commentId);
+    }
+
+    @Override
+    public List<CommentDto> loadCommentData(String esId) {
+        Example exampleParent = new Example(SiComment.class);
+        exampleParent.createCriteria().andEqualTo("isLy", 0).andEqualTo("wzid", esId);
+        List<SiComment> listParent = siCommentMapper.selectByExample(exampleParent);
+        List<CommentDto> list = new ArrayList<>();
+        listParent.forEach(x ->{
+            CommentDto  commentDto = new CommentDto();
+            BeanUtils.copyProperties(x, commentDto);
+            list.add(commentDto);
+        });
+        // 对评论数据进行加工处理
+        list.forEach(x -> {
+            getChildrenComment(x, list);
+        });
+        return  list;
+    }
+
+    @Override
+    public boolean articleCommentSubmit(CommentVo commentVo) {
+        SiComment siComment = setCommentData(commentVo);
+        int insertCount = siCommentMapper.insertSelective(siComment);
+        if (insertCount > 0) {
+            return true;
+        }
+        return false;
     }
 
     // 递归评论

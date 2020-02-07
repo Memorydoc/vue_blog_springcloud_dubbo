@@ -6,6 +6,8 @@ import com.kevin.cloud.commons.dto.blog.vo.CommentVo;
 import com.kevin.cloud.commons.platform.dto.ResponseResult;
 import com.kevin.cloud.provider.api.BlogService;
 import com.kevin.cloud.provider.api.SiFinkService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,6 +58,25 @@ public class BlogController {
         List<CommentDto> commentDto = blogService.initCommentData(isReply);
         return new ResponseResult(ResponseResult.CodeStatus.OK, "", commentDto);
     }
+
+    @ApiOperation(value = "加载文章评论数据")
+    @GetMapping("front/loadCommentData")
+    public ResponseResult loadCommentData(@ApiParam("esId")String esId){
+        List<CommentDto> commentDto = blogService.loadCommentData(esId);
+        return new ResponseResult(ResponseResult.CodeStatus.OK, "文章评论数据加载成功", commentDto);
+    }
+
+    @ApiOperation(value = "文章评论提交")
+    @PostMapping("front/articleCommentSubmit")
+    public ResponseResult articleCommentSubmit(@RequestBody CommentVo commentVo){
+        boolean bool = blogService.articleCommentSubmit(commentVo);
+        if(bool){
+            return  new ResponseResult(ResponseResult.CodeStatus.OK, "文章评论成功", null);
+        }else{
+            return new ResponseResult(ResponseResult.CodeStatus.FAIL, "文章评论成功", null);
+        }
+    }
+
 
     /**
      * 提交评论
