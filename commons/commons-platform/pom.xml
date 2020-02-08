@@ -46,6 +46,12 @@
             <artifactId>hutool-core</artifactId>
             <version>5.1.1</version>
         </dependency>
-
+        <!--p6spy Start-->
+        <dependency>
+            <groupId>p6spy</groupId>
+            <artifactId>p6spy</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!--p6spy End-->
     </dependencies>
 </project>

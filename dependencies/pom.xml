@@ -27,6 +27,7 @@
         <aliyun-sdk-oss.version>3.8.0</aliyun-sdk-oss.version>
         <swagger.versoin>2.9.2</swagger.versoin>
         <guava.version>20.0</guava.version>
+        <p6spy.version>3.0.0</p6spy.version>
 
     </properties>
 
@@ -192,6 +193,13 @@
                 <version>${guava.version}</version>
             </dependency>
             <!--Swagger End-->
+            <!--p6spy Start-->
+            <dependency>
+                <groupId>p6spy</groupId>
+                <artifactId>p6spy</artifactId>
+                <version>${p6spy.version}</version>
+            </dependency>
+            <!--p6spy End-->
         </dependencies>
 
     </dependencyManagement>

@@ -39,7 +39,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -111,8 +110,9 @@ public class ArticleController {
         UmsAdmin umsAdmin = userService.get(authentication.getName());
         siArticle.setUpdateBy(umsAdmin.getId());
         //先将文章保存到数据库
-        int i = articleService.saveArticle(siArticle);
-        esService.updateDataById(CommonUtils.beanToJSONObject(siArticle), "article", "item", siArticle.getId().toString());
+        SiArticle siArticleResult = articleService.saveArticle(siArticle);
+
+        esService.updateDataById(CommonUtils.beanToJSONObject(siArticle), "article", "item", siArticleResult.getEsId().toString());
         return new ResponseResult(ResponseResult.CodeStatus.OK, "修改成功", null);
     }
 
@@ -124,12 +124,9 @@ public class ArticleController {
      */
     @PostMapping("deleteArticle")
     public ResponseResult deleteArticle(@RequestBody ArticleDto articleDto) {
-        List<String> esList = Lists.newArrayList();
-        int i = articleService.deleteIdArr(articleDto.getDeleteIdArr());
+        // 把esId数组查出来 并删除数据
+        List<String> esList = articleService.deleteIdArr(articleDto.getDeleteIdArr());
         // 刪除es 中的文章
-        articleDto.getDeleteIdArr().forEach(x -> {
-            esList.add(x.toString());
-        });
         esService.deleteDataByIdMany("article", "item", esList);
         return new ResponseResult(ResponseResult.CodeStatus.OK, "删除成功", null);
     }
@@ -159,8 +156,9 @@ public class ArticleController {
             System.out.println("插入数据库成功");
         } else {
             System.out.println("插入数据库失败");
+            // 保持数据一致，如果mysql插入失败， 则es回滚数据
+            esService.deleteDataById("article","item", esId);
         }
-
         return new ResponseResult(ResponseResult.CodeStatus.OK, "文章添加成功", esId);
     }
 

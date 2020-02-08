@@ -81,8 +81,12 @@
             <artifactId>spring-context-support</artifactId>
         </dependency>
         <!--Dubbo End-->
-
-
+        <!--p6spy Start-->
+        <dependency>
+            <groupId>p6spy</groupId>
+            <artifactId>p6spy</artifactId>
+        </dependency>
+        <!--p6spy End-->
         <dependency>
             <groupId>com.kevin.cloud.plus</groupId>
             <artifactId>commons-provider</artifactId>

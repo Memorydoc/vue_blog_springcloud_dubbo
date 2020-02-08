@@ -25,9 +25,9 @@ public interface ArticleService {
     public ArticleDto viewArticleById(Long articleId);
 
     //修改
-    public int saveArticle(SiArticle siArticled);
+    public SiArticle saveArticle(SiArticle siArticled);
 
-    public int deleteIdArr(List<Long> idArr);
+    public List<String> deleteIdArr(List<Long> idArr);
 
 
 

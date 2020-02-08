@@ -19,14 +19,14 @@ import com.kevin.cloud.provider.domain.SiArticle;
 import com.kevin.cloud.provider.mapper.SiArticleMapper;
 import com.kevin.cloud.provider.service.fallback.ArticleServiceDubboFallBack;
 import org.apache.dubbo.config.annotation.Service;
+import org.omg.SendingContext.RunTime;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import tk.mybatis.mapper.entity.Example;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @program: vue-blog-backend
@@ -62,24 +62,39 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public int saveArticle(SiArticle siArticle) {
+    public SiArticle saveArticle(SiArticle siArticle) {
         Example example = new Example(SiArticle.class);
         siArticle.setUpdateDate(new Date());
         example.createCriteria().andEqualTo("id", siArticle.getId());
-        return siArticleMapper.updateByExampleSelective(siArticle, example);
+        // 这里因为前台传递过来的对象不包含esId， 所以查询出来返回吧
+        Example resultMap = new Example(SiArticle.class);
+        resultMap.createCriteria().andEqualTo("id", siArticle.getId());
+        List<SiArticle> articles = siArticleMapper.selectByExample(resultMap);
+        siArticleMapper.updateByExampleSelective(siArticle, example);
+        return articles.get(0);
     }
 
     @Override
-    public int deleteIdArr(List<Long> idArr) {
+    public List<String> deleteIdArr(List<Long> idArr) {
         Example example = new Example(SiArticle.class);
         example.createCriteria().andIn("id", idArr);
-        return siArticleMapper.deleteByExample(example);
+        List<SiArticle> articles = siArticleMapper.selectByExample(example);
+        List<String> collect = articles.stream().map(SiArticle::getEsId).collect(Collectors.toList());
+        siArticleMapper.deleteByExample(example);
+        return collect;
     }
 
     @Override
     public int insert(SiArticle siArticle) {
-        siArticle.setCreateDate(new Date());
-        return siArticleMapper.insertSelective(siArticle);
+        int insertCount = 0;
+        try {
+            siArticle.setCreateDate(new Date());
+            insertCount = siArticleMapper.insertSelective(siArticle);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return  insertCount;
+        }
+        return insertCount;
     }
 
     @Override
@@ -105,7 +120,13 @@ public class ArticleServiceImpl implements ArticleService {
     public List<ArticleDto> loadBefore(String esId) {
         Example example = new Example(SiArticle.class);
         example.createCriteria().andEqualTo("esId", esId);
-        SiArticle siArticle = siArticleMapper.selectByExample(example).get(0);
+        List<SiArticle> articles = siArticleMapper.selectByExample(example);
+        SiArticle siArticle = null;
+        if (articles.size() > 0) {
+            siArticle = siArticleMapper.selectByExample(example).get(0);
+        } else {
+            return Lists.newArrayList();
+        }
         return siArticleMapper.loadBefore(siArticle.getCreateDate());
     }
 
@@ -113,8 +134,13 @@ public class ArticleServiceImpl implements ArticleService {
     public List<ArticleDto> loadAfter(String esId) {
         Example example = new Example(SiArticle.class);
         example.createCriteria().andEqualTo("esId", esId);
-        SiArticle siArticle = siArticleMapper.selectByExample(example).get(0);
-        return siArticleMapper.loadAfter(siArticle.getCreateDate());
+        List<SiArticle> articles = siArticleMapper.selectByExample(example);
+        if (articles.size() > 0) {
+            SiArticle siArticle = siArticleMapper.selectByExample(example).get(0);
+            return siArticleMapper.loadAfter(siArticle.getCreateDate());
+        } else {
+            return new ArrayList<>();
+        }
     }
 
     @Override
@@ -147,7 +173,7 @@ public class ArticleServiceImpl implements ArticleService {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return getArticle(update);
+        return getArticle(update, esId);
     }
 
     @Override
@@ -159,13 +185,18 @@ public class ArticleServiceImpl implements ArticleService {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return getArticle(update);
+        return getArticle(update, articleVo.getEsId());
     }
 
     @Override
     public ArticleDto selectClickTop() {
         String sql = "SELECT  * FROM si_article ORDER BY wgrs DESC LIMIT 1 ";
-        Map<String, Object> stringObjectMap = jdbcTemplate.queryForMap(sql);
+        Map<String, Object> stringObjectMap = null;
+        try {
+            stringObjectMap = jdbcTemplate.queryForMap(sql);
+        } catch (Exception ex) {
+            stringObjectMap = new HashMap<>();
+        }
         ArticleDto articleDto = MapperUtils.map2pojo(stringObjectMap, ArticleDto.class);
         return articleDto;
     }
@@ -193,29 +224,36 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public List<SiArticle> loadClickTops() {
+        List<SiArticle> list = null;
         Example example = new Example(SiArticle.class);
         example.setOrderByClause("wgrs desc");
         List<SiArticle> articles = siArticleMapper.selectByExample(example);
-        if(articles.size() >= 5){
-            articles = articles.subList(0,5);
+        if (articles.size() >= 5) {
+            list = articles.subList(0, 5);
+        } else {
+            list = articles;
         }
-        return articles ;
+        return articles;
     }
 
     @Override
     public List<SiArticle> loadRelativeArticles(String esId) {
         Example example = new Example(SiArticle.class);
         example.createCriteria().andEqualTo("esId", esId);
-        List<SiArticle> articles = siArticleMapper.selectByExample(example);
-        if(articles.size() >= 10){
+        SiArticle article = siArticleMapper.selectByExample(example).get(0);
+        Example exampleCategory = new Example(SiArticle.class);
+        exampleCategory.createCriteria().andEqualTo("category", article.getCategory());
+        List<SiArticle> articles = siArticleMapper.selectByExample(exampleCategory);
+        if (articles.size() >= 10) {
             articles = articles.subList(0, 10);
         }
         return articles;
     }
 
-    private ArticleDto getArticle(int update) {
+    private ArticleDto getArticle(int update, String esId) {
         if (update != 0) {
             Example example = new Example(SiArticle.class);
+            example.createCriteria().andEqualTo("esId", esId);
             SiArticle siArticle = null;
             List<SiArticle> siArticles = siArticleMapper.selectByExample(example);
             if (siArticles.size() != 0) {

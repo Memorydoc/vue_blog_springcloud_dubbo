@@ -1,6 +1,5 @@
 package com.kevin.cloud.provider.service;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.kevin.cloud.commons.dto.CommonConstant;
 import com.kevin.cloud.commons.dto.article.dto.ArticleDto;
@@ -49,7 +48,7 @@ public class ElasticsearchClientService implements ESService {
                 // ElasticsearchUtil.deleteIndex(indexName);
             } else { //使用spring-data 的方式，比较简便
                 // 创建索引
-                elasticsearchTemplate.createIndex(entry.getValue().getClass());
+                //elasticsearchTemplate.createIndex(entry.getValue().getClass());
                 //创建mapping
                 elasticsearchTemplate.putMapping(entry.getValue().getClass());
             }

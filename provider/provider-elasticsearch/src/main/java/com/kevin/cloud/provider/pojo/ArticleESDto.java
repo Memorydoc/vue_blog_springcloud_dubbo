@@ -40,7 +40,7 @@ public class ArticleESDto implements BaseESDto, Serializable {
     /**
      * id
      */
-    @Field(type = FieldType.Long)
+    @Field(type = FieldType.Keyword)
     @Id
     private Long id;
 
