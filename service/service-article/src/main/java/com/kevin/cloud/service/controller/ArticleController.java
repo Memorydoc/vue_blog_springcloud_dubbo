@@ -23,6 +23,7 @@ import com.kevin.cloud.provider.api.ArticleService;
 import com.kevin.cloud.provider.api.ESService;
 import com.kevin.cloud.provider.api.SiColumnService;
 import com.kevin.cloud.provider.domain.SiArticle;
+import com.kevin.cloud.provider.domain.SiColumn;
 import com.kevin.cloud.service.IdGenerator;
 import com.kevin.cloud.service.fallback.ArticleControllerFallBack;
 import com.kevin.cloud.service.help.AuthUserHelperImpl;
@@ -111,8 +112,7 @@ public class ArticleController {
         siArticle.setUpdateBy(umsAdmin.getId());
         //先将文章保存到数据库
         SiArticle siArticleResult = articleService.saveArticle(siArticle);
-
-        esService.updateDataById(CommonUtils.beanToJSONObject(siArticle), "article", "item", siArticleResult.getEsId().toString());
+        esService.updateDataById(CommonUtils.beanToJSONObject(articleDto), "article", "item", siArticleResult.getEsId().toString());
         return new ResponseResult(ResponseResult.CodeStatus.OK, "修改成功", null);
     }
 
@@ -157,7 +157,7 @@ public class ArticleController {
         } else {
             System.out.println("插入数据库失败");
             // 保持数据一致，如果mysql插入失败， 则es回滚数据
-            esService.deleteDataById("article","item", esId);
+            esService.deleteDataById("article", "item", esId);
         }
         return new ResponseResult(ResponseResult.CodeStatus.OK, "文章添加成功", esId);
     }
@@ -165,6 +165,7 @@ public class ArticleController {
     //分页查询文章, 从ES 中查询数据
     @PostMapping("front/queryArticleFromEsByPage")
     public ResponseResult queryArticleFromEsByPage(@RequestBody ArticleVo articleVo) {
+        String isAdmin = articleVo.getIsAdmin();
         Map resultMap = new ConcurrentHashMap();
         ESParamDto esParamDto = new ESParamDto();
         esParamDto.setHightLight(true);
@@ -179,10 +180,21 @@ public class ArticleController {
         esParamDto.setSortField("createDate"); // 按照创建时间排序
         PageResult result = (PageResult) esService.search(esParamDto);
         List<Map> recordList = result.getRecordList();
+        List<Map> resultList = Lists.newArrayList();
+        // 查询私密博客分类id
+        SiColumn siArticle = siColumnService.selectPersionCategory();
         recordList.forEach(x -> {
-            x.put("createDate", DateUtils.formatDate(new Date((Long) x.get("createDate")), "yyyy-MM-dd HH:mm:ss"));
+            // 如果当前已经登录
+            if ("true".equalsIgnoreCase(isAdmin)) {
+                resultList.add(x);
+            } else {
+                if ((int) x.get("category") != siArticle.getId()) { // 这里私密博客必须要设置为5 这是固定的
+                    x.put("createDate", DateUtils.formatDate(new Date((Long) x.get("createDate")), "yyyy-MM-dd HH:mm:ss"));
+                    resultList.add(x);
+                }
+            }
         });
-        result.setRecordList(recordList);
+        result.setRecordList(resultList);
         //查询文章点击状元
         ArticleDto clickTop = articleService.selectClickTop();
         resultMap.put("data", result);
@@ -232,6 +244,15 @@ public class ArticleController {
 
         return new ResponseResult(ResponseResult.CodeStatus.OK, "ES文章分页查询成功", result);
     }
+
+
+    @ApiOperation(value = "加载个人简历数据")
+    @GetMapping("front/initAbout")
+    public ResponseResult initAbout() {
+        Map<String, Object> stringObjectMap = esService.searchDataByOneField("article", "item", "mc,个人简历");
+        return new ResponseResult(ResponseResult.CodeStatus.OK, "个人简历查询成功", stringObjectMap);
+    }
+
 
     @GetMapping("front/initTuijian")
     public ResponseResult initTuijian() {
@@ -302,7 +323,6 @@ public class ArticleController {
     }
 
 
-
 /**
  * 文章点赞  这里使用sentinel 手动方式降级，会有代码侵入性 使用上面的方法是自动注解限流
  */
@@ -339,35 +359,35 @@ public class ArticleController {
     }*/
 
     /**
-     *  查询本栏推荐
-     * @param esId  文章对应的esId
+     * 查询本栏推荐
+     *
+     * @param esId 文章对应的esId
      * @return
      */
     @ApiOperation(value = "查询本栏推荐文章", notes = "当前文章类别，点击量最多的5条作为本栏推荐文章")
     @GetMapping("front/loadCurrentTuijianData")
-    public ResponseResult loadCurrentTuijianData(@ApiParam(value = "esId")String esId){
-       List<SiArticle> articleDtos =  articleService.loadCurrentTuijianData(esId);
-       if(articleDtos != null){
-           return  new ResponseResult(ResponseResult.CodeStatus.OK, "", articleDtos);
-       }else{
-           return  new ResponseResult(ResponseResult.CodeStatus.FAIL, "查询", null);
-       }
+    public ResponseResult loadCurrentTuijianData(@ApiParam(value = "esId") String esId) {
+        List<SiArticle> articleDtos = articleService.loadCurrentTuijianData(esId);
+        if (articleDtos != null) {
+            return new ResponseResult(ResponseResult.CodeStatus.OK, "", articleDtos);
+        } else {
+            return new ResponseResult(ResponseResult.CodeStatus.FAIL, "查询", null);
+        }
     }
 
     @ApiOperation(value = "查询文章页点击排行数据")
     @GetMapping("front/loadClickTops")
-    public ResponseResult loadClickTops(){
+    public ResponseResult loadClickTops() {
         List<SiArticle> articles = articleService.loadClickTops();
         return new ResponseResult(ResponseResult.CodeStatus.OK, "查询文章排行数据成功", articles);
     }
 
     @ApiOperation(value = "加载相关文章数据")
     @GetMapping("front/loadRelativeArticles")
-    public ResponseResult loadRelativeArticles(@ApiParam("esId")String esId){
+    public ResponseResult loadRelativeArticles(@ApiParam("esId") String esId) {
         List<SiArticle> articles = articleService.loadRelativeArticles(esId);
         return new ResponseResult(ResponseResult.CodeStatus.OK, "查询相关文章数据成功", articles);
     }
-
 
 
 }

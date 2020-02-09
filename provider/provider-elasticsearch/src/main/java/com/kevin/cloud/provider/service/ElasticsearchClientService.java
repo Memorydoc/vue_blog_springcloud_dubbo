@@ -48,7 +48,7 @@ public class ElasticsearchClientService implements ESService {
                 // ElasticsearchUtil.deleteIndex(indexName);
             } else { //使用spring-data 的方式，比较简便
                 // 创建索引
-                //elasticsearchTemplate.createIndex(entry.getValue().getClass());
+                elasticsearchTemplate.createIndex(entry.getValue().getClass());
                 //创建mapping
                 elasticsearchTemplate.putMapping(entry.getValue().getClass());
             }
@@ -156,7 +156,12 @@ public class ElasticsearchClientService implements ESService {
 
     @Override
     public Map<String, Object> searchDataById(String index, String type, String id, String fields) {
-        return ElasticsearchUtil.searchDataById(index, index, type, id);
+        return ElasticsearchUtil.searchDataById(index, type, id, fields);
+    }
+
+    @Override
+    public Map<String, Object> searchDataByOneField(String index, String type, String fieldValue) {
+        return ElasticsearchUtil.searchDataByOneField(index, type, fieldValue);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.kevin.cloud.provider.api;
 
 import com.kevin.cloud.commons.dto.article.dto.SiColumnDto;
+import com.kevin.cloud.provider.domain.SiColumn;
 
 import java.util.List;
 
@@ -15,4 +16,6 @@ import java.util.List;
  */
 public interface SiColumnService {
     List<SiColumnDto> tagListLoad();
+
+    SiColumn selectPersionCategory();
 }

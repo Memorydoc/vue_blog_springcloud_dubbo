@@ -152,4 +152,6 @@ public class ArticleVo extends QueryPageParam  implements Serializable {
     private Integer tuijian;
 
     private String esId;
+
+    private String isAdmin;
 }

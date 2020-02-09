@@ -23,6 +23,7 @@ import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.elasticsearch.search.sort.SortOrder;
@@ -36,6 +37,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import static org.elasticsearch.index.query.QueryBuilders.termsQuery;
 
 /**
  * @program: vue-blog-backend
@@ -204,6 +207,27 @@ public class ElasticsearchUtil {
 
         return getResponse.getSource();
     }
+
+    /**
+     * 精准
+     * @return
+     */
+    public static Map<String, Object> searchDataByOneField(String index, String type, String fieldValue){
+        String[] split = fieldValue.split(",");
+        SearchResponse searchResponse = client.prepareSearch(index)
+                .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
+                .setExplain(true) //explain为true表示根据数据相关度排序，和关键字匹配最高的排在前面
+                .setFrom(0).setMinScore(1).setSize(100) //设置只保留score>1的结果，并且最多保留100个
+                //.setFrom(0).setSize(100)//只设置保留个数
+                .setTypes(type)
+                .setQuery(QueryBuilders.matchPhraseQuery(split[0], split[1])) //指定查询的字段，只能实现连续的短语，不把词语分割成字
+                //.setQuery(QueryBuilders.matchPhrasePrefixQuery(【tag】, 【key】))
+               // .setQuery(QueryBuilders.matchQuery(【tag】, 【key】))
+                .get();
+        List<Map<String, Object>> maps = setSearchResponse(searchResponse, null);
+        return maps.get(0);
+    }
+
 
 
     private static void setHightFields(SearchRequestBuilder searchRequestBuilder, String highlightField) {

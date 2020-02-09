@@ -40,6 +40,8 @@ public interface ESService {
      */
     public Map<String, Object> searchDataById(String index, String type, String id, String fields);// 通过id查询数据
 
+    public Map<String, Object> searchDataByOneField(String index, String type, String fieldValue);
+
 
     boolean doLikeByEsId(ArticleDto articleDto, String index, String type);
 }

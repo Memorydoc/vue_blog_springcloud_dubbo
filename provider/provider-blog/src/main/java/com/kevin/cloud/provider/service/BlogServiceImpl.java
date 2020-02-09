@@ -1,23 +1,30 @@
 package com.kevin.cloud.provider.service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.kevin.cloud.commons.dto.article.dto.ArticleDto;
+import com.kevin.cloud.commons.dto.article.vo.SiColumnVo;
 import com.kevin.cloud.commons.dto.blog.dto.CommentDto;
 import com.kevin.cloud.commons.dto.blog.dto.TypeViewDto;
 import com.kevin.cloud.commons.dto.blog.vo.CommentVo;
+import com.kevin.cloud.commons.platform.dto.PageResult;
+import com.kevin.cloud.commons.platform.utils.BaseServiceUtils;
 import com.kevin.cloud.provider.IdProviderGenerator;
 import com.kevin.cloud.provider.api.ArticleService;
 import com.kevin.cloud.provider.api.BlogService;
 import com.kevin.cloud.provider.domain.SiArticle;
 import com.kevin.cloud.provider.domain.SiColumn;
+import com.kevin.cloud.provider.domain.SiColumnType;
 import com.kevin.cloud.provider.domain.SiComment;
 import com.kevin.cloud.provider.mapper.SiColumnMapper;
+import com.kevin.cloud.provider.mapper.SiColumnTypeMapper;
 import com.kevin.cloud.provider.mapper.SiCommentMapper;
-import io.micrometer.core.instrument.simple.SimpleConfig;
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import tk.mybatis.mapper.entity.Example;
 
@@ -42,7 +49,8 @@ public class BlogServiceImpl implements BlogService {
     @Autowired
     private SiColumnMapper siColumnMapper;
 
-
+    @Autowired
+    private SiColumnTypeMapper siColumnTypeMapper;
     @Reference(version = "1.0.0")
     private ArticleService articleService;
 
@@ -99,32 +107,32 @@ public class BlogServiceImpl implements BlogService {
     }
 
 
-    public SiComment setCommentData(CommentVo commentVo){
+    public SiComment setCommentData(CommentVo commentVo) {
         SiComment siComment = new SiComment();
         BeanUtils.copyProperties(commentVo, siComment);
         siComment.setId(idProviderGenerator.nextLid());
         String[] split = siComment.getPlnr().split(":");
-        if(split.length > 1){
+        if (split.length > 1) {
             StringBuffer stringBuffer = new StringBuffer();
             for (int i = 0; i < split.length; i++) {
-                if(i != 0){
+                if (i != 0) {
                     stringBuffer.append(split[i]);
                 }
             }
             siComment.setPlnr(stringBuffer.toString());
         }
         siComment.setPlsj(new Date());
-        return  siComment;
+        return siComment;
     }
-
 
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
     @Override
     public int commentLiks(String commentId) {
         String zanCommentSql = "UPDATE si_comment SET liks = liks + 1 WHERE id = ?";
-        return  jdbcTemplate.update(zanCommentSql, commentId);
+        return jdbcTemplate.update(zanCommentSql, commentId);
     }
 
     @Override
@@ -133,8 +141,8 @@ public class BlogServiceImpl implements BlogService {
         exampleParent.createCriteria().andEqualTo("isLy", 0).andEqualTo("wzid", esId);
         List<SiComment> listParent = siCommentMapper.selectByExample(exampleParent);
         List<CommentDto> list = new ArrayList<>();
-        listParent.forEach(x ->{
-            CommentDto  commentDto = new CommentDto();
+        listParent.forEach(x -> {
+            CommentDto commentDto = new CommentDto();
             BeanUtils.copyProperties(x, commentDto);
             list.add(commentDto);
         });
@@ -142,7 +150,7 @@ public class BlogServiceImpl implements BlogService {
         list.forEach(x -> {
             getChildrenComment(x, list);
         });
-        return  list;
+        return list;
     }
 
     @Override
@@ -153,6 +161,45 @@ public class BlogServiceImpl implements BlogService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public PageResult initColumnTypesData(SiColumnVo siColumnVo) {
+        PageHelper.startPage(siColumnVo.getPageNum(), siColumnVo.getPageSize());
+        Example example = new Example(SiColumn.class);
+        List<SiColumn> umsAdmins = siColumnMapper.selectByExample(example);
+        PageInfo pageInfo = new PageInfo(umsAdmins);
+        PageResult pageResult = BaseServiceUtils.buildPageResult(pageInfo);
+        return pageResult;
+    }
+
+    @Override
+    public int deleteColumn(SiColumnVo siColumnVo) {
+        Example example = new Example(SiColumn.class);
+        example.createCriteria().andIn("id", siColumnVo.getDeleteIdArr());
+        return siColumnMapper.deleteByExample(example);
+    }
+
+    @Override
+    public int addTypes(SiColumnVo siColumnVo) {
+        SiColumn siColumn = new SiColumn();
+        BeanUtils.copyProperties(siColumnVo, siColumn);
+        return siColumnMapper.insert(siColumn);
+    }
+
+    @Override
+    public int editType(SiColumnVo siColumnVo) {
+        SiColumn siColumn = new SiColumn();
+        BeanUtils.copyProperties(siColumnVo, siColumn);
+        return siColumnMapper.updateByPrimaryKeySelective(siColumn);
+    }
+
+    @Override
+    public List<SiColumnType> getTypeTags() {
+        Example example = new Example(SiColumnType.class);
+        List<SiColumnType> siColumnTypes = siColumnTypeMapper.selectByExample(example);
+
+        return siColumnTypes;
     }
 
     // 递归评论

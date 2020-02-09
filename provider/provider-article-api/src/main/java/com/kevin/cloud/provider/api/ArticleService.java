@@ -61,4 +61,5 @@ public interface ArticleService {
     List<SiArticle> loadClickTops();
 
     List<SiArticle> loadRelativeArticles(String esId);
+
 }

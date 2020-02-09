@@ -39,4 +39,15 @@ public class SiColumnServiceImpl implements SiColumnService{
         });
         return resultDto;
     }
+
+    @Override
+    public SiColumn selectPersionCategory() {
+        Example example = new Example(SiColumn.class);
+        example.createCriteria().andEqualTo("lmmc", "私密博客");
+        List<SiColumn> siColumns = siColumnMapper.selectByExample(example);
+        if(siColumns.size()!= 0){
+            return siColumns.get(0);
+        }
+        return null;
+    }
 }

@@ -22,7 +22,7 @@ import java.io.Serializable;
  **/
 
 @Data
-@Document(indexName = "article", type  = "item", shards = 2)
+@Document(indexName = "article", type  = "item", shards = 2, createIndex = false)
 @AllArgsConstructor
 @NoArgsConstructor
 @Component

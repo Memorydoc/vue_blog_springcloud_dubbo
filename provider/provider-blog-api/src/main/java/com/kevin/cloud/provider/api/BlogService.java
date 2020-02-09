@@ -1,8 +1,11 @@
 package com.kevin.cloud.provider.api;
 
+import com.kevin.cloud.commons.dto.article.vo.SiColumnVo;
 import com.kevin.cloud.commons.dto.blog.dto.CommentDto;
 import com.kevin.cloud.commons.dto.blog.dto.TypeViewDto;
 import com.kevin.cloud.commons.dto.blog.vo.CommentVo;
+import com.kevin.cloud.commons.platform.dto.PageResult;
+import com.kevin.cloud.provider.domain.SiColumnType;
 
 import java.util.List;
 
@@ -27,4 +30,14 @@ public interface BlogService {
     List<CommentDto> loadCommentData(String esId);
 
     boolean articleCommentSubmit(CommentVo commentVo);
+
+    PageResult initColumnTypesData(SiColumnVo siColumnVo);
+
+    int deleteColumn(SiColumnVo siColumnVo);
+
+    int addTypes(SiColumnVo siColumnVo);
+
+    int editType(SiColumnVo siColumnVo);
+
+    List<SiColumnType> getTypeTags();
 }

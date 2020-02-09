@@ -147,6 +147,7 @@ public class UserServiceImpl implements UserService {
         BeanUtils.copyProperties(umsAdminVo, umsAdmin);
         umsAdmin.setId(idGenerator.nextLid());
         umsAdmin.setIsCustomer(1); // 设置 用户为游客
+        umsAdmin.setCreateTime(new Date());
         int i = umsAdminMapper.insertSelective(umsAdmin);
         if(i > 0){
             return  umsAdmin;
