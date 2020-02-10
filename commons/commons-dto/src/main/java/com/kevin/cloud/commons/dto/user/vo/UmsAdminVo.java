@@ -70,4 +70,10 @@ public class UmsAdminVo extends QueryPageParam {
     private Integer status;
 
     private Integer isCustomer;
+    /**
+     * 手机登录使用
+     */
+    private Long phone; // 手机号
+    private String bizId; // 生成验证码的业务id
+    private String randomCode;// 验证码
 }

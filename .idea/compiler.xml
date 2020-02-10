@@ -9,9 +9,9 @@
         <outputRelativeToContentRoot value="true" />
         <module name="cloud-message-api" />
         <module name="common-platform" />
+        <module name="configuration-feign" />
         <module name="service-blog-feign" />
         <module name="configuration-sentinel" />
-        <module name="provider-user" />
         <module name="provider-blog" />
         <module name="cloud-upload-service" />
         <module name="user-service-register" />
@@ -31,13 +31,15 @@
         <module name="configuration-service" />
         <module name="commons-dto" />
         <module name="service-blog" />
+        <module name="cloud-sms-service" />
         <module name="cloud-message-feign" />
         <module name="provider-article" />
         <module name="provider-message-api" />
         <module name="cloud-upload-feign" />
         <module name="service-oauth2" />
         <module name="provider-blog-api" />
-        <module name="configuration-feign" />
+        <module name="cloud-sms-api" />
+        <module name="provider-user" />
         <module name="commons-provider" />
         <module name="provider-elasticsearch-api" />
         <module name="provider-log" />
@@ -55,6 +57,8 @@
       <module name="cloud-message-api" target="1.8" />
       <module name="cloud-message-feign" target="1.8" />
       <module name="cloud-message-service" target="1.8" />
+      <module name="cloud-sms-api" target="1.8" />
+      <module name="cloud-sms-service" target="1.8" />
       <module name="cloud-upload" target="1.8" />
       <module name="cloud-upload-feign" target="1.8" />
       <module name="cloud-upload-service" target="1.8" />
@@ -109,6 +113,8 @@
       <module name="cloud-message-api" options="-parameters" />
       <module name="cloud-message-feign" options="-parameters" />
       <module name="cloud-message-service" options="-parameters" />
+      <module name="cloud-sms-api" options="-parameters" />
+      <module name="cloud-sms-service" options="-parameters" />
       <module name="cloud-upload-feign" options="-parameters" />
       <module name="cloud-upload-service" options="-parameters" />
       <module name="common-platform" options="-parameters" />

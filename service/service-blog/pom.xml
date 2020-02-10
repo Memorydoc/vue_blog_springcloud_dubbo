@@ -76,7 +76,16 @@
             <artifactId>provider-article-api</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.kevin.cloud.plus</groupId>
+            <artifactId>cloud-sms-api</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.kevin.cloud.plus</groupId>
+            <artifactId>provider-redis-api</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
         <!--Projects End-->
     </dependencies>
 

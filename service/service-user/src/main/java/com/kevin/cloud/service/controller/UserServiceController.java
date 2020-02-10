@@ -10,20 +10,21 @@ import com.kevin.cloud.commons.platform.dto.FallBackResult;
 import com.kevin.cloud.commons.platform.dto.PageResult;
 import com.kevin.cloud.commons.platform.dto.ResponseResult;
 import com.kevin.cloud.provider.api.ProviderLogService;
+import com.kevin.cloud.provider.api.RedisTemplateService;
 import com.kevin.cloud.service.controller.fallback.UserServiceControllerFallback;
-import com.kevin.cloud.user.provider.api.UserService;
-import com.kevin.cloud.user.provider.domain.UmsAdmin;
+import com.kevin.cloud.provider.api.UserService;
+import com.kevin.cloud.provider.domain.UmsAdmin;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -158,24 +159,61 @@ public class UserServiceController {
      */
     @PostMapping("front/customerStatus")
     public ResponseResult customerStatus(@RequestBody UmsAdminVo umsAdminVo) {
-        Map<String, Object> stringObjectMap = userService.customerStatus(umsAdminVo);
-        if (stringObjectMap.get("customer") == null) {
-            return new ResponseResult(ResponseResult.CodeStatus.FAIL, stringObjectMap.get("resultMsg").toString(), null);
+        Map resultMap = new HashMap();
+        if (umsAdminVo.getPhone() != null) {// 手机号登录
+            String s = null;
+            try {
+                s = redisTemplateService.get(umsAdminVo.getBizId(), String.class);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (s != null) {
+                if(s.equalsIgnoreCase(umsAdminVo.getRandomCode())){
+                    resultMap = userService.queryUserByPhone(umsAdminVo.getPhone());
+                }else{
+                    return new ResponseResult(ResponseResult.CodeStatus.FAIL, "验证码错误", null);
+                }
+            }else{
+                return new ResponseResult(ResponseResult.CodeStatus.FAIL, "验证码失效", null);
+            }
+        }else{
+            resultMap = userService.customerStatus(umsAdminVo);
         }
-        return new ResponseResult(ResponseResult.CodeStatus.OK, stringObjectMap.get("resultMsg").toString(), (UmsAdminDto) stringObjectMap.get("customer"));
+        if (resultMap.get("customer") == null) {
+            return new ResponseResult(ResponseResult.CodeStatus.FAIL, resultMap.get("resultMsg").toString(), null);
+        }
+        return new ResponseResult(ResponseResult.CodeStatus.OK, resultMap.get("resultMsg").toString(), (UmsAdminDto) resultMap.get("customer"));
     }
 
+    @Reference(version = "1.0.0")
+    private RedisTemplateService redisTemplateService;
     /**
      * @param umsAdminVo 注册用户信息
      * @return
      */
     @Resource
     public BCryptPasswordEncoder passwordEncoder;
+
     @PostMapping("front/doCustomerRegister")
     public ResponseResult doCustomerRegister(@RequestBody UmsAdminVo umsAdminVo) {
+        UmsAdmin umsAdminDto = null;
+        if (umsAdminVo.getPhone() != null) { // 手机号注册
+            String phoneCheckStatus = null;
+            try {
+                phoneCheckStatus = redisTemplateService.get(umsAdminVo.getBizId(), String.class);
+                if (StringUtils.isNotBlank(phoneCheckStatus) && phoneCheckStatus.equalsIgnoreCase("true")) {
+                    umsAdminDto = userService.doCustomerRegister(umsAdminVo);
+                    return new ResponseResult(ResponseResult.CodeStatus.OK, "注册成功", umsAdminDto);
+                } else {
+                    return new ResponseResult(ResponseResult.CodeStatus.FAIL, "注册失败=> 验证码检查出错", null);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         // 对注册的用户的密码进行加密
         umsAdminVo.setPassword(passwordEncoder.encode(umsAdminVo.getPassword()));
-        UmsAdmin umsAdminDto = userService.doCustomerRegister(umsAdminVo);
+        umsAdminDto = userService.doCustomerRegister(umsAdminVo);
         if (umsAdminDto != null) {
             return new ResponseResult(ResponseResult.CodeStatus.OK, "注册成功", umsAdminDto);
         } else {

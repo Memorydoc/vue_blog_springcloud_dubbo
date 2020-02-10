@@ -81,6 +81,12 @@
             <artifactId>provider-blog-api</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.kevin.cloud.plus</groupId>
+            <artifactId>provider-redis-api</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
         <!--Projects End-->
     </dependencies>
 

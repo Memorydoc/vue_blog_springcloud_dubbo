@@ -49,9 +49,15 @@ public class CommonUtils {
 
 
     /**
-     * 获取当前系统时间 年月日时分秒
+     * 生成六位随机数用于短信服务
      */
-
+    public static  String createSmsCode(){
+        String vcode="";
+        for (int i=0; i<6; i++) {
+            vcode=vcode+(int)(Math.random() * 9);
+        }
+        return  vcode;
+    }
 
 
 

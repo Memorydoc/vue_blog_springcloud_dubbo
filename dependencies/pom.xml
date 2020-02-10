@@ -28,7 +28,7 @@
         <swagger.versoin>2.9.2</swagger.versoin>
         <guava.version>20.0</guava.version>
         <p6spy.version>3.0.0</p6spy.version>
-
+        <aliyun-java-sdk-core.version>4.1.0</aliyun-java-sdk-core.version>
     </properties>
 
     <licenses>
@@ -200,6 +200,14 @@
                 <version>${p6spy.version}</version>
             </dependency>
             <!--p6spy End-->
+            <!--Ali Cloud Start-->
+            <!--短信服务-->
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>aliyun-java-sdk-core</artifactId>
+                <version>${aliyun-java-sdk-core.version}</version>
+            </dependency>
+            <!--Ali Cloud End-->
         </dependencies>
 
     </dependencyManagement>

@@ -1,9 +1,9 @@
-package com.kevin.cloud.user.provider.api;
+package com.kevin.cloud.provider.api;
 
 import com.kevin.cloud.commons.dto.user.dto.UmsAdminDto;
 import com.kevin.cloud.commons.dto.user.vo.UmsAdminVo;
 import com.kevin.cloud.commons.platform.dto.PageResult;
-import com.kevin.cloud.user.provider.domain.UmsAdmin;
+import com.kevin.cloud.provider.domain.UmsAdmin;
 
 import java.util.Map;
 
@@ -40,4 +40,6 @@ public interface UserService {
     Map<String, Object> customerStatus(UmsAdminVo umsAdminVo);
 
     UmsAdmin doCustomerRegister(UmsAdminVo umsAdminVo);
+
+    Map<String, Object> queryUserByPhone(Long phone);
 }

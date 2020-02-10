@@ -8,20 +8,18 @@ package com.kevin.cloud.service.help;
  **/
 
 import com.kevin.cloud.commons.dto.user.dto.UmsAdminDto;
-import com.kevin.cloud.user.provider.api.UserService;
-import com.kevin.cloud.user.provider.domain.UmsAdmin;
+import com.kevin.cloud.provider.api.UserService;
+import com.kevin.cloud.provider.domain.UmsAdmin;
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Optional;
 
 @Component
 public class AuthUserHelperImpl {

@@ -11,9 +11,8 @@ import com.kevin.cloud.commons.platform.utils.BaseServiceUtils;
 import com.kevin.cloud.provider.IdProviderGenerator;
 import com.kevin.cloud.provider.mapper.UmsAdminMapper;
 import com.kevin.cloud.provider.service.fallback.UserServiceImplFallback;
-import com.kevin.cloud.service.IdGenerator;
-import com.kevin.cloud.user.provider.api.UserService;
-import com.kevin.cloud.user.provider.domain.UmsAdmin;
+import com.kevin.cloud.provider.api.UserService;
+import com.kevin.cloud.provider.domain.UmsAdmin;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -143,6 +142,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UmsAdmin doCustomerRegister(UmsAdminVo umsAdminVo) {
+        Map resultMap = new HashMap();
         UmsAdmin umsAdmin = new UmsAdmin();
         BeanUtils.copyProperties(umsAdminVo, umsAdmin);
         umsAdmin.setId(idGenerator.nextLid());
@@ -153,6 +153,26 @@ public class UserServiceImpl implements UserService {
             return  umsAdmin;
         }
         return null;
+    }
+
+    @Override
+    public Map<String, Object> queryUserByPhone(Long phone) {
+        Map resultMap = new HashMap();
+        Example example = new Example(UmsAdmin.class);
+        example.createCriteria().andEqualTo("phone", phone).andEqualTo("isCustomer", 1);
+        List<UmsAdmin> umsAdmins = umsAdminMapper.selectByExample(example);
+        if(umsAdmins.size() > 0){
+            UmsAdminDto umsAdminDto = new UmsAdminDto();
+            BeanUtils.copyProperties(umsAdmins.get(0), umsAdminDto);
+            resultMap.put("resultMsg", "登录成功");
+            resultMap.put("customer", umsAdminDto);
+            return resultMap;
+        }else{
+            resultMap.put("resultMsg", "用户不存在");
+            resultMap.put("customer", null);
+        }
+
+        return resultMap;
     }
 
 }

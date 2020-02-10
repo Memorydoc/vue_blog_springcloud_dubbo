@@ -30,6 +30,8 @@ import java.util.concurrent.TimeUnit;
  **/
 @Service(version = "1.0.0")
 public class RedisTemplateServiceImpl implements RedisTemplateService {
+
+    private static final Long expireTime = 60 * 30L;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     private StringRedisTemplate stringRedisTemplate = (StringRedisTemplate) SpringContextProviderUtil.getBean("stringRedisTemplate");
@@ -148,6 +150,7 @@ public class RedisTemplateServiceImpl implements RedisTemplateService {
     @SuppressWarnings("unchecked")
     public <T> T get(String key, Class<T> clazz) throws Exception {
         Object o = (T) redisTemplate.boundValueOps(key).get();
+        if(o == null) return  null;
         return MapperUtils.json2pojoByFastJson(o.toString(), clazz);
     }
 
@@ -161,6 +164,7 @@ public class RedisTemplateServiceImpl implements RedisTemplateService {
     @Override
     public <T> T getJson(String key, Class<T> clazz) throws IOException {
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        if(stringRedisTemplate.boundValueOps(key) == null) return  null;
         return objectMapper.readValue(stringRedisTemplate.boundValueOps(key).get(), clazz);
     }
 
@@ -194,6 +198,12 @@ public class RedisTemplateServiceImpl implements RedisTemplateService {
             redisTemplate.expire(key, time, TimeUnit.SECONDS);
         }
     }
+
+    @Override
+    public void set(String key, Object value) {
+        set(key, value, expireTime);
+    }
+
 
     /**
      * 将value对象以JSON格式写入缓存

@@ -14,7 +14,7 @@ public interface RedisTemplateService {
      *
      * @param key
      */
-    public  void del(String... key);
+    public void del(String... key);
 
     /**
      * 批量删除<br>
@@ -93,9 +93,17 @@ public interface RedisTemplateService {
      *
      * @param key
      * @param value
-     * @param time  失效时间(秒)
+     * @param time  失效时间(秒) 单位（秒）
      */
     public void set(String key, Object value, long time);
+
+    /**
+     * 将value对象写入缓存
+     *
+     * @param key
+     * @param value 默认30分钟 失效时间(秒) 单位（秒）
+     */
+    public void set(String key, Object value);
 
     /**
      * 将value对象以JSON格式写入缓存
@@ -136,10 +144,12 @@ public interface RedisTemplateService {
 
     /**
      * 递增操作
+     *
      * @param key
      * @return
      */
-    public  long incr(String key);
+    public long incr(String key);
+
     /**
      * 设置double类型值
      *
@@ -149,7 +159,8 @@ public interface RedisTemplateService {
      */
     public void setDouble(String key, double value, long time);
 
-    public  double getDouble(String key) ;
+    public double getDouble(String key);
+
     /**
      * 设置double类型值
      *

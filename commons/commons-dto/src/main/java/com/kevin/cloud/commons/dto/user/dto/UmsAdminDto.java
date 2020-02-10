@@ -67,4 +67,5 @@ public class UmsAdminDto {
     private Integer status;
 
     private Integer isCustomer;
+    private Long phone;
 }

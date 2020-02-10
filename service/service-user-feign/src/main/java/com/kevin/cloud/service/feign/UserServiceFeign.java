@@ -1,15 +1,12 @@
 package com.kevin.cloud.service.feign;
 
-import com.kevin.cloud.commons.dto.user.dto.UmsAdminDto;
 import com.kevin.cloud.configuration.fegin.configuration.FeignRequestConfiguration;
-import com.kevin.cloud.service.feign.fallback.UserServiceFeignFallBack;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 /**
  * @ClassName UserServiceFeign
- * Description TODO
  * @Author pwc kevin
  * @Date 1/6/2020 3:43 PM
  * Version 1.0

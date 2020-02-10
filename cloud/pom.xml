@@ -81,5 +81,7 @@
         <module>cloud-message-feign</module>
         <module>cloud-message-service</module>
         <module>cloud-message-api</module>
+        <module>cloud-sms-service</module>
+        <module>cloud-sms-api</module>
     </modules>
 </project>

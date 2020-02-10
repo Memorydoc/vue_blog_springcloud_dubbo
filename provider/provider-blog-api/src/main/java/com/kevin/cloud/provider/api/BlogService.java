@@ -4,6 +4,7 @@ import com.kevin.cloud.commons.dto.article.vo.SiColumnVo;
 import com.kevin.cloud.commons.dto.blog.dto.CommentDto;
 import com.kevin.cloud.commons.dto.blog.dto.TypeViewDto;
 import com.kevin.cloud.commons.dto.blog.vo.CommentVo;
+import com.kevin.cloud.commons.dto.cloud.dto.SmsDto;
 import com.kevin.cloud.commons.platform.dto.PageResult;
 import com.kevin.cloud.provider.domain.SiColumnType;
 
@@ -40,4 +41,5 @@ public interface BlogService {
     int editType(SiColumnVo siColumnVo);
 
     List<SiColumnType> getTypeTags();
+
 }
