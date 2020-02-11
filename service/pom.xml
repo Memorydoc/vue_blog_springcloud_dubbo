@@ -94,5 +94,6 @@
         <module>service-blog-feign</module>
         <module>service-article</module>
         <module>service-article-feign</module>
+        <module>service-elastic-job</module>
     </modules>
 </project>

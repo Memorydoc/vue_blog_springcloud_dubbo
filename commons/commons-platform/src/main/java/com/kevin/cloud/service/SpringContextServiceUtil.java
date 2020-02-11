@@ -2,6 +2,9 @@ package com.kevin.cloud.service;
 
 import com.kevin.cloud.provider.SpringContextProviderUtil;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.MutablePropertyValues;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
@@ -11,6 +14,7 @@ import org.springframework.web.servlet.LocaleResolver;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * @program: vue-blog-backend
@@ -18,7 +22,7 @@ import java.util.Locale;
  * @author: kevin
  * @create: 2020-01-23 21:46
  **/
-@Component
+@Component("springContextServiceUtil")
 public class SpringContextServiceUtil implements ApplicationContextAware {
     /**
      *  Spring应用上下文环境
@@ -44,4 +48,26 @@ public class SpringContextServiceUtil implements ApplicationContextAware {
     public static Object getBean(String beanId) throws BeansException {
         return applicationContext.getBean(beanId);
     }
+    /**
+     * 同步方法注册bean到ApplicationContext中
+     *
+     * @param beanName
+     * @param clazz
+     * @param original bean的属性值
+     */
+    public static synchronized void setBean(String beanName, Class<?> clazz, Map<String,Object> original) {
+        DefaultListableBeanFactory beanFactory = (DefaultListableBeanFactory) applicationContext.getAutowireCapableBeanFactory();
+        if(beanFactory.containsBean(beanName)){
+            return;
+        }
+        //BeanDefinition beanDefinition = new RootBeanDefinition(clazz);
+        GenericBeanDefinition definition = new GenericBeanDefinition();
+        //类class
+        definition.setBeanClass(clazz);
+        //属性赋值
+        definition.setPropertyValues(new MutablePropertyValues(original));
+        //注册到spring上下文
+        beanFactory.registerBeanDefinition(beanName, definition);
+    }
+
 }

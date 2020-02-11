@@ -5,23 +5,24 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
- * @program: vue-blog-backend
- * @description: 文章服务
- * @author: kevin
- * @create: 2020-01-15 14:09
- **/
+ * @ProjectName: vue-blog-backend
+ * @Package: com.kevin.cloud.service
+ * @ClassName: ServiceJobApplication
+ * @Author: kevin
+ * @Description:
+ * @Date: 2020/2/12 0:39
+ * @Version: 1.0
+ */
 @SpringBootApplication(exclude= {DataSourceAutoConfiguration.class},
-        scanBasePackageClasses = {ServiceArticleApplication.class}) //因为PageHelper 插件中有连接数据库的配置，所以在这里exclude去掉数据库配置
+        scanBasePackageClasses = {ServiceJobApplication.class})
 @EnableDiscoveryClient
 @EnableFeignClients
-@EnableSwagger2
-public class ServiceArticleApplication {
-
+public class ServiceJobApplication {
     public static void main(String[] args) {
-        System.out.println("12345");
-        SpringApplication.run(ServiceArticleApplication.class, args);
+        System.out.println("123");
+        SpringApplication.run(ServiceJobApplication.class, args);
     }
+
 }

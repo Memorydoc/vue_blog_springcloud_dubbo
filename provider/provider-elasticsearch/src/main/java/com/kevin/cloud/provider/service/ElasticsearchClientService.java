@@ -59,10 +59,7 @@ public class ElasticsearchClientService implements ESService {
     public Object search(ESParamDto esParamDto) {
         QueryBuilder query = null;
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
-        if (StringUtils.isBlank(esParamDto.getKeyword())) {
-            query = boolQueryBuilder;
-        } else {
-
+        if (StringUtils.isNotBlank(esParamDto.getKeyword())) {
             if (esParamDto.getQueryBuilder() != null) {
                 query = (QueryBuilder) esParamDto.getQueryBuilder();
             } else {
@@ -72,7 +69,8 @@ public class ElasticsearchClientService implements ESService {
                     throw new RuntimeException("matchField is error ");
                 }
                 String[] split = matchField.split(",");
-                for (String key : split) {
+                query = QueryBuilders.multiMatchQuery(esParamDto.getKeyword(), split);
+                /*for (String key : split) {
                     QueryBuilder queryBuilder = QueryBuilders.matchQuery(key, esParamDto.getKeyword())
                             .analyzer(CommonConstant.analysis
                             );
@@ -80,7 +78,7 @@ public class ElasticsearchClientService implements ESService {
                     boolQueryBuilder = boolQueryBuilder.should(queryBuilder);
 
                 }
-                query = boolQueryBuilder; //最后 这个是查询
+                query = boolQueryBuilder; //最后 这个是查询*/
             }
         }
         //分页并且高亮
@@ -168,8 +166,8 @@ public class ElasticsearchClientService implements ESService {
     public boolean doLikeByEsId(ArticleDto articleDto, String index, String type) {
         try {
             JSONObject jsonObject = JSONObject.parseObject(MapperUtils.obj2jsonIgnoreNull(articleDto));
-            ElasticsearchUtil.updateDataById(jsonObject,index, type, articleDto.getEsId());
-        }catch (Exception ex){
+            ElasticsearchUtil.updateDataById(jsonObject, index, type, articleDto.getEsId());
+        } catch (Exception ex) {
             ex.printStackTrace();
             return false;
         }

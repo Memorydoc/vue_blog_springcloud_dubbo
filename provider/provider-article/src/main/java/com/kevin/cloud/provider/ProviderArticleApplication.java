@@ -11,7 +11,8 @@ import tk.mybatis.spring.annotation.MapperScan;
  * @author: kevin
  * @create: 2020-01-15 14:19
  **/
-@SpringBootApplication(scanBasePackageClasses = {ProviderArticleApplication.class, DubboSentinelConfiguration.class})
+@SpringBootApplication(scanBasePackageClasses = {ProviderArticleApplication.class, DubboSentinelConfiguration.class},
+scanBasePackages = {"com.kevin.cloud.provider.job"})
 @MapperScan(basePackages = "com.kevin.cloud.provider.mapper")
 public class ProviderArticleApplication {
     public static void main(String[] args) {

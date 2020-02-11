@@ -5,29 +5,28 @@
 
     <parent>
         <groupId>com.kevin.cloud.plus</groupId>
-        <artifactId>provider</artifactId>
+        <artifactId>service</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>provider-article</artifactId>
+    <artifactId>service-elastic-job</artifactId>
     <packaging>jar</packaging>
 
     <licenses>
+
         <license>
             <name>Apache 2.0</name>
             <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
         </license>
     </licenses>
 
-
     <dependencies>
         <!-- Spring Boot -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <!--dubbo 需要用这个健康检查，所有要用-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
@@ -37,46 +36,55 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-
-        <!-- Spring Cloud Start -->
+        <!--reflections Start-->
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>0.9.11</version>
+        </dependency>
+        <!--reflections End-->
+        <!-- Spring Cloud Start-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-oauth2</artifactId>
         </dependency>
-        <!--Spring Cloud End-->
-        <!-- DataSource -->
+        <!-- Spring Cloud End-->
+        <!-- Spring Cloud Alibaba Start-->
         <dependency>
-            <groupId>com.zaxxer</groupId>
-            <artifactId>HikariCP</artifactId>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <!-- Spring Cloud Alibaba End-->
+        <!--分布式定时任务 elastic job Start-->
+        <dependency>
+            <groupId>com.dangdang</groupId>
+            <artifactId>elastic-job-lite-core</artifactId>
+        </dependency>
+        <!-- elastic-job-lite-spring -->
+        <dependency>
+            <groupId>com.dangdang</groupId>
+            <artifactId>elastic-job-lite-spring</artifactId>
+        </dependency>
+        <!--springboot2.x 集成es-job 需要加该配置-->
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-recipes</artifactId>
+            <version>2.10.0</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jdbc</artifactId>
-            <exclusions>
-                <!-- 排除 tomcat-jdbc 以使用 HikariCP -->
-                <exclusion>
-                    <groupId>org.apache.tomcat</groupId>
-                    <artifactId>tomcat-jdbc</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-framework</artifactId>
+            <version>2.10.0</version>
         </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>tk.mybatis</groupId>
-            <artifactId>mapper-spring-boot-starter</artifactId>
-        </dependency>
+        <!--elastic job End-->
 
-        <!-- Projects -->
+        <!-- Projects Start-->
         <dependency>
             <groupId>com.kevin.cloud.plus</groupId>
-            <artifactId>provider-article-api</artifactId>
+            <artifactId>commons-platform</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
-
-
+        <!--Projects End-->
     </dependencies>
 
     <build>
@@ -85,7 +93,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.kevin.cloud.provider.ProviderArticleApplication</mainClass>
+                    <mainClass>com.kevin.cloud.service.ServiceJobApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>

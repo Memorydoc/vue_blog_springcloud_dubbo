@@ -14,8 +14,6 @@
     <packaging>jar</packaging>
 
     <dependencies>
-        <!--ES Start -->
-        <!--ES End-->
         <dependency>
             <groupId>com.kevin.cloud.plus</groupId>
             <artifactId>commons-provider</artifactId>

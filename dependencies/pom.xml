@@ -29,6 +29,7 @@
         <guava.version>20.0</guava.version>
         <p6spy.version>3.0.0</p6spy.version>
         <aliyun-java-sdk-core.version>4.1.0</aliyun-java-sdk-core.version>
+        <elastic-job.version>2.1.5</elastic-job.version>
     </properties>
 
     <licenses>
@@ -208,6 +209,19 @@
                 <version>${aliyun-java-sdk-core.version}</version>
             </dependency>
             <!--Ali Cloud End-->
+            <!--分布式定时任务 elastic job Start-->
+            <dependency>
+                <groupId>com.dangdang</groupId>
+                <artifactId>elastic-job-lite-core</artifactId>
+                <version>${elastic-job.version}</version>
+            </dependency>
+            <!-- elastic-job-lite-spring -->
+            <dependency>
+                <groupId>com.dangdang</groupId>
+                <artifactId>elastic-job-lite-spring</artifactId>
+                <version>${elastic-job.version}</version>
+            </dependency>
+            <!--elastic job End-->
         </dependencies>
 
     </dependencyManagement>

@@ -280,9 +280,11 @@ public class ElasticsearchUtil {
 
         setHightFields(searchRequestBuilder, highlightField);
 
-        //searchRequestBuilder.setQuery(QueryBuilders.matchAllQuery());
-        searchRequestBuilder.setQuery(query);
-
+        if(query == null){
+            searchRequestBuilder.setQuery(QueryBuilders.matchAllQuery());
+        }else{
+            searchRequestBuilder.setQuery(query);
+        }
         // 分页应用
         searchRequestBuilder.setFrom(startPage - 1).setSize(pageSize);
 

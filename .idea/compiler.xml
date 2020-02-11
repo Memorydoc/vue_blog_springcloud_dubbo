@@ -29,6 +29,7 @@
         <module name="configuration-oauth2" />
         <module name="service-user-feign" />
         <module name="configuration-service" />
+        <module name="service-elastic-job" />
         <module name="commons-dto" />
         <module name="service-blog" />
         <module name="cloud-sms-service" />
@@ -36,12 +37,12 @@
         <module name="provider-article" />
         <module name="provider-message-api" />
         <module name="cloud-upload-feign" />
-        <module name="service-oauth2" />
         <module name="provider-blog-api" />
         <module name="cloud-sms-api" />
         <module name="provider-user" />
         <module name="commons-provider" />
         <module name="provider-elasticsearch-api" />
+        <module name="service-oauth2" />
         <module name="provider-log" />
         <module name="gateway" />
         <module name="commons-platform" />
@@ -74,6 +75,7 @@
       <module name="configuration-sentinel" target="1.8" />
       <module name="configuration-service" target="1.8" />
       <module name="dependencies" target="1.5" />
+      <module name="es-job" target="1.8" />
       <module name="gateway" target="1.8" />
       <module name="kevin-cloud-dubbo2.0" target="1.8" />
       <module name="message" target="1.8" />
@@ -85,6 +87,8 @@
       <module name="provider-blog-api" target="1.8" />
       <module name="provider-elasticsearch" target="1.8" />
       <module name="provider-elasticsearch-api" target="1.8" />
+      <module name="provider-es-job" target="1.8" />
+      <module name="provider-es-job-api" target="1.8" />
       <module name="provider-log" target="1.8" />
       <module name="provider-log-api" target="1.8" />
       <module name="provider-message" target="1.8" />
@@ -98,6 +102,8 @@
       <module name="service-article-feign" target="1.8" />
       <module name="service-blog" target="1.8" />
       <module name="service-blog-feign" target="1.8" />
+      <module name="service-elastic-job" target="1.8" />
+      <module name="service-es-job" target="1.8" />
       <module name="service-oauth2" target="1.8" />
       <module name="service-user" target="1.8" />
       <module name="service-user-feign" target="1.8" />
@@ -126,6 +132,7 @@
       <module name="configuration-oauth2" options="-parameters" />
       <module name="configuration-sentinel" options="-parameters" />
       <module name="configuration-service" options="-parameters" />
+      <module name="es-job" options="-parameters" />
       <module name="gateway" options="-parameters" />
       <module name="message" options="-parameters" />
       <module name="provider-article" options="-parameters" />
@@ -134,6 +141,8 @@
       <module name="provider-blog-api" options="-parameters" />
       <module name="provider-elasticsearch" options="-parameters" />
       <module name="provider-elasticsearch-api" options="-parameters" />
+      <module name="provider-es-job" options="-parameters" />
+      <module name="provider-es-job-api" options="-parameters" />
       <module name="provider-log" options="-parameters" />
       <module name="provider-log-api" options="-parameters" />
       <module name="provider-message" options="-parameters" />
@@ -146,6 +155,8 @@
       <module name="service-article-feign" options="-parameters" />
       <module name="service-blog" options="-parameters" />
       <module name="service-blog-feign" options="-parameters" />
+      <module name="service-elastic-job" options="-parameters" />
+      <module name="service-es-job" options="-parameters" />
       <module name="service-oauth2" options="-parameters" />
       <module name="service-user" options="-parameters" />
       <module name="service-user-feign" options="-parameters" />
