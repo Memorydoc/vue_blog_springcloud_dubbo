@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kevin.cloud.provider.mapper.SiCommentMapper">
+    <resultMap id="BaseResultMap" type="com.kevin.cloud.provider.domain.SiComment">
+        <!--@mbg.generated generated on Tue Feb 04 17:59:13 CST 2020.-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="wzid" jdbcType="BIGINT" property="wzid"/>
+        <result column="plsj" jdbcType="TIMESTAMP" property="plsj"/>
+        <result column="plnr" jdbcType="VARCHAR" property="plnr"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="create_by" jdbcType="BIGINT" property="createBy"/>
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
+        <result column="update_by" jdbcType="BIGINT" property="updateBy"/>
+        <result column="del_flag" jdbcType="VARCHAR" property="delFlag"/>
+        <result column="browse" jdbcType="VARCHAR" property="browse"/>
+        <result column="osname" jdbcType="VARCHAR" property="osname"/>
+        <result column="address" jdbcType="VARCHAR" property="address"/>
+        <result column="replyName" jdbcType="VARCHAR" property="replyname"/>
+        <result column="img" jdbcType="VARCHAR" property="img"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="pid" jdbcType="BIGINT" property="pid"/>
+        <result column="liks" jdbcType="INTEGER" property="liks"/>
+        <result column="to_name" jdbcType="VARCHAR" property="toName"/>
+        <result column="to_avatar" jdbcType="VARCHAR" property="toAvatar"/>
+        <result column="is_ly" jdbcType="INTEGER" property="isLy"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated generated on Tue Feb 04 17:59:13 CST 2020.-->
+        id, wzid, plsj, plnr, create_date, create_by, update_date, update_by, del_flag, `browse`,
+        osname, address, replyName, img, email, pid, liks, to_name, to_avatar, is_ly
+    </sql>
+
+
+    <!-- 加载所有评论父节点数据 -->
+    <select id="initCommentParentData" parameterType="java.lang.Integer"
+            resultType="com.kevin.cloud.commons.dto.blog.dto.CommentDto">
+            SELECT * FROM si_comment t WHERE t.`is_ly` = #{isReply}  AND t.pid  IS NULL
+  </select>
+    <!--加载所有子节点数据-->
+    <select id="initCommentChildrenData" parameterType="java.lang.Integer"
+            resultType="com.kevin.cloud.commons.dto.blog.dto.CommentDto">
+            SELECT * FROM si_comment t WHERE t.`is_ly` = #{isReply} AND t.pid  IS NOT NULL
+  </select>
+
+
+</mapper>
