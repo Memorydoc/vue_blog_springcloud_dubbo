@@ -9,6 +9,7 @@ import com.kevin.cloud.commons.dto.user.vo.UmsAdminVo;
 import com.kevin.cloud.commons.platform.dto.FallBackResult;
 import com.kevin.cloud.commons.platform.dto.PageResult;
 import com.kevin.cloud.commons.platform.dto.ResponseResult;
+import com.kevin.cloud.message.api.CloudMessageService;
 import com.kevin.cloud.provider.api.ProviderLogService;
 import com.kevin.cloud.provider.api.RedisTemplateService;
 import com.kevin.cloud.service.controller.fallback.UserServiceControllerFallback;
@@ -151,6 +152,9 @@ public class UserServiceController {
         return umsAdminDTO;
     }
 
+
+    @Reference(version = "1.0.0")
+    private CloudMessageService cloudMessageService;
     /**
      * 游客登录
      *
@@ -182,6 +186,9 @@ public class UserServiceController {
         if (resultMap.get("customer") == null) {
             return new ResponseResult(ResponseResult.CodeStatus.FAIL, resultMap.get("resultMsg").toString(), null);
         }
+        if(umsAdminVo.getPhone() != null){
+            cloudMessageService.truistLogin(umsAdminVo.getPhone().toString()); // 异步发送登录消息
+        }
         return new ResponseResult(ResponseResult.CodeStatus.OK, resultMap.get("resultMsg").toString(), (UmsAdminDto) resultMap.get("customer"));
     }
 
@@ -200,6 +207,7 @@ public class UserServiceController {
         if (umsAdminVo.getPhone() != null) { // 手机号注册
             String phoneCheckStatus = null;
             try {
+                // 先判断当前用户是否已经注册
                 phoneCheckStatus = redisTemplateService.get(umsAdminVo.getBizId(), String.class);
                 if (StringUtils.isNotBlank(phoneCheckStatus) && phoneCheckStatus.equalsIgnoreCase("true")) {
                     umsAdminDto = userService.doCustomerRegister(umsAdminVo);

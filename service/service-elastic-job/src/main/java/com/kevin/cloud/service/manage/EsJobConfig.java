@@ -1,7 +1,9 @@
+/*
 package com.kevin.cloud.service.manage;
 
 import java.lang.annotation.*;
 
+*/
 /*
 *
  * @ProjectName: vue-blog-backend
@@ -12,7 +14,8 @@ import java.lang.annotation.*;
  * @Date: 2020/2/11 19:15
  * @Version: 1.0
 
-*/
+*//*
+
 
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
@@ -23,3 +26,4 @@ public @interface EsJobConfig {
     String shardingItemParameters() default  "1=A";
     String listener() default  "defaultElasticJobListener";
 }
+*/

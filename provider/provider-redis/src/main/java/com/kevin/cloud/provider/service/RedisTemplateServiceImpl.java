@@ -1,13 +1,16 @@
 package com.kevin.cloud.provider.service;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kevin.cloud.commons.platform.dto.FallBackResult;
 import com.kevin.cloud.commons.utils.MapperUtils;
 import com.kevin.cloud.provider.SpringContextProviderUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.kevin.cloud.provider.api.RedisTemplateService;
+import com.kevin.cloud.provider.service.fallback.RedisTemplateServiceFallback;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.data.redis.core.BoundHashOperations;
@@ -175,8 +178,10 @@ public class RedisTemplateServiceImpl implements RedisTemplateService {
      * @param value
      * @param time  失效时间(秒)
      */
+    @SentinelResource(value = "set", fallback = "setFallback", fallbackClass = RedisTemplateServiceFallback.class)
     @Override
-    public void set(String key, Object value, long time) {
+    public FallBackResult set(String key, Object value, long time) {
+        FallBackResult fallBackResult = new FallBackResult();
         if (value.getClass().equals(String.class)) {
             stringRedisTemplate.opsForValue().set(key, value.toString());
         } else if (value.getClass().equals(Integer.class)) {
@@ -197,11 +202,14 @@ public class RedisTemplateServiceImpl implements RedisTemplateService {
         if (time > 0) {
             redisTemplate.expire(key, time, TimeUnit.SECONDS);
         }
+        return  fallBackResult;
     }
-
+    @SentinelResource(value = "set", fallback = "setFallback", fallbackClass = RedisTemplateServiceFallback.class)
     @Override
-    public void set(String key, Object value) {
+    public FallBackResult set(String key, Object value) {
+        FallBackResult fallBackResult  = new FallBackResult();
         set(key, value, expireTime);
+        return fallBackResult;
     }
 
 
@@ -212,12 +220,15 @@ public class RedisTemplateServiceImpl implements RedisTemplateService {
      * @param value
      * @param time  失效时间(秒)
      */
+    @SentinelResource(value = "set", fallback = "setFallback", fallbackClass = RedisTemplateServiceFallback.class)
     @Override
-    public void setJson(String key, Object value, long time) throws JsonProcessingException {
+    public FallBackResult setJson(String key, Object value, long time) throws JsonProcessingException {
+        FallBackResult fallBackResult  = new FallBackResult();
         stringRedisTemplate.opsForValue().set(key, objectMapper.writeValueAsString(value));
         if (time > 0) {
             stringRedisTemplate.expire(key, time, TimeUnit.SECONDS);
         }
+        return  fallBackResult;
     }
 
     /**
@@ -227,11 +238,14 @@ public class RedisTemplateServiceImpl implements RedisTemplateService {
      * @param field 缓存对象field
      * @param value 缓存对象field值
      */
+    @SentinelResource(value = "set", fallback = "setFallback", fallbackClass = RedisTemplateServiceFallback.class)
     @Override
-    public void setJsonField(String key, String field, String value) {
+    public FallBackResult setJsonField(String key, String field, String value) {
+        FallBackResult fallBackResult  = new FallBackResult();
         JSONObject obj = JSON.parseObject(stringRedisTemplate.boundValueOps(key).get());
         obj.put(field, value);
         stringRedisTemplate.opsForValue().set(key, obj.toJSONString());
+        return  fallBackResult;
     }
 
 

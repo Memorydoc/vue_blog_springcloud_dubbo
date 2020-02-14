@@ -11,4 +11,7 @@ public interface MessageSource {
     @Output("admin-login-log-topic")
     MessageChannel adminLoginLog();
 
+    // 游客登录成功短信提醒
+    @Output("truist-login")
+    MessageChannel truistLogin();
 }

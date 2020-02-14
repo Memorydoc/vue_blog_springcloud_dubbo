@@ -13,4 +13,9 @@ import com.kevin.cloud.commons.platform.dto.MessageCommonDto;
 public interface CloudMessageService {
 
     public boolean sendAdminLoginLog(MessageCommonDto dto);
+
+
+    public boolean truistLogin(String phone);
+
+
 }

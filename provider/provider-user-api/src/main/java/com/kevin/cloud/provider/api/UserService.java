@@ -42,4 +42,6 @@ public interface UserService {
     UmsAdmin doCustomerRegister(UmsAdminVo umsAdminVo);
 
     Map<String, Object> queryUserByPhone(Long phone);
+
+    boolean judgePhoneUserIsExist(String phone);
 }

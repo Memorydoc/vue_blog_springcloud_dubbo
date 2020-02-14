@@ -1,6 +1,7 @@
 package com.kevin.cloud.provider.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.kevin.cloud.commons.platform.dto.FallBackResult;
 
 import java.io.IOException;
 import java.sql.Time;
@@ -95,7 +96,7 @@ public interface RedisTemplateService {
      * @param value
      * @param time  失效时间(秒) 单位（秒）
      */
-    public void set(String key, Object value, long time);
+    public FallBackResult set(String key, Object value, long time);
 
     /**
      * 将value对象写入缓存
@@ -103,7 +104,7 @@ public interface RedisTemplateService {
      * @param key
      * @param value 默认30分钟 失效时间(秒) 单位（秒）
      */
-    public void set(String key, Object value);
+    public FallBackResult set(String key, Object value);
 
     /**
      * 将value对象以JSON格式写入缓存
@@ -112,7 +113,7 @@ public interface RedisTemplateService {
      * @param value
      * @param time  失效时间(秒)
      */
-    public void setJson(String key, Object value, long time) throws JsonProcessingException;
+    public FallBackResult setJson(String key, Object value, long time) throws JsonProcessingException;
 
     /**
      * 更新key对象field的值
@@ -121,7 +122,7 @@ public interface RedisTemplateService {
      * @param field 缓存对象field
      * @param value 缓存对象field值
      */
-    public void setJsonField(String key, String field, String value);
+    public FallBackResult setJsonField(String key, String field, String value);
 
 
     /**

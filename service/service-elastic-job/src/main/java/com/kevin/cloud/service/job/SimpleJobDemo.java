@@ -3,7 +3,6 @@ package com.kevin.cloud.service.job;
 import com.dangdang.ddframe.job.api.ShardingContext;
 import com.dangdang.ddframe.job.api.simple.SimpleJob;
 import com.kevin.cloud.service.manage.TaskJob;
-import org.springframework.stereotype.Component;
 
 /**
  * @ProjectName: vue-blog-backend
@@ -14,7 +13,7 @@ import org.springframework.stereotype.Component;
  * @Date: 2020/2/11 14:52
  * @Version: 1.0
  */
-@TaskJob(jobName = "EjobA",cron = "0/5 * * * * ? ",desc = "EjobA任务")
+@TaskJob(jobName = "EjobA",cron = "0/5 * * * * ? ",desc = "EjobA任务", shardingItemParameters = "0=北京,1=上海",shardingTotalCount = 2 )
 public class SimpleJobDemo implements SimpleJob {
     @Override
     public void execute(ShardingContext shardingContext) {

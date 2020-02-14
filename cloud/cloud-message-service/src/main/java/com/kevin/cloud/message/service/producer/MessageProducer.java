@@ -28,4 +28,13 @@ public class MessageProducer implements CloudMessageService {
     public boolean sendAdminLoginLog(MessageCommonDto dto) {
         return source.adminLoginLog().send(MessageBuilder.withPayload(dto).build());
     }
+
+    /**
+     * @param phone 登录手机号
+     * @return
+     */
+    @Override
+    public boolean truistLogin(String phone) {
+        return  source.truistLogin().send(MessageBuilder.withPayload(phone).build());
+    }
 }

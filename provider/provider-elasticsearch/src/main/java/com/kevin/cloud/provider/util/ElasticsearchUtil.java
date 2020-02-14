@@ -366,9 +366,7 @@ public class ElasticsearchUtil {
             return setSearchResponse(searchResponse, highlightField);
         }
         return null;
-
     }
-
 
     /**
      * 高亮结果集 特殊处理

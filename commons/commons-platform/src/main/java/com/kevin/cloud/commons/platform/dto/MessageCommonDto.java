@@ -21,4 +21,5 @@ public class MessageCommonDto {
     private String ip;
     private String address;
     private String userAgent;
+
 }

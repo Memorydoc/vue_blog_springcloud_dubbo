@@ -21,6 +21,8 @@ import com.kevin.cloud.commons.utils.DateUtils;
 import com.kevin.cloud.commons.utils.MapperUtils;
 import com.kevin.cloud.sms.api.SmsService;
 import org.apache.dubbo.config.annotation.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -39,7 +41,7 @@ import java.util.Date;
 
 @Service(version = "1.0.0")
 public class SmsServiceImpl implements SmsService {
-
+    private static  Logger logger = LoggerFactory.getLogger(SmsServiceImpl.class);
 
     //产品名称:云通信短信API产品,开发者无需替换
     static final String product = "Dysmsapi";

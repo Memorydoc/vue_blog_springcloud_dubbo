@@ -8,17 +8,22 @@ import com.kevin.cloud.commons.dto.cloud.dto.SmsDto;
 import com.kevin.cloud.commons.dto.cloud.dto.SmsQueryDto;
 import com.kevin.cloud.commons.dto.cloud.dto.SmsSendDetailDTO;
 import com.kevin.cloud.commons.dto.cloud.vo.SmsVo;
+import com.kevin.cloud.commons.platform.dto.FallBackResult;
 import com.kevin.cloud.commons.platform.dto.PageResult;
 import com.kevin.cloud.commons.platform.dto.ResponseResult;
 import com.kevin.cloud.provider.api.BlogService;
 import com.kevin.cloud.provider.api.RedisTemplateService;
 import com.kevin.cloud.provider.api.SiFinkService;
+import com.kevin.cloud.provider.api.UserService;
 import com.kevin.cloud.provider.domain.SiColumnType;
+import com.kevin.cloud.provider.domain.UmsAdmin;
 import com.kevin.cloud.sms.api.SmsService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -34,6 +39,8 @@ import java.util.Map;
 @RequestMapping("blog")
 @RestController
 public class BlogController {
+
+    private static final Logger logger = LoggerFactory.getLogger(BlogController.class);
 
 
     @Reference(version = "1.0.0")
@@ -172,21 +179,34 @@ public class BlogController {
     @Reference(version = "1.0.0")
     private RedisTemplateService redisTemplateService;
 
+    @Reference(version = "1.0.0")
+    private UserService userService;
+
     @ApiOperation(value = "获取验证码")
     @GetMapping("front/getSmsCode")
-    public ResponseResult getSmsCode(@ApiParam("phone") String phone) {
+    public ResponseResult getSmsCode(@ApiParam("phone") String phone, @ApiParam("isRegister") String isRegister) {
         SmsVo smsVo = new SmsVo();
         smsVo.setPhoneNumber(phone);
+        // 发短信之前，先判断当前手机号码是否已经注册
+        if (StringUtils.isNotBlank(isRegister)) {
+            boolean isExist = userService.judgePhoneUserIsExist(phone);
+            if (isExist) {
+                return new ResponseResult(ResponseResult.CodeStatus.FAIL, "当前用户已经存在", null);
+            }
+        }
         SmsDto smsDto = smsService.sendSmsDefault(smsVo);
+        if (smsDto.getBizId() == null) {
+            return new ResponseResult(ResponseResult.CodeStatus.FAIL, smsDto.getMessage() == null ? "发送失败" : smsDto.getMessage(), null);
+        }
         // 设置有效时间为60秒
-        redisTemplateService.set(smsDto.getBizId(), smsDto.getRandomCode(), 60);
-        if ("OK".equalsIgnoreCase(smsDto.getCode())) {
+        FallBackResult fallBackResult = redisTemplateService.set(smsDto.getBizId(), smsDto.getRandomCode(), 60);
+        logger.info("短信发送结果" + String.valueOf(smsDto));
+        if ("OK".equalsIgnoreCase(smsDto.getCode()) && fallBackResult.isStatus()) {
             return new ResponseResult(ResponseResult.CodeStatus.OK, "发送成功", smsDto);
         } else {
             return new ResponseResult(ResponseResult.CodeStatus.FAIL, smsDto.getMessage() == null ? "发送失败" : smsDto.getMessage(), null);
         }
     }
-
 
 
     @ApiOperation(value = "检测验证码", notes = "这是去阿里云检测验证码是否正确")
@@ -230,10 +250,10 @@ public class BlogController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(o == null){
+        if (o == null) {
             return new ResponseResult(ResponseResult.CodeStatus.FAIL, "验证码失效", null);
         }
-        if ( code.equalsIgnoreCase(o.toString()) ) {
+        if (code.equalsIgnoreCase(o.toString())) {
             resultMap.put("result", "true");
             // 验证码验证成功 修改注册用户验证状态
             redisTemplateService.set(bizId, "true");

@@ -175,4 +175,15 @@ public class UserServiceImpl implements UserService {
         return resultMap;
     }
 
+    @Override
+    public boolean judgePhoneUserIsExist(String phone) {
+        Example example = new Example(UmsAdmin.class);
+        example.createCriteria().andEqualTo("phone", phone);
+        List<UmsAdmin> umsAdmins = umsAdminMapper.selectByExample(example);
+        if(umsAdmins.size() > 0){
+            return  true;
+        }
+        return false;
+    }
+
 }
