@@ -8,4 +8,8 @@ RUN mkdir /app
 
 COPY cloud-message-service-log-$APP_VERSION.jar /app/app.jar
 
+
+ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app.jar"]
+
+
 EXPOSE 10002

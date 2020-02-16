@@ -7,4 +7,8 @@ ENV APP_VERSION 0.0.1-SNAPSHOT
 RUN mkdir /app
 
 COPY message-$APP_VERSION.jar /app/app.jar
+
+ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app.jar"]
+
+
 EXPOSE 200001

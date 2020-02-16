@@ -8,4 +8,6 @@ RUN mkdir /app
 
 COPY service-oauth2-$APP_VERSION.jar /app/app.jar
 
+ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app.jar"]
+
 EXPOSE 9001

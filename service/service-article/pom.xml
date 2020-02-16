@@ -96,7 +96,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.kevin.cloud.service.ServiceUserApplication</mainClass>
+                    <mainClass>com.kevin.cloud.service.ServiceArticleApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>

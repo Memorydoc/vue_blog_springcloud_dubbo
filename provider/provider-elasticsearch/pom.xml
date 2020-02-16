@@ -64,7 +64,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.kevin.cloud.provider.ProviderUserServiceApplication</mainClass>
+                    <mainClass>com.kevin.cloud.provider.ProviderElasticsearchApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>

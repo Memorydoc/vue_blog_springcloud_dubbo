@@ -120,7 +120,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.kevin.cloud.plus.cloud.CloudUploadApplication</mainClass>
+                    <mainClass>com.kevin.cloud.sms.service.CloudSmsServiceApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>
