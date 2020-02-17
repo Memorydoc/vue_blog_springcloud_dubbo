@@ -35,6 +35,7 @@ public class MessageProducer implements CloudMessageService {
      */
     @Override
     public boolean truistLogin(String phone) {
+        System.out.println("消息生产者发送消息开始：发送游客登录成功的消息");
         return  source.truistLogin().send(MessageBuilder.withPayload(phone).build());
     }
 }

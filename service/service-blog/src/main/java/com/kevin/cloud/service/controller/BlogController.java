@@ -195,12 +195,13 @@ public class BlogController {
             }
         }
         SmsDto smsDto = smsService.sendSmsDefault(smsVo);
+        logger.info("短信发送结果" + String.valueOf(smsDto));
         if (smsDto.getBizId() == null) {
             return new ResponseResult(ResponseResult.CodeStatus.FAIL, smsDto.getMessage() == null ? "发送失败" : smsDto.getMessage(), null);
         }
         // 设置有效时间为60秒
         FallBackResult fallBackResult = redisTemplateService.set(smsDto.getBizId(), smsDto.getRandomCode(), 60);
-        logger.info("短信发送结果" + String.valueOf(smsDto));
+
         if ("OK".equalsIgnoreCase(smsDto.getCode()) && fallBackResult.isStatus()) {
             return new ResponseResult(ResponseResult.CodeStatus.OK, "发送成功", smsDto);
         } else {
