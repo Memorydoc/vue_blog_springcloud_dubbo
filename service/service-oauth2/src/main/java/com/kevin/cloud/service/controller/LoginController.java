@@ -104,7 +104,7 @@ public class LoginController {
         // 用户登录成功，异步发送消息， 写日志
         sendAdminLoginLogByMessage(request);
         //将 用户信息保存在redis中
-        redisTemplateService.setJson("userInfo", map, 30 * 60L);
+        redisTemplateService.setJson("userInfo", map, 30 * 60);
 
         return new ResponseResult<Map<String, Object>>(ResponseResult.CodeStatus.OK, "登录成功", result);
     }
