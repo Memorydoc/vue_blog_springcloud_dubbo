@@ -4,7 +4,8 @@ MAINTAINER kevin <17615195790@163.com>
 
 ENV APP_VERSION 0.0.1-SNAPSHOT
 ENV DOCKERIZE_VERSION v0.6.1
-RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+http://www.sizegang.cn:8080/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+RUN wget http://www.sizegang.cn:8080/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
