@@ -7,3 +7,6 @@ ENV APP_VERSION 0.0.1-SNAPSHOT
 RUN mkdir /app
 
 COPY provider-elasticsearch-$APP_VERSION.jar /app/app.jar
+
+ENTRYPOINT [ "java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app/app.jar"]
+

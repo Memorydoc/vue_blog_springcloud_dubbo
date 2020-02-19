@@ -11,4 +11,4 @@ COPY service-article-$APP_VERSION.jar /app/app.jar
 
 ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app/app.jar"]
 
-EXPOSE 9003
+EXPOSE 9005
