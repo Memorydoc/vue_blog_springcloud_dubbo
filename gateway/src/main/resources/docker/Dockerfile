@@ -8,6 +8,6 @@ RUN mkdir /app
 
 COPY gateway-$APP_VERSION.jar /app/app.jar
 
-ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app.jar"]
+ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app/app.jar"]
 
 EXPOSE 8888

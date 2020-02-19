@@ -6,6 +6,6 @@ ENV APP_VERSION 0.0.1-SNAPSHOT
 
 RUN mkdir /app
 
-ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app.jar"]
+ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app/app.jar"]
 
 COPY provider-redis-$APP_VERSION.jar /app/app.jar
