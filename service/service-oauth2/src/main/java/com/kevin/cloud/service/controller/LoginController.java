@@ -80,6 +80,7 @@ public class LoginController {
     private RedisTemplateService redisTemplateService;
 
 
+
     @PostMapping(value = "login")
     public ResponseResult<Map<String, Object>> login(@RequestBody LoginParam loginParam, HttpServletRequest request) throws Exception {
         Map<String, String> map = new HashMap<String, String>();

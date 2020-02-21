@@ -94,7 +94,53 @@
         <!--Projects End-->
     </dependencies>
 
+
+    <!-- 分环境打包配置文件 -->
+    <profiles>
+        <!-- 分环境打包配置文件 -->
+        <profile>
+            <!-- 内网开发环境 -->
+            <id>dev</id>
+            <properties>
+                <profiles.active>dev</profiles.active>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>staging</id>
+            <properties>
+                <profiles.active>staging</profiles.active>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <profiles.active>prod</profiles.active>
+            </properties>
+        </profile>
+    </profiles>
+
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <!--先排除所有的配置文件-->
+                <excludes>
+                    <exclude>bootstrap*.properties</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <!--引入所需环境的配置文件-->
+                <filtering>true</filtering>
+                <includes>
+                    <include>bootstrap.properties</include>
+                    <include>bootstrap-${profiles.active}.properties</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -105,4 +151,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>
