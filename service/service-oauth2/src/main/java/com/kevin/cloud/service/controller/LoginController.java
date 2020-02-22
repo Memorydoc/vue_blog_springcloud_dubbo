@@ -80,6 +80,13 @@ public class LoginController {
     private RedisTemplateService redisTemplateService;
 
 
+    @Value("${base.config.oauth.hostname}")
+    private String oauthHostName;
+
+
+    @Value("${base.config.oauth.port}")
+    private String oauthPort;
+
 
     @PostMapping(value = "login")
     public ResponseResult<Map<String, Object>> login(@RequestBody LoginParam loginParam, HttpServletRequest request) throws Exception {
@@ -90,7 +97,7 @@ public class LoginController {
         if (userDetails == null || !passwordEncoder.matches(loginParam.getPassword(), userDetails.getPassword())) {
             throw new BusinessException(BusinessStatus.ADMIN_PASSWORD);
         }
-        String url = "http://localhost:" + port + "/oauth/token";
+        String url = "http://" + oauthHostName + ":" + oauthPort + "/oauth/token";
         map.put("username", loginParam.getUsername());
         map.put("password", loginParam.getPassword());
         map.put("grant_type", oauth2GrantType);
