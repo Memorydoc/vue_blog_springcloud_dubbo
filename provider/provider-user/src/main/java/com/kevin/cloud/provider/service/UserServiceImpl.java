@@ -176,4 +176,15 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
+    @Override
+    public boolean checkEmailAddress(String email) {
+        Example example = new Example(UmsAdmin.class);
+        example.createCriteria().andEqualTo("email", email);
+        List<UmsAdmin> umsAdmins = umsAdminMapper.selectByExample(example);
+        if(umsAdmins.size() == 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

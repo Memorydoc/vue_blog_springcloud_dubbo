@@ -232,9 +232,13 @@ public class UserServiceController {
     }
 
 
-
-
-
-
+    /**
+     * 校验邮箱是否已经被注册过
+     */
+    @GetMapping("checkEmailAddress")
+    public ResponseResult checkEmailAddress(@RequestParam("email")String email){
+        boolean bool =  userService.checkEmailAddress(email);
+        return new ResponseResult(ResponseResult.CodeStatus.OK, "", bool);
+    }
 
 }

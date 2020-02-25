@@ -42,4 +42,6 @@ public interface UserService {
     Map<String, Object> queryUserByPhone(Long phone);
 
     boolean judgePhoneUserIsExist(String phone);
+
+    boolean checkEmailAddress(String phone);
 }

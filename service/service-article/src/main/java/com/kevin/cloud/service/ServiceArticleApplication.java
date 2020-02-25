@@ -21,7 +21,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class ServiceArticleApplication {
 
     public static void main(String[] args) {
-        System.out.println("12345");
         SpringApplication.run(ServiceArticleApplication.class, args);
     }
 }

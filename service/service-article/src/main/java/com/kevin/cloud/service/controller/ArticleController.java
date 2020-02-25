@@ -178,6 +178,7 @@ public class ArticleController {
         recordList.forEach(x -> {
             // 如果当前已经登录
             if ("true".equalsIgnoreCase(isAdmin)) {
+                x.put("createDate", DateUtils.formatDate(new Date((Long) x.get("createDate")), "yyyy-MM-dd HH:mm:ss"));
                 resultList.add(x);
             } else {
                 if ((int) x.get("category") != siArticle.getId()) { // 这里私密博客必须要设置为5 这是固定的
