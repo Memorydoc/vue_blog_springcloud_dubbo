@@ -1,5 +1,6 @@
 package com.kevin.cloud.service.feign;
 
+import com.kevin.cloud.commons.dto.user.dto.UmsAdminDto;
 import com.kevin.cloud.configuration.fegin.configuration.FeignRequestConfiguration;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,4 +24,8 @@ public interface UserServiceFeign {
     @GetMapping(value = "info/{username}")
     String info(@PathVariable String username);
 
+
+
+    @GetMapping(value = "getCurrentUser")
+    UmsAdminDto getCurrentUser();
 }

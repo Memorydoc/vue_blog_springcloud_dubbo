@@ -17,14 +17,17 @@ import com.kevin.cloud.provider.api.UserService;
 import com.kevin.cloud.provider.domain.UmsAdmin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,7 +45,6 @@ public class UserServiceController {
     public String sayHello(String username) {
         return userService.sayHello(username);
     }
-
 
     /**
      * @return {@link ResponseResult}
@@ -228,5 +230,11 @@ public class UserServiceController {
             return new ResponseResult(ResponseResult.CodeStatus.FAIL, "注册失败", null);
         }
     }
+
+
+
+
+
+
 
 }

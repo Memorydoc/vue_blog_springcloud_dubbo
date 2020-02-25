@@ -26,5 +26,8 @@ public class UserServiceFeignFallBack implements UserServiceFeign {
         return null;
     }
 
-
+    @Override
+    public UmsAdminDto getCurrentUser() {
+        return null;
+    }
 }

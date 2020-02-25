@@ -99,16 +99,6 @@ public class UserServiceImpl implements UserService {
         BeanUtils.copyProperties(umsAdminVo, umsAdmin);
         return umsAdminMapper.updateByPrimaryKeySelective(umsAdmin);
     }
-
-    /**
-     * 获取当前登录人
-     * @return
-     */
-    @Override
-    public UmsAdminDto getCurrentUser() {
-
-        return null;
-    }
     @Override
     public Map<String, Object> customerStatus(UmsAdminVo umsAdminVo) {
         String resultMsg = "";

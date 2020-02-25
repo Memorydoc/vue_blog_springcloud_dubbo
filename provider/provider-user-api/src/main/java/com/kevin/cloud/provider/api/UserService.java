@@ -35,8 +35,6 @@ public interface UserService {
 
     int editUser(UmsAdminVo umsAdminVo);
 
-    UmsAdminDto getCurrentUser();
-
     Map<String, Object> customerStatus(UmsAdminVo umsAdminVo);
 
     UmsAdmin doCustomerRegister(UmsAdminVo umsAdminVo);

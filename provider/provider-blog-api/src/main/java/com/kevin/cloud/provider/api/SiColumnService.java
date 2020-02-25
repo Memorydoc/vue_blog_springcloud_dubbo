@@ -11,7 +11,7 @@ import java.util.List;
  * @ClassName: ${NAME}
  * @Author: kevin
  * @Description: ${description}
- * @Date: 2020/1/31 13:03
+ * @Date: 2020/1/31 13:03queryArticleFromEsByPage
  * @Version: 1.0
  */
 public interface SiColumnService {
