@@ -5,7 +5,6 @@ import com.kevin.cloud.commons.dto.blog.dto.CommentDto;
 import com.kevin.cloud.commons.dto.blog.dto.TypeViewDto;
 import com.kevin.cloud.commons.dto.blog.vo.CommentVo;
 import com.kevin.cloud.commons.dto.cloud.dto.SmsDto;
-import com.kevin.cloud.commons.dto.cloud.dto.SmsQueryDto;
 import com.kevin.cloud.commons.dto.cloud.dto.SmsSendDetailDTO;
 import com.kevin.cloud.commons.dto.cloud.vo.SmsVo;
 import com.kevin.cloud.commons.platform.dto.FallBackResult;
@@ -16,7 +15,7 @@ import com.kevin.cloud.provider.api.RedisTemplateService;
 import com.kevin.cloud.provider.api.SiFinkService;
 import com.kevin.cloud.provider.api.UserService;
 import com.kevin.cloud.provider.domain.SiColumnType;
-import com.kevin.cloud.provider.domain.UmsAdmin;
+import com.kevin.cloud.service.feign.UserServiceFeign;
 import com.kevin.cloud.sms.api.SmsService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -24,8 +23,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -142,9 +143,13 @@ public class BlogController {
         }
     }
 
+
+
+
     @ApiOperation(value = "添加分类")
     @PostMapping("addTypes")
     public ResponseResult addTypes(@RequestBody SiColumnVo siColumnVo) {
+        siColumnVo.setCreateBy(userServiceFeign.getCurrentUser().getId());
         int insertCount = blogService.addTypes(siColumnVo);
         if (insertCount > 0) {
             return new ResponseResult(ResponseResult.CodeStatus.OK, "分类添加成功", null);
@@ -181,6 +186,10 @@ public class BlogController {
 
     @Reference(version = "1.0.0")
     private UserService userService;
+
+
+    @Resource
+    private UserServiceFeign userServiceFeign;
 
     @ApiOperation(value = "获取验证码")
     @GetMapping("front/getSmsCode")

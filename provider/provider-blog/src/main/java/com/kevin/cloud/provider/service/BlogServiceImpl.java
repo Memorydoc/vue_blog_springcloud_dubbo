@@ -168,6 +168,7 @@ public class BlogServiceImpl implements BlogService {
     public PageResult initColumnTypesData(SiColumnVo siColumnVo) {
         PageHelper.startPage(siColumnVo.getPageNum(), siColumnVo.getPageSize());
         Example example = new Example(SiColumn.class);
+        example.setOrderByClause("create_date");
         List<SiColumn> umsAdmins = siColumnMapper.selectByExample(example);
         PageInfo pageInfo = new PageInfo(umsAdmins);
         PageResult pageResult = BaseServiceUtils.buildPageResult(pageInfo);
@@ -185,7 +186,7 @@ public class BlogServiceImpl implements BlogService {
     public int addTypes(SiColumnVo siColumnVo) {
         SiColumn siColumn = new SiColumn();
         BeanUtils.copyProperties(siColumnVo, siColumn);
-        return siColumnMapper.insert(siColumn);
+        return siColumnMapper.insertSelective(siColumn);
     }
 
     @Override
@@ -199,7 +200,6 @@ public class BlogServiceImpl implements BlogService {
     public List<SiColumnType> getTypeTags() {
         Example example = new Example(SiColumnType.class);
         List<SiColumnType> siColumnTypes = siColumnTypeMapper.selectByExample(example);
-
         return siColumnTypes;
     }
 

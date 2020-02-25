@@ -20,7 +20,7 @@ import com.kevin.cloud.provider.domain.SiArticle;
 import com.kevin.cloud.provider.domain.SiColumn;
 import com.kevin.cloud.service.IdGenerator;
 import com.kevin.cloud.service.fallback.ArticleControllerFallBack;
-import com.kevin.cloud.service.help.AuthUserHelperImpl;
+import com.kevin.cloud.service.feign.UserServiceFeign;
 import com.kevin.cloud.service.limit.ArticleControllerLimit;
 import com.kevin.cloud.provider.api.UserService;
 import com.kevin.cloud.provider.domain.UmsAdmin;
@@ -125,8 +125,7 @@ public class ArticleController {
     }
 
     @Autowired
-    private AuthUserHelperImpl authUserHelper;
-
+    private UserServiceFeign userServiceFeign;
     /**
      * 添加文章
      */
@@ -142,7 +141,7 @@ public class ArticleController {
         BeanUtils.copyProperties(articleVo, siArticle);
         siArticle.setId(idGenerator.nextLid());
         siArticle.setEsId(esId);
-        siArticle.setCreateBy(authUserHelper.getCurrentUser().getId());
+        siArticle.setCreateBy(userServiceFeign.getCurrentUser().getId());
         siArticle.setCreateDate(new Date());
         int i = articleService.insert(siArticle);
         if (i > 0) {
