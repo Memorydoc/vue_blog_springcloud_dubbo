@@ -86,7 +86,6 @@
             <artifactId>provider-elasticsearch-api</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
-
         <!--Projects End-->
     </dependencies>
 
