@@ -7,6 +7,7 @@ import com.kevin.cloud.commons.dto.blog.vo.CommentVo;
 import com.kevin.cloud.commons.dto.cloud.dto.SmsDto;
 import com.kevin.cloud.commons.platform.dto.PageResult;
 import com.kevin.cloud.provider.domain.SiColumnType;
+import com.kevin.cloud.provider.domain.SiComment;
 
 import java.util.List;
 
@@ -42,4 +43,5 @@ public interface BlogService {
 
     List<SiColumnType> getTypeTags();
 
+    int testTransaction(SiComment siComment);
 }

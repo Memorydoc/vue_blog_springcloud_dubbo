@@ -30,6 +30,7 @@
         <p6spy.version>3.0.0</p6spy.version>
         <aliyun-java-sdk-core.version>4.1.0</aliyun-java-sdk-core.version>
         <elastic-job.version>2.1.5</elastic-job.version>
+        <seata.version>1.0.0</seata.version>
     </properties>
 
     <licenses>
@@ -222,6 +223,14 @@
                 <version>${elastic-job.version}</version>
             </dependency>
             <!--elastic job End-->
+
+            <!--Alibaba Seata Start-->
+            <dependency>
+                <groupId>io.seata</groupId>
+                <artifactId>seata-spring-boot-starter</artifactId>
+                <version>${seata.version}</version>
+            </dependency>
+            <!--Alibaba Seata End-->
         </dependencies>
 
     </dependencyManagement>

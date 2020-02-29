@@ -62,4 +62,5 @@ public interface ArticleService {
 
     List<SiArticle> loadRelativeArticles(String esId);
 
+    void testTransaction(ArticleDto articleDto);
 }

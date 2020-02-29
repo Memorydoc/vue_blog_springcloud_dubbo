@@ -13,17 +13,12 @@ import com.kevin.cloud.commons.platform.dto.ResponseResult;
 import com.kevin.cloud.commons.utils.CommonUtils;
 import com.kevin.cloud.commons.utils.DateUtils;
 import com.kevin.cloud.commons.utils.UserAgentUtils;
-import com.kevin.cloud.provider.api.ArticleService;
-import com.kevin.cloud.provider.api.ESService;
-import com.kevin.cloud.provider.api.SiColumnService;
-import com.kevin.cloud.provider.domain.SiArticle;
-import com.kevin.cloud.provider.domain.SiColumn;
+import com.kevin.cloud.provider.api.*;
+import com.kevin.cloud.provider.domain.*;
 import com.kevin.cloud.service.IdGenerator;
 import com.kevin.cloud.service.fallback.ArticleControllerFallBack;
 import com.kevin.cloud.service.feign.UserServiceFeign;
 import com.kevin.cloud.service.limit.ArticleControllerLimit;
-import com.kevin.cloud.provider.api.UserService;
-import com.kevin.cloud.provider.domain.UmsAdmin;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.dubbo.config.annotation.Reference;
@@ -57,6 +52,30 @@ public class ArticleController {
 
     @Reference(version = "1.0.0")
     private ArticleService articleService;
+
+    /*******************测试分布式事务**************************/
+
+
+    @Reference(version = "1.0.0", timeout = 600000)
+    private ProviderTransactionService providerTransactionService;
+
+    @GetMapping("testTransaction")
+    public ResponseResult testTransaction(String esId) {
+        UmsAdminLoginLog umsAdminLoginLog = new UmsAdminLoginLog();
+        umsAdminLoginLog.setId(idGenerator.nextLid());
+        umsAdminLoginLog.setAddress("测试分布式事务日志");
+        SiComment siComment = new SiComment();
+        siComment.setId(idGenerator.nextLid());
+        siComment.setPlnr("测试分布式定时任务的评论");
+        SiArticle siArticle = new SiArticle();
+        siArticle.setId(idGenerator.nextLid());
+        siArticle.setMc("测试评论内容的文章");
+        siArticle.setEsId(esId);
+        providerTransactionService.testTransactinon(umsAdminLoginLog, siComment, siArticle);
+        return null;
+    }
+
+    /*******************测试分布式事务**************************/
 
 
     @PostMapping("list")
@@ -118,14 +137,22 @@ public class ArticleController {
     @PostMapping("deleteArticle")
     public ResponseResult deleteArticle(@RequestBody ArticleDto articleDto) {
         // 把esId数组查出来 并删除数据
-        List<String> esList = articleService.deleteIdArr(articleDto.getDeleteIdArr());
+        List<String> esList = null;
+        List<String> strings = articleService.deleteIdArr(articleDto.getDeleteIdArr());
+        if (strings.size() != 0) {
+            esService.deleteDataByIdMany("article", "item", esList);
+        }
         // 刪除es 中的文章
-        esService.deleteDataByIdMany("article", "item", esList);
         return new ResponseResult(ResponseResult.CodeStatus.OK, "删除成功", null);
     }
 
+    @Reference(version = "1.0.0")
+    private ProviderLogService providerLogService;
+
+
     @Autowired
     private UserServiceFeign userServiceFeign;
+
     /**
      * 添加文章
      */
@@ -136,17 +163,24 @@ public class ArticleController {
         articleSearchDto.setCreateDate(new Date());
         // 将文章保存到es中 方便全文搜索
         String esId = esService.addDataId(CommonUtils.beanToJSONObject(articleSearchDto), "article", "item", idGenerator.nextSid());
-        logger.info("文章插入成功,esId =>", esId);
-        SiArticle siArticle = new SiArticle();
-        BeanUtils.copyProperties(articleVo, siArticle);
-        siArticle.setId(idGenerator.nextLid());
-        siArticle.setEsId(esId);
-        siArticle.setCreateBy(userServiceFeign.getCurrentUser().getId());
-        siArticle.setCreateDate(new Date());
-        int i = articleService.insert(siArticle);
-        if (i > 0) {
-            System.out.println("插入数据库成功");
-        } else {
+        int i = 0;
+        try {
+            logger.info("文章插入成功,esId =>", esId);
+            SiArticle siArticle = new SiArticle();
+            BeanUtils.copyProperties(articleVo, siArticle);
+            siArticle.setId(idGenerator.nextLid());
+            siArticle.setEsId(esId);
+            siArticle.setCreateBy(userServiceFeign.getCurrentUser().getId());
+            siArticle.setCreateDate(new Date());
+            i = articleService.insert(siArticle);
+            if (i > 0) {
+                System.out.println("插入数据库成功");
+            } else {
+                System.out.println("插入数据库失败");
+                // 保持数据一致，如果mysql插入失败， 则es回滚数据
+                esService.deleteDataById("article", "item", esId);
+            }
+        } catch (Exception ex) {
             System.out.println("插入数据库失败");
             // 保持数据一致，如果mysql插入失败， 则es回滚数据
             esService.deleteDataById("article", "item", esId);

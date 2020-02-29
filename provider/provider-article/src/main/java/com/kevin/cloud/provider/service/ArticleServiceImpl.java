@@ -250,6 +250,14 @@ public class ArticleServiceImpl implements ArticleService {
         return articles;
     }
 
+    @Override
+    public void testTransaction(ArticleDto articleDto) {
+        SiArticle siArticle = new SiArticle();
+        BeanUtils.copyProperties(articleDto, siArticle);
+        siArticleMapper.insertSelective(siArticle);
+
+    }
+
     private ArticleDto getArticle(int update, String esId) {
         if (update != 0) {
             Example example = new Example(SiArticle.class);

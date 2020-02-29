@@ -27,6 +27,9 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
+
+
+
         <!-- Apache Dubbo -->
         <dependency>
             <groupId>com.alibaba.nacos</groupId>
@@ -123,5 +126,7 @@
         <module>provider-elasticsearch</module>
         <module>provider-redis-api</module>
         <module>provider-redis</module>
+        <module>provider-transaction</module>
+        <module>provider-transaction-api</module>
     </modules>
 </project>

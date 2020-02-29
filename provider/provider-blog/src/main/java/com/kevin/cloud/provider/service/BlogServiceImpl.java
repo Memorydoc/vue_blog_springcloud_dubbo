@@ -204,6 +204,14 @@ public class BlogServiceImpl implements BlogService {
     }
 
 
+    @Override
+    public int testTransaction(SiComment siComment) {
+        System.out.println("开始插入评论");
+        int i = siCommentMapper.insertSelective(siComment);
+        System.out.println("插入评论结束");
+        return i;
+    }
+
 
     // 递归评论
     private void getChildrenComment(CommentDto pComment, List<CommentDto> comments) {

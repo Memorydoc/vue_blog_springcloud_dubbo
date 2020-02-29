@@ -18,4 +18,7 @@ public interface  ProviderLogService {
 
     public FallBackResult insert(UmsAdminLoginLog umsAdminLoginLog);
 
+
+    public void  testTransaction(UmsAdminLoginLog umsAdminLoginLog);
+
 }

@@ -46,6 +46,13 @@
             <artifactId>hutool-core</artifactId>
             <version>5.1.1</version>
         </dependency>
+        <!-- Alibaba Seata Start-->
+        <dependency>
+            <groupId>io.seata</groupId>
+            <artifactId>seata-spring-boot-starter</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Alibaba Seata End -->
         <!--p6spy Start-->
         <dependency>
             <groupId>p6spy</groupId>

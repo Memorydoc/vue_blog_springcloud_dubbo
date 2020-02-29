@@ -7,10 +7,16 @@ import com.kevin.cloud.commons.dto.QueryPageParam;
 import com.kevin.cloud.commons.platform.dto.FallBackResult;
 import com.kevin.cloud.commons.platform.dto.PageResult;
 import com.kevin.cloud.commons.platform.utils.BaseServiceUtils;
+import com.kevin.cloud.provider.IdProviderGenerator;
+import com.kevin.cloud.provider.api.BlogService;
 import com.kevin.cloud.provider.api.ProviderLogService;
+import com.kevin.cloud.provider.domain.SiComment;
 import com.kevin.cloud.provider.domain.UmsAdminLoginLog;
 import com.kevin.cloud.provider.mapper.UmsAdminLoginLogMapper;
 import com.kevin.cloud.provider.service.fallback.ProviderLogServiceImplFallback;
+import com.kevin.cloud.service.IdGenerator;
+import io.seata.spring.annotation.GlobalTransactional;
+import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import tk.mybatis.mapper.entity.Example;
@@ -36,7 +42,7 @@ public class ProviderLogServiceImpl implements ProviderLogService {
         PageHelper.startPage(queryPageParam.getPageNum(), queryPageParam.getPageSize());
         Example example = new Example(UmsAdminLoginLog.class);
         List<UmsAdminLoginLog> umsAdminLoginLogs = umsAdminLoginLogMapper.selectByExample(example);
-        PageInfo pageInfo =  new PageInfo(umsAdminLoginLogs);
+        PageInfo pageInfo = new PageInfo(umsAdminLoginLogs);
         PageResult pageResult = BaseServiceUtils.buildPageResult(pageInfo);
         fallBackResult.setData(pageResult);
         return fallBackResult;
@@ -53,5 +59,10 @@ public class ProviderLogServiceImpl implements ProviderLogService {
         }
         fallBackResult.setStatus(false);
         return fallBackResult;
+    }
+
+    @Override
+    public void testTransaction(UmsAdminLoginLog umsAdminLoginLog) {
+        umsAdminLoginLogMapper.insertSelective(umsAdminLoginLog);
     }
 }
