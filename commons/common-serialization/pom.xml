@@ -10,7 +10,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>commons-platform</artifactId>
+    <artifactId>common-serialization</artifactId>
     <packaging>jar</packaging>
 
     <licenses>
@@ -23,36 +23,33 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <scope>provided</scope>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-serialization-kryo</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>log4j</groupId>
+                    <artifactId>log4j</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.dubbo</groupId>
+                    <artifactId>dubbo-common</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.kevin.cloud.plus</groupId>
-            <artifactId>commons-utils</artifactId>
+            <artifactId>provider-user-api</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <scope>provided</scope>
+            <groupId>com.kevin.cloud.plus</groupId>
+            <artifactId>provider-blog-api</artifactId>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <groupId>com.kevin.cloud.plus</groupId>
+            <artifactId>provider-log-api</artifactId>
+            <version>${project.parent.version}</version>
         </dependency>
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-core</artifactId>
-            <version>5.1.1</version>
-        </dependency>
-        <!-- Alibaba Seata End -->
-        <!--p6spy Start-->
-        <dependency>
-            <groupId>p6spy</groupId>
-            <artifactId>p6spy</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <!--p6spy End-->
     </dependencies>
 </project>

@@ -21,37 +21,24 @@
             <version>${project.parent.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.kevin.cloud.plus</groupId>
-            <artifactId>provider-blog-api</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.kevin.cloud.plus</groupId>
-            <artifactId>provider-log-api</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.kevin.cloud.plus</groupId>
-            <artifactId>provider-article-api</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.kevin.cloud.plus</groupId>
-            <artifactId>provider-blog-api</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.kevin.cloud.plus</groupId>
-            <artifactId>provider-log-api</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
+
+
         <dependency>
             <groupId>com.kevin.cloud.plus</groupId>
             <artifactId>provider-article-api</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.kevin.cloud.plus</groupId>
+            <artifactId>provider-blog-api</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.kevin.cloud.plus</groupId>
+            <artifactId>provider-log-api</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
     </dependencies>
     <licenses>
         <license>

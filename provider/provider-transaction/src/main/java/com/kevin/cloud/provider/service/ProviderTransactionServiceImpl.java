@@ -2,6 +2,7 @@ package com.kevin.cloud.provider.service;
 
 import com.alibaba.nacos.client.utils.StringUtils;
 import com.kevin.cloud.commons.dto.article.dto.ArticleDto;
+import com.kevin.cloud.provider.IdProviderGenerator;
 import com.kevin.cloud.provider.api.ArticleService;
 import com.kevin.cloud.provider.api.BlogService;
 import com.kevin.cloud.provider.api.ProviderLogService;
@@ -12,7 +13,9 @@ import com.kevin.cloud.provider.domain.UmsAdminLoginLog;
 import io.seata.spring.annotation.GlobalTransactional;
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.config.annotation.Service;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @Classname ProviderTransactionServiceImpl
@@ -26,40 +29,47 @@ import org.springframework.beans.BeanUtils;
 public class ProviderTransactionServiceImpl implements ProviderTransactionService {
 
 
-    @Reference(version = "1.0.0", timeout = 60000)
-    private BlogService blogService;
-
-
-    @Reference(version = "1.0.0", timeout = 60000)
-    private ProviderLogService providerLogService;
+    @Autowired
+    private IdProviderGenerator idProviderGenerator;
 
 
     @Reference(version = "1.0.0", timeout = 60000)
     private ArticleService articleService;
 
+    @Reference(version = "1.0.0", timeout = 60000)
+    private BlogService blogService;
+
+    @Reference(version = "1.0.0", timeout = 60000)
+    private ProviderLogService providerLogService;
+
     /**
      * 测试分布式事务
-     *
-     * @param umsAdminLoginLog
-     * @param siComment
-     * @param siArticle
      */
     @GlobalTransactional
     @Override
-    public void testTransactinon(UmsAdminLoginLog umsAdminLoginLog, SiComment siComment, SiArticle siArticle) {
+    public void testTransactinon(String esId) {
+        UmsAdminLoginLog umsAdminLoginLog = new UmsAdminLoginLog();
+        umsAdminLoginLog.setId(idProviderGenerator.nextLid());
+        umsAdminLoginLog.setAddress("测试分布式事务日志");
+        SiComment siComment = new SiComment();
+        siComment.setId(idProviderGenerator.nextLid());
+        siComment.setPlnr("测试分布式定时任务的评论");
+        SiArticle siArticle = new SiArticle();
+        siArticle.setId(idProviderGenerator.nextLid());
+        siArticle.setMc("测试评论内容的文章");
+        siArticle.setEsId(esId);
         System.out.println("******************************** 全局事务 开始执行 *************************************");
         ArticleDto articleDto = new ArticleDto();
         BeanUtils.copyProperties(siArticle, articleDto);
-
         articleService.testTransaction(articleDto);
-
         providerLogService.testTransaction(umsAdminLoginLog);
+        blogService.testTransaction(siComment, esId);
 
-        blogService.testTransaction(siComment);
+     /*   if (StringUtils.equals("1", esId)) {
+            System.out.println(1 / 0);
+        }*/
 
-        if (StringUtils.equals("1", siArticle.getEsId())) {
-            throw new RuntimeException("Exception for seata.");
-        }
+
         System.out.println("******************************** 全局事务 结束 *************************************");
     }
 }

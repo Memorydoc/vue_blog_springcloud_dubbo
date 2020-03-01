@@ -38,17 +38,5 @@ public class ServiceArticleTest {
 
     @Test
     public void testTranction() {
-        UmsAdminLoginLog umsAdminLoginLog = new UmsAdminLoginLog();
-        umsAdminLoginLog.setId(idGenerator.nextLid());
-        umsAdminLoginLog.setAddress("测试分布式事务日志");
-        SiComment siComment  = new SiComment();
-        siComment.setId(idGenerator.nextLid());
-        siComment.setPlnr("测试分布式定时任务的评论");
-
-        SiArticle siArticle = new SiArticle();
-        siArticle.setId(idGenerator.nextLid());
-        siArticle.setMc("测试评论内容的文章");
-
-        providerTransactionService.testTransactinon(umsAdminLoginLog, siComment, siArticle);
     }
 }

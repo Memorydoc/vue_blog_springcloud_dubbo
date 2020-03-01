@@ -1,5 +1,6 @@
 package com.kevin.cloud.provider.service;
 
+import com.alibaba.nacos.client.utils.StringUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
@@ -205,10 +206,13 @@ public class BlogServiceImpl implements BlogService {
 
 
     @Override
-    public int testTransaction(SiComment siComment) {
+    public int testTransaction(SiComment siComment,String esId) {
         System.out.println("开始插入评论");
         int i = siCommentMapper.insertSelective(siComment);
         System.out.println("插入评论结束");
+        if(StringUtils.equals("1", esId)){
+            throw  new RuntimeException("seata Exception");
+        }
         return i;
     }
 

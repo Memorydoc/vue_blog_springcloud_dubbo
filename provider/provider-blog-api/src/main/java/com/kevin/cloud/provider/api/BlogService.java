@@ -43,5 +43,5 @@ public interface BlogService {
 
     List<SiColumnType> getTypeTags();
 
-    int testTransaction(SiComment siComment);
+    int testTransaction(SiComment siComment, String esId);
 }

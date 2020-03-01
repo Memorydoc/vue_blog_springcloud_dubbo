@@ -2,10 +2,8 @@ package com.kevin.cloud.provider.util;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.nacos.client.utils.StringUtils;
-import com.kevin.cloud.commons.dto.CommonConstant;
 import com.kevin.cloud.commons.platform.dto.PageResult;
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
-import org.elasticsearch.action.admin.indices.delete.DeleteIndexResponse;
 import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsRequest;
 import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsResponse;
 import org.elasticsearch.action.delete.DeleteResponse;
@@ -15,15 +13,14 @@ import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
+import org.elasticsearch.action.support.master.AcknowledgedResponse;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.text.Text;
 import org.elasticsearch.index.IndexNotFoundException;
-import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.elasticsearch.search.sort.SortOrder;
@@ -89,13 +86,13 @@ public class ElasticsearchUtil {
         if (!isIndexExist(index)) {
             LOGGER.info("Index is not exits!");
         }
-        DeleteIndexResponse dResponse = client.admin().indices().prepareDelete(index).execute().actionGet();
-        if (dResponse.isAcknowledged()) {
+        AcknowledgedResponse acknowledgedResponse = client.admin().indices().prepareDelete(index).execute().actionGet();
+        if (acknowledgedResponse.isAcknowledged()) {
             LOGGER.info("delete index " + index + "  successfully!");
         } else {
             LOGGER.info("Fail to delete index " + index);
         }
-        return dResponse.isAcknowledged();
+        return acknowledgedResponse.isAcknowledged();
     }
 
     /**

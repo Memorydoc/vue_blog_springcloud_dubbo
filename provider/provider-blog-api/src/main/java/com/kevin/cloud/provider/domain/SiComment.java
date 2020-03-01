@@ -1,6 +1,7 @@
 package com.kevin.cloud.provider.domain;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -12,6 +13,7 @@ import java.util.Date;
 @Data
 @Table(name = "si_comment")
 public class SiComment implements Serializable {
+
     /**
      * id
      */
@@ -134,5 +136,8 @@ public class SiComment implements Serializable {
     @Column(name = "is_ly")
     private Integer isLy;
 
-    private static final long serialVersionUID = 1L;
+    public SiComment() {
+    }
+
+    private static final long serialVersionUID = -7386746852077320299L;
 }

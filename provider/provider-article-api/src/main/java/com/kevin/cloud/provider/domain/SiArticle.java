@@ -1,6 +1,7 @@
 package com.kevin.cloud.provider.domain;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -12,6 +13,10 @@ import java.util.Date;
 @Data
 @Table(name = "si_article")
 public class SiArticle implements Serializable {
+
+    public SiArticle() {
+    }
+
     /**
      * id
      */
@@ -164,5 +169,5 @@ public class SiArticle implements Serializable {
     @Column(name = "titlepicname")
     private String titlepicname;
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -2079959221625121715L;
 }

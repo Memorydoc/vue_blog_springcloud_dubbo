@@ -1,15 +1,25 @@
 package com.kevin.cloud.provider.domain;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.Date;
 
+@Data
 @Table(name = "ums_admin_login_log")
-public class UmsAdminLoginLog {
+public class UmsAdminLoginLog implements Serializable {
+
+
+    public UmsAdminLoginLog() {
+    }
+
+    private static final long serialVersionUID = 6216285468614107590L;
     @Id
     @Column(name = "id")
     @GeneratedValue(generator = "JDBC")
@@ -35,91 +45,4 @@ public class UmsAdminLoginLog {
     @Column(name = "user_agent")
     private String userAgent;
 
-    /**
-     * @return id
-     */
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     * @param id
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    /**
-     * @return admin_id
-     */
-    public Long getAdminId() {
-        return adminId;
-    }
-
-    /**
-     * @param adminId
-     */
-    public void setAdminId(Long adminId) {
-        this.adminId = adminId;
-    }
-
-    /**
-     * @return create_time
-     */
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    /**
-     * @param createTime
-     */
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    /**
-     * @return ip
-     */
-    public String getIp() {
-        return ip;
-    }
-
-    /**
-     * @param ip
-     */
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
-
-    /**
-     * @return address
-     */
-    public String getAddress() {
-        return address;
-    }
-
-    /**
-     * @param address
-     */
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    /**
-     * 获取浏览器登录类型
-     *
-     * @return user_agent - 浏览器登录类型
-     */
-    public String getUserAgent() {
-        return userAgent;
-    }
-
-    /**
-     * 设置浏览器登录类型
-     *
-     * @param userAgent 浏览器登录类型
-     */
-    public void setUserAgent(String userAgent) {
-        this.userAgent = userAgent;
-    }
 }
