@@ -1,0 +1,7 @@
+*.iml
+*.xml
+*.bak
+*.log
+.name
+*.jar
+**.xml
