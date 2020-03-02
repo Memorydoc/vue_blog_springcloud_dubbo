@@ -12,5 +12,5 @@ RUN mkdir /app
 
 COPY provider-article-$APP_VERSION.jar /app/app.jar
 ENTRYPOINT ["dockerize", "-timeout", "5m", "-wait", "tcp://ali.sizegang.cn:3306", "java",\
-"-javaagent:/usr/local/docker/skywalking/apache-skywalking-apm-bin/agent/skywalking-agent.jar","-Dskywalking.agent.service_name=message",\
+"-javaagent:/usr/local/skywalking/skywalking-agent.jar","-Dskywalking.agent.service_name=message",\
 "-Dskywalking.collector.backend_service=192.168.0.121:11800","-Xmx600m", "-Djava.security.egd=file:/dev/./urandom" ,"-jar", "/app/app.jar"]
