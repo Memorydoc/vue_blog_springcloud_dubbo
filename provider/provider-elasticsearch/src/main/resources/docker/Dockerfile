@@ -8,6 +8,6 @@ RUN mkdir /app
 
 COPY provider-elasticsearch-$APP_VERSION.jar /app/app.jar
 
-ENTRYPOINT ["java","-javaagent:/usr/local/skywalking/skywalking-agent.jar","-Dskywalking.agent.service_name=provider-elasticsearch",\
+ENTRYPOINT ["java","-javaagent:/usr/local/docker/skywalking/apache-skywalking-apm-bin/agent/skywalking-agent.jar","-Dskywalking.agent.service_name=provider-elasticsearch",\
 "-Dskywalking.collector.backend_service=192.168.0.121:11800", "-Xmx600m","-Djava.security.egd=file:/dev/./urandom", "-jar", "/app/app.jar"]
 
