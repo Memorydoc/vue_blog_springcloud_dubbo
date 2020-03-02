@@ -13,7 +13,6 @@ import com.kevin.cloud.provider.domain.UmsAdminLoginLog;
 import io.seata.spring.annotation.GlobalTransactional;
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.config.annotation.Service;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
