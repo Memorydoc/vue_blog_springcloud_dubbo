@@ -4,4 +4,4 @@
 *.log
 .name
 *.jar
-**.xml
+*.xml

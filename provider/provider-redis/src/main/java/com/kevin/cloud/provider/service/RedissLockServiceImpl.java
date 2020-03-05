@@ -17,11 +17,13 @@ import org.springframework.stereotype.Component;
 @Service(version = "1.0.0")
 @Component
 public class RedissLockServiceImpl implements RedissLockService {
+
     private DistributedLocker redissLock;
+
 
     @Override
     public void setLocker(DistributedLocker locker) {
-        redissLock = locker;
+        this.redissLock = locker;
     }
 
     /**
