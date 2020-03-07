@@ -57,6 +57,7 @@ public class ProviderTransactionServiceImpl implements ProviderTransactionServic
         siArticle.setMc("测试评论内容的文章");
         siArticle.setEsId(esId);
         System.out.println("******************************** 全局事务 开始执行 *************************************");
+
         ArticleDto articleDto = new ArticleDto();
         BeanUtils.copyProperties(siArticle, articleDto);
         articleService.testTransaction(articleDto);

@@ -50,12 +50,6 @@
             <artifactId>seata-spring-boot-starter</artifactId>
         </dependency>
         <!-- Alibaba Seata End -->
-        <!-- Alibaba Seata Start-->
-        <dependency>
-            <groupId>io.seata</groupId>
-            <artifactId>seata-spring-boot-starter</artifactId>
-        </dependency>
-        <!-- Alibaba Seata End -->
 
         <!-- DataSource -->
         <dependency>
